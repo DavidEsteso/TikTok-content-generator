@@ -14,13 +14,13 @@ def generate_video(narration, youtube_link, bacground_music):
     download_video_from_youtube(youtube_link)
     text_to_speech(narration)
     download_audio_from_youtube(bacground_music)
-
+    dur_sect=2
     palabras = narration.split()
     npalabra = len(palabras)
-    dur_video=(round(npalabra/3)+2)*(1.3)
+    dur_video=(round(npalabra/3)+2)*(2)
 
     random_vid_gen.create_short_video(f"video_content/fondo.mp4","video_corto_tmp.mp4",5,dur_video)
-    add_text.add_centered_text_transitions_to_video("video_corto_tmp.mp4", "temp.mp4", narration,words_per_transition=3,fontsize_ini=-4)
+    add_text.add_centered_text_transitions_to_video("video_corto_tmp.mp4", "temp.mp4", dur_sect,narration,words_per_transition=3,fontsize_ini=-4)
     
     segs_musica=comms_ffmpeg.obtener_duracion("audio_content/audio_vid.mp4")
     Tmus=random.randint(1,int(segs_musica-dur_video))
@@ -43,7 +43,7 @@ def generate_video(narration, youtube_link, bacground_music):
         )
         comms_ffmpeg.run_ffmpeg_command(command)
         command=(f"ffmpeg -y -i temp2.mp4 -vf \"drawtext=text='Curiosidades':fontfile=fuentes/uni-sans.heavy-italic-caps.otf:x=(w-text_w)/2:"
-                f"y=200:fontsize={30}:fontcolor=red:borderw=4:bordercolor=black\" -c:a copy output_video_tech.mp4"
+                f"y=200:fontsize={30}:fontcolor=red:borderw=4:bordercolor=black\" -c:a copy output_video.mp4"
         )
         comms_ffmpeg.run_ffmpeg_command(command)
 

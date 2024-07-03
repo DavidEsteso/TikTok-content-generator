@@ -1,7 +1,6 @@
 import subprocess
 
-def add_centered_text_transitions_to_video(input_video, output_video, text, fontsize_ini=4, words_per_transition=3):
-    dur_sct=1.3
+def add_centered_text_transitions_to_video(input_video, output_video, dur_sct,text, fontsize_ini=4, words_per_transition=3):
     # Utilizar ffprobe para obtener las dimensiones del video
     probe = subprocess.run(
         ['ffprobe', '-v', 'error', '-show_entries', 'stream=width,height', '-of', 'default=noprint_wrappers=1:nokey=1', input_video],
