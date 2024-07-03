@@ -1,3 +1,4 @@
+
 let videoLinkValid = false;
 let musicLinkValid = true;
 let validText = false;
@@ -192,8 +193,8 @@ function generateVideo() {
     }
     const videoLink = document.getElementById('videoLink').value;
     const musicLink = document.getElementById('musicLink').value;
+    logi
     alert(`Video Link: ${videoLink}\nMusic Link: ${musicLink}\nNarration Text: ${narrationText}`);    
-
 }
 
 function generateFactsVideo() {
