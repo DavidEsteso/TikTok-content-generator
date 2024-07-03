@@ -4,15 +4,15 @@ let validText = false;
 let factsCount = 0;
 
 
-document.addEventListener('DOMContentLoaded', function () {
-    toggleVideoType();
-    document.getElementById('generateVideoForm').addEventListener('submit', function (e) {
-        e.preventDefault();
-        generateVideo();
-    });
+// document.addEventListener('DOMContentLoaded', function () {
+//     toggleVideoType();
+//     document.getElementById('generateVideoForm').addEventListener('submit', function (e) {
+//         e.preventDefault();
+//         generateVideo();
+//     });
 
-    setupListeners();
-});
+//     setupListeners();
+// });
 
 function setupListeners() {
     document.getElementById('videoLink').addEventListener('input', videoLinkListener);
@@ -193,6 +193,7 @@ function generateVideo() {
     const videoLink = document.getElementById('videoLink').value;
     const musicLink = document.getElementById('musicLink').value;
     alert(`Video Link: ${videoLink}\nMusic Link: ${musicLink}\nNarration Text: ${narrationText}`);    
+
 }
 
 function generateFactsVideo() {
