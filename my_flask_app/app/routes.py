@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, render_template
 import app.logic as logic
+import sys
 
 main = Blueprint('main', __name__)
 
@@ -7,13 +8,13 @@ main = Blueprint('main', __name__)
 def index():
     return render_template('index.html')
 
-@main.route('/generate-video/', methods=['GET'])
+@main.route('/', methods=['POST'])
 def my_link():
-    print ('I got clicked!')
-    data=request.get_json()
-    narration = data.get('narration')
-    youtube_link = data.get('videoLink')
-    music_link=data.get("musicLink")
+    narration = request.form['narrationText']
+    youtube_link = request.form['videoLink']
+    music_link=request.form["musicLink"]
+
+    print (narration,file=sys.stdout)
 
     logic.generate_video(narration,youtube_link,music_link)
-    return 'Click.'
+    return render_template('index.html')
