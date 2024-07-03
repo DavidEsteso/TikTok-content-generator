@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <form id="generateVideoForm">
+    <form id="generateVideoForm" method="post">
         <h1>Generate Video</h1>
         <label for="videoType">Video Type:</label>
         <select id="videoType" name="videoType" onchange="toggleVideoType()">

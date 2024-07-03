@@ -51,6 +51,7 @@ def generate_video(narration, youtube_link, bacground_music):
         os.remove("temp2.mp4")
         os.remove("video_corto_tmp.mp4")
         shutil.rmtree("audio_content")
+        shutil.rmtree("video_content")
     except Exception as e:
         print(e)
     
