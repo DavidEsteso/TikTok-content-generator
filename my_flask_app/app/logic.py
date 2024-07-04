@@ -9,13 +9,13 @@ import shutil
 import uuid
 
 
-def generate_video(narration, youtube_link, bacground_music):
+def generate_video(narration, youtube_link, bacground_music, lang):
     # Aquí iría la lógica para generar el video
     # Por ahora, solo devolvemos un mensaje simulado
     id=uuid.uuid4()
     limpiar()
     download_video_from_youtube(youtube_link,id)
-    text_to_speech(narration,id)
+    text_to_speech(narration,id,lang)
     download_audio_from_youtube(bacground_music,id)
     dur_sect=1
     palabras = narration.split()
@@ -83,8 +83,8 @@ def download_audio_from_youtube(url,id):
         print(f'Error downloading audio from {url}: {str(e)}')
 
     
-def text_to_speech(text,id):
-    tts = gTTS(text=text, lang='es')
+def text_to_speech(text,id,lang):
+    tts = gTTS(text=text, lang=lang)
     tts.save(f'audio_content/narration_{id}.mp3')
 
 def limpiar():

@@ -250,19 +250,6 @@ function toggleMusicSection() {
     validateForm();
 }
 
-function generateVideo() {
-    const introText = document.getElementById('introText').value.trim();
-    let narrationText = null;
-    if (document.getElementById('videoType').value === 'facts') {
-        narrationText = generateFactsVideo();
-    } else {
-        narrationText = document.getElementById('narrationText').value.trim();
-    }
-    const videoLink = document.getElementById('videoLink').value;
-    const musicLink = document.getElementById('musicLink').value;
-    alert(`Intro Text: ${introText}\nVideo Link: ${videoLink}\nMusic Link: ${musicLink}\nNarration Text: ${narrationText}`);    
-}
-
 function generateFactsVideo() {
     const facts = document.querySelectorAll('textarea[name="fact[]"]');
     return Array.from(facts).map(fact => fact.value.trim()).join('\n');
@@ -302,6 +289,21 @@ function toggleLanguage() {
     document.querySelectorAll('[data-placeholder-key]').forEach(element => {
         const key = element.getAttribute('data-placeholder-key');
         element.placeholder = translations[currentLanguage][key];
+    });
+
+    fetch('/toggle-language', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})  // Puedes enviar datos adicionales si es necesario
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
     });
 }
 

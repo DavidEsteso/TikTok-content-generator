@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <form id="generateVideoForm" method="post">
+    <form id="generateVideoForm" method="post" action="/generate-video/">
         <h1 data-lang-key="generateVideo">Generate Video</h1>
         
         <label for="videoType" data-lang-key="videoType">Video Type:</label>
@@ -51,7 +51,7 @@
         </div>
 
         <button type="button" id="toggleMusicButton" onclick="toggleMusicSection()" data-lang-key="toggleMusic">Add Music to Video</button>
-        <button type="submit" id="generateVideoButton" href="/generate-video/" data-lang-key="generateVideoButton">Generate Video</button>
+        <button type="submit" id="generateVideoButton" onclick="generateVideo()" data-lang-key="generateVideoButton">Generate Video</button>
     </form>
     <button type="button" onclick="toggleLanguage()" data-lang-key="toggleLanguage">Change Language</button>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
