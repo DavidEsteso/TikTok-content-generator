@@ -7,39 +7,53 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <form id="generateVideoForm" method="post">
-        <h1>Generate Video</h1>
-        <label for="videoType">Video Type:</label>
+    <form id="generateVideoForm">
+        <h1 data-lang-key="generateVideo">Generate Video</h1>
+        
+        <label for="videoType" data-lang-key="videoType">Video Type:</label>
         <select id="videoType" name="videoType" onchange="toggleVideoType()">
-            <option value="facts">Facts</option>
-            <option value="narration">Narration</option>
+            <option value="facts" data-lang-key="facts">Facts</option>
+            <option value="narration" data-lang-key="narration">Narration</option>
         </select>
+
+        <!-- New Introduction Textarea -->
+        <label for="introText" data-lang-key="introText">Introduction Text:</label>
+        <textarea id="introText" name="introText" rows="2" cols="80" placeholder="Enter introduction" maxlength="300" oninput="validateText()" data-placeholder-key="introPlaceholder"></textarea>
+
         <div id="factsContainer">
-            <label>Facts:</label>
+            <label for="factsText" data-lang-key="factsText"> Facts:</label>
             <div id="factList">
-                <!-- Aquí se añadirán los facts dinámicamente -->
+                <div class="fact">
+                    <textarea name="fact[]" rows="2" cols="80" placeholder="Enter fact" maxlength="300" oninput="validateText()" data-placeholder-key="factPlaceholder"></textarea>
+                    <button type="button" onclick="removeFact(this)" disabled="true" style="width: 80px; height: 55px; cursor: not-allowed; opacity: 0.3;" data-lang-key="remove">Remove</button>
+                </div>
             </div>
-            <button type="button" id="addFactButton" onclick="addFact()" style="width: 40px; height: 40px;" src="images/delete-button.png"></button>
+            <button type="button" id="addFactButton" onclick="addFact()" data-lang-key="addFact">Add Fact</button>
         </div>
+
         <div id="narrationContainer" style="display: none;">
-            <label for="narrationText">Narration Text:</label>
-            <textarea id="narrationText" name="narrationText" rows="4" cols="50" maxlength="1000" placeholder="Enter narration" oninput="validateText()"></textarea>
+            <label for="narrationText" data-lang-key="narrationText">Narration Text:</label>
+            <textarea id="narrationText" name="narrationText" rows="4" cols="50" maxlength="1000" placeholder="Enter narration" oninput="validateText()" data-placeholder-key="narrationPlaceholder"></textarea>
         </div>
-        <label for="videoLink">YouTube Video Link:</label>
-        <input type="text" id="videoLink" name="videoLink" oninput="videoLinkListener()">
+
+        <label for="videoLink" data-lang-key="videoLink">YouTube Video Link:</label>
+        <input type="text" id="videoLink" name="videoLink" oninput="videoLinkListener()" data-placeholder-key="videoLinkPlaceholder">
         <div id="videoDetails">
             <img id="videoThumbnail" src="" alt="Thumbnail" style="display: none;">
             <p id="videoTitle"></p>
         </div>
-        <label for="musicLink" id="musicLinkLabel" style="display: none;">YouTube Music Link:</label>
-        <input type="text" id="musicLink" name="musicLink" style="display: none;" oninput="musicLinkListener()">
+
+        <label for="musicLink" id="musicLinkLabel" style="display: none;" data-lang-key="musicLink">YouTube Music Link:</label>
+        <input type="text" id="musicLink" name="musicLink" style="display: none;" oninput="musicLinkListener()" data-placeholder-key="musicLinkPlaceholder">
         <div id="musicDetails" style="display: none;">
             <img id="musicThumbnail" src="" alt="Thumbnail" style="display: none;">
             <p id="musicTitle" class="bold"></p>
         </div>
-        <button type="button" id="toggleMusicButton" onclick="toggleMusicSection()">Add Music to Video</button>
-        <button type="submit" id="generateVideoButton" href="/generate-video/">Generate Video</button>
+
+        <button type="button" id="toggleMusicButton" onclick="toggleMusicSection()" data-lang-key="toggleMusic">Add Music to Video</button>
+        <button type="submit" id="generateVideoButton" href="/generate-video/" data-lang-key="generateVideoButton">Generate Video</button>
     </form>
+    <button type="button" onclick="toggleLanguage()" data-lang-key="toggleLanguage">Change Language</button>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

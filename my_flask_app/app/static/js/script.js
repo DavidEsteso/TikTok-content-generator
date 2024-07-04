@@ -1,19 +1,53 @@
-
 let videoLinkValid = false;
 let musicLinkValid = true;
 let validText = false;
-let factsCount = 0;
+let factsCount = 1;
+let currentLanguage = 'en';
 
-
-// document.addEventListener('DOMContentLoaded', function () {
-//     toggleVideoType();
-//     document.getElementById('generateVideoForm').addEventListener('submit', function (e) {
-//         e.preventDefault();
-//         generateVideo();
-//     });
-
-//     setupListeners();
-// });
+const translations = {
+    en: {
+        generateVideo: 'Generate Video',
+        videoType: 'Video Type:',
+        facts: 'Facts',
+        narration: 'Narration',
+        introText: 'Introduction Text:',
+        factsText: 'Facts:',
+        remove: 'Remove',
+        addFact: 'Add Fact',
+        narrationText: 'Narration Text:',
+        videoLink: 'YouTube Video Link:',
+        musicLink: 'YouTube Music Link:',
+        toggleMusic: 'Add Music to Video',
+        generateVideoButton: 'Generate Video',
+        toggleLanguage: 'Change Language',
+        introPlaceholder: 'Enter introduction',
+        factPlaceholder: 'Enter fact',
+        narrationPlaceholder: 'Enter narration',
+        videoLinkPlaceholder: 'Enter YouTube video link',
+        musicLinkPlaceholder: 'Enter YouTube music link'
+    },
+    es: {
+        generateVideo: 'Generar Video',
+        videoType: 'Tipo de Video:',
+        facts: 'Curiosidades',
+        narration: 'Narración',
+        introText: 'Texto de Introducción:',
+        factsText: 'Curiosidades:',
+        remove: 'Eliminar',
+        addFact: 'Añadir curiosidad',
+        narrationText: 'Texto de Narración:',
+        videoLink: 'Enlace de Video de YouTube:',
+        musicLink: 'Enlace de Música de YouTube:',
+        toggleMusic: 'Agregar Música al Video',
+        generateVideoButton: 'Generar Video',
+        toggleLanguage: 'Cambiar Idioma',
+        introPlaceholder: 'Ingrese introducción',
+        factPlaceholder: 'Ingrese curiosidad',
+        narrationPlaceholder: 'Ingrese narración',
+        videoLinkPlaceholder: 'Ingrese enlace de video de YouTube',
+        musicLinkPlaceholder: 'Ingrese enlace de música de YouTube'
+    }
+};
 
 function setupListeners() {
     document.getElementById('videoLink').addEventListener('input', videoLinkListener);
@@ -77,7 +111,6 @@ function updateLinkValidation(type, isValid, title, thumbnail) {
     const thumbnailElement = document.getElementById(type + 'Thumbnail');
     const titleElement = document.getElementById(type + 'Title');
 
-    
     if (isValid) {
         input.style.borderColor = '';
         thumbnailElement.src = thumbnail;
@@ -103,24 +136,57 @@ function updateLinkValidation(type, isValid, title, thumbnail) {
     }
 }
 
-function validateText() {   
+function validateFacts() {
+    const addFactButton = document.getElementById('addFactButton');
+    if (factsCount >= 5) {
+        addFactButton.disabled = true;
+        addFactButton.style.opacity = 0.3;
+        addFactButton.style.cursor = 'not-allowed';
+        return;
+    } else {
+        addFactButton.disabled = false;
+        addFactButton.style.opacity = 1;
+        addFactButton.style.cursor = 'pointer';
+    }
+    const removeFactButtons = document.querySelectorAll('.fact button');
+    if (factsCount == 1) {
+        removeFactButtons[0].disabled = true;
+        removeFactButtons[0].style.opacity = 0.3;
+        removeFactButtons[0].style.cursor = 'not-allowed';
+    } else {
+        removeFactButtons.forEach(button => {
+            button.disabled = false;
+            button.style.opacity = 1;
+            button.style.cursor = 'pointer';
+        });
+    }
+    validateForm();
+}
+
+function validateText() {
+    const introText = document.getElementById('introText').value.trim();
     const narrationText = document.getElementById('narrationText').value.trim();
     const facts = document.querySelectorAll('textarea[name="fact[]"]');
-    const factsText = Array.from(facts).map(fact => fact.value.trim()).join('\n');
-    validText = (narrationText !== '' || factsText !== '' );
+    const allFactsFilled = Array.from(facts).every(fact => fact.value.trim() !== '');
+    
+    if (introText && (narrationText || allFactsFilled)) {
+        validText = true;
+    } else {
+        validText = false;
+    }
     validateForm();
 }
 
 function validateForm() {
-    const generateButton = document.getElementById('generateVideoButton');
-    if (validText && videoLinkValid && musicLinkValid) {
-        generateButton.disabled = false;
-        generateButton.style.opacity = 1;
-        generateButton.style.cursor = 'pointer';    
+    const generateVideoButton = document.getElementById('generateVideoButton');
+    if (videoLinkValid && musicLinkValid && validText) {
+        generateVideoButton.disabled = false;
+        generateVideoButton.style.cursor = 'pointer';
+        generateVideoButton.style.opacity = 1;
     } else {
-        generateButton.disabled = true;
-        generateButton.style.opacity = 0.3;
-        generateButton.style.cursor = 'not-allowed';
+        generateVideoButton.disabled = true;
+        generateVideoButton.style.cursor = 'not-allowed';
+        generateVideoButton.style.opacity = 0.3;
     }
 }
 
@@ -135,25 +201,24 @@ function toggleVideoType() {
         factsContainer.style.display = 'none';
         narrationContainer.style.display = 'block';
     }
-    validateForm();
+    validateText();
 }
 
 function addFact() {
-    if (factsCount >= 5) {
-        alert('Solo se pueden añadir hasta 5 facts.');
-        return;
-    }
-
     const container = document.getElementById('factList');
     const fact = document.createElement('div');
+    const buttonText = currentLanguage === 'en' ? 'Remove' : 'Eliminar';
+    const placeholder = currentLanguage === 'en' ? 'Enter fact' : 'Ingrese curiosidad';
     fact.className = 'fact';
     fact.innerHTML = `
-        <textarea name="fact[]" rows="2" cols="80" placeholder="Enter fact" maxlength="300" oninput="validateText()"></textarea>
-        <button type="button" onclick="removeFact(this)" style="width: 80px; height: 55px;">Remove</button>
+        <textarea name="fact[]" rows="2" cols="80" maxlength="300" oninput="validateText()"></textarea>
+        <button type="button" data-lang-key="remove" onclick="removeFact(this)" style="width: 80px; height: 55px;">${buttonText}</button>
     `;
     container.appendChild(fact);
     factsCount++;
+    
     validateText();
+    validateFacts();
 }
 
 function removeFact(button) {
@@ -161,6 +226,7 @@ function removeFact(button) {
     fact.parentNode.removeChild(fact);
     factsCount--;
     validateText();
+    validateFacts();
 }
 
 function toggleMusicSection() {
@@ -180,11 +246,12 @@ function toggleMusicSection() {
     musicLinkInput.style.display = isAddingMusic ? 'block' : 'none';
     musicLinkLabel.style.display = isAddingMusic ? 'block' : 'none';
     musicDetails.style.display = isAddingMusic ? 'block' : 'none';
-    toggleMusicButton.textContent = isAddingMusic ? 'Remove Music from Video' : 'Add Music to Video';
+    toggleMusicButton.textContent = isAddingMusic ? translations[currentLanguage].toggleMusic : translations[currentLanguage].toggleMusic;
     validateForm();
 }
 
 function generateVideo() {
+    const introText = document.getElementById('introText').value.trim();
     let narrationText = null;
     if (document.getElementById('videoType').value === 'facts') {
         narrationText = generateFactsVideo();
@@ -193,8 +260,7 @@ function generateVideo() {
     }
     const videoLink = document.getElementById('videoLink').value;
     const musicLink = document.getElementById('musicLink').value;
-    logi
-    alert(`Video Link: ${videoLink}\nMusic Link: ${musicLink}\nNarration Text: ${narrationText}`);    
+    alert(`Intro Text: ${introText}\nVideo Link: ${videoLink}\nMusic Link: ${musicLink}\nNarration Text: ${narrationText}`);    
 }
 
 function generateFactsVideo() {
@@ -227,3 +293,21 @@ function getVideoInfo(youtubeLink) {
         });
 }
 
+function toggleLanguage() {
+    currentLanguage = currentLanguage === 'en' ? 'es' : 'en';
+    document.querySelectorAll('[data-lang-key]').forEach(element => {
+        const key = element.getAttribute('data-lang-key');
+        element.textContent = translations[currentLanguage][key];
+    });
+    document.querySelectorAll('[data-placeholder-key]').forEach(element => {
+        const key = element.getAttribute('data-placeholder-key');
+        element.placeholder = translations[currentLanguage][key];
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    setupListeners();
+    validateFacts();
+    validateText();
+    validateForm();
+});
