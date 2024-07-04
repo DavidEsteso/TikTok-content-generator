@@ -12,7 +12,7 @@ def get_video_duration(input_video_path):
         print(f"Error: {e}")
         return None
 
-def create_short_video(input_video_path, output_video_path, fragment_duration=5, total_duration=40):
+def create_short_video(id,input_video_path, output_video_path, fragment_duration=5, total_duration=40):
     # Obtener la duración del video original
     video_duration = get_video_duration(input_video_path)
     
@@ -35,7 +35,7 @@ def create_short_video(input_video_path, output_video_path, fragment_duration=5,
     # Crear los comandos de ffmpeg para extraer los fragmentos
     fragment_files = []
     for i, start in enumerate(start_points):
-        fragment_file = f"fragment_{i}.mp4"
+        fragment_file = f"fragment_{i}_{id}.mp4"
         cmd = (
             f'ffmpeg -y -ss {start} -i "{input_video_path}" -t {fragment_duration} '
             f'-c:v libx264 -c:a aac -strict experimental "{fragment_file}"'
@@ -44,19 +44,19 @@ def create_short_video(input_video_path, output_video_path, fragment_duration=5,
         fragment_files.append(fragment_file)
     
     # Crear el archivo de lista para concatenación
-    with open("concat_list.txt", "w") as f:
+    with open(f"concat_list_{id}.txt", "w") as f:
         for fragment_file in fragment_files:
             f.write(f"file '{os.path.abspath(fragment_file)}'\n")
     
     # Concatenar los fragmentos
     cmd = (
-        f'ffmpeg -y -f concat -safe 0 -i concat_list.txt -c:v libx264 -c:a aac -strict experimental '
-        f'"temp.mp4"'
+        f'ffmpeg -y -f concat -safe 0 -i concat_list_{id}.txt -c:v libx264 -c:a aac -strict experimental '
+        f'"temp_{id}.mp4"'
     )
     subprocess.run(cmd, shell=True)
 
     cmd = (
-        f'ffmpeg -y -i "temp.mp4" -vf "scale=iw*min(1080/iw\,1920/ih):ih*min(1080/iw\,1920/ih),'
+        f'ffmpeg -y -i "temp_{id}.mp4" -vf "scale=iw*min(1080/iw\,1920/ih):ih*min(1080/iw\,1920/ih),'
         f'pad=1080:1920:(1080-iw*min(1080/iw\,1920/ih))/2:(1920-ih*min(1080/iw\,1920/ih))/2" '
         f'-c:v libx264 -c:a aac -strict experimental "{output_video_path}"'
     )
@@ -65,5 +65,5 @@ def create_short_video(input_video_path, output_video_path, fragment_duration=5,
     # Eliminar los archivos temporales
     for fragment_file in fragment_files:
         os.remove(fragment_file)
-    os.remove("concat_list.txt")
+    os.remove(f"concat_list_{id}.txt")
 

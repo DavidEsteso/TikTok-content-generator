@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, send_from_directory
+from flask import Blueprint, request, render_template, send_file
 import app.logic as logic
 import sys
 
@@ -16,5 +16,5 @@ def my_link():
 
     print (narration,file=sys.stdout)
 
-    logic.generate_video(narration,youtube_link,music_link)
-    return send_from_directory(path='/output_video.mp4', filename="output_video.mp4",directory='/')
+    id=logic.generate_video(narration,youtube_link,music_link)
+    return send_file(f'output_video_{id}.mp4',as_attachment=True)
