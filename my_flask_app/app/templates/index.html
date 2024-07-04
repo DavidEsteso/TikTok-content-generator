@@ -17,15 +17,23 @@
             <option value="narration" data-lang-key="narration">Narration</option>
         </select>
 
-        <label for="introText" data-lang-key="introText">Introduction Text:</label>
-        <textarea id="introText" name="introText" rows="2" cols="80"  maxlength="300" oninput="validateText()"></textarea>
+        
+        <div id="introContainer">
+            <label for="introText" data-lang-key="introText">Introduction Text:</label>
+            <div id="intro">
+                <div class="intro">
+                    <textarea id="introText" name="introText" rows="2" cols="80"  maxlength="300" oninput="validateIntro()"></textarea>
+                    <button type="button" id="introTextButton" href="/play-intro/" style="width: 45px; height: 45px;">🔊</button>
+                </div>
+            </div>
+        </div>
 
         <div id="factsContainer">
             <label for="factsText" data-lang-key="factsText"> Facts:</label>
             <div id="factList">
                 <div class="fact">
-                    <textarea name="fact[]" rows="2" cols="80"  maxlength="300" oninput="validateText()"></textarea>
-                    <button type="button" href="/play/" style="width: 45px; height: 45px;">🔊</button>
+                    <textarea name="fact[]" rows="2" cols="80"  maxlength="300" oninput="validateFacts()"></textarea>
+                    <button type="button" class="play" style="width: 45px; height: 45px;">🔊</button>
                     <button type="button" id="removeFactButton" onclick="removeFact(this)" disabled="true" style="width: 45px; height: 45px; cursor: not-allowed; opacity: 0.3;" data-lang-key="remove">🗑️</button>
                 </div>
             </div>
@@ -36,8 +44,8 @@
             <label for="narrationText" data-lang-key="narrationText">Narration Text:</label>
             <div id="narrationList">
                 <div class="narration">
-                    <textarea id="narrationText" name="narrationText" rows="2" cols="80" maxlength="1000" oninput="validateText()"></textarea>
-                    <button type="button" href="/play/" style="width: 45px; height: 45px;">🔊</button>
+                    <textarea id="narrationText" name="narrationText" rows="2" cols="80" maxlength="1000" oninput="validateNarration()"></textarea>
+                    <button type="button" id="narrationTextButton" href="/play-narration/" style="width: 45px; height: 45px;">🔊</button>
                 </div>
             </div>
         </div>
@@ -57,9 +65,9 @@
         </div>
 
         <button type="button" id="toggleMusicButton" onclick="toggleMusicSection()" data-lang-key="toggleMusic">Add Music to Video</button>
-        <button type="submit" id="generateVideoButton" onclick="generateVideo()" data-lang-key="generateVideoButton">Generate Video</button>
+        <button type="submit" id="generateVideoButton" href="/generate-video/" data-lang-key="generateVideoButton">Generate Video</button>
     </form>
-    
+    <audio class="audioPlayer" controls></audio>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

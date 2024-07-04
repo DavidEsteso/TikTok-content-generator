@@ -83,9 +83,13 @@ def download_audio_from_youtube(url,id):
         print(f'Error downloading audio from {url}: {str(e)}')
 
     
-def text_to_speech(text,id,lang):
+def text_to_speech(text, id, lang):
     tts = gTTS(text=text, lang=lang)
     tts.save(f'audio_content/narration_{id}.mp3')
+
+def text_to_speech(text, lang):
+    tts = gTTS(text=text, lang=lang)
+    tts.save(f'temporal_audio/narration_{id}.mp3')
 
 def limpiar():
     for filename in os.listdir("app/output"):

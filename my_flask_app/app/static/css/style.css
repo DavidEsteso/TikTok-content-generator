@@ -30,7 +30,6 @@ body {
     width: 90%;
     max-width: 800px;
     margin-top: 80px; 
-    margin-top: 60px;
 }
 
 #generateVideoForm h1 {
@@ -40,12 +39,20 @@ body {
     color: #333333;
 }
 
-#generateVideoForm label,
+
 #generateVideoForm input,
 #generateVideoForm textarea,
 #generateVideoForm button,
 #generateVideoForm select {
-    margin-bottom: 20px;
+    
+    margin-bottom: 23px;
+    width: 100%;
+    font-size: var(--font-size); /* Igualar el tamaño de fuente */
+}
+
+#generateVideoForm label{
+    
+
     width: 100%;
     font-size: var(--font-size); /* Igualar el tamaño de fuente */
 }
@@ -76,7 +83,8 @@ body {
 #addFactButton,
 #toggleMusicButton,
 .fact button,
-.narration button {
+.narration button,
+.intro button {
     border: none;
     padding: var(--button-padding);
     border-radius: var(--button-border-radius);
@@ -112,14 +120,16 @@ body {
 }
 
 .fact,
-.narration {
+.narration,
+.intro {
     display: flex;
     align-items: center;
     width: 100%;
 }
 
 .fact textarea,
-.narration textarea {
+.narration textarea,
+.intro textarea{
     margin-right: 15px;
     flex-grow: 1;
     padding: 15px;
@@ -133,7 +143,9 @@ body {
 .fact button,
 .narration button,
 .fact button.play-button,
-.narration button.play-button {
+.narration button.play-button,
+.intro button,
+.intro button.play-button{
     background-color: #ff004f;
     color: white;
     padding: var(--button-padding);
@@ -150,7 +162,8 @@ body {
 }
 
 .fact button img,
-.narration button img {
+.narration button img,
+.intro button img{
     width: 20px;
     height: 20px;
 }
@@ -158,18 +171,22 @@ body {
 .fact button:hover,
 .narration button:hover,
 .fact button.play-button:hover,
-.narration button.play-button:hover {
+.narration button.play-button:hover,
+.intro button:hover,
+.intro button.play-button:hover{
     background-color: #e60046;
     box-shadow: 0 4px 10px rgba(230, 0, 70, 0.4);
 }
 
 .fact button.play-button,
-.narration button.play-button {
+.narration button.play-button,
+.intro button.play-button{
     background-color: #008CBA;
 }
 
 .fact button.play-button:hover,
-.narration button.play-button:hover {
+.narration button.play-button:hover,
+.intro button.play-button:hover{
     background-color: #007BB5;
     box-shadow: 0 4px 10px rgba(0, 123, 181, 0.4);
 }

@@ -1,6 +1,9 @@
 let videoLinkValid = false;
 let musicLinkValid = true;
 let validText = false;
+let validIntro = false;
+let validNarration = false;
+let validFacts = false; 
 let factsCount = 1;
 let currentLanguage = 'en';
 
@@ -150,26 +153,53 @@ function validateFacts() {
             button.style.cursor = 'pointer';
         });
     }
-
+    const facts = document.querySelectorAll('textarea[name="fact[]"]');
+    const allFactsFilled = Array.from(facts).every(fact => fact.value.trim() !== '');
+    if (allFactsFilled) {
+        validFacts = true;
+    } else {    
+        validFacts = false;
+    }
     validateForm();
 }
 
-function validateText() {
+function validateIntro() {  
     const introText = document.getElementById('introText').value.trim();
+    const playButton = document.getElementById('introTextButton');
+    if (introText) {
+        validIntro = true;
+        playButton.disabled = false;
+        playButton.style.cursor = 'pointer';
+        playButton.style.opacity = 1;
+    } else {    
+        validIntro = false;
+        playButton.disabled = true;
+        playButton.style.cursor = 'not-allowed';
+        playButton.style.opacity = 0.3;
+    }
+    validateForm();
+}
+
+function validateNarration() {  
     const narrationText = document.getElementById('narrationText').value.trim();
-    const facts = document.querySelectorAll('textarea[name="fact[]"]');
-    const allFactsFilled = Array.from(facts).every(fact => fact.value.trim() !== '');
-    
-    if (introText && (narrationText || allFactsFilled)) {
-        validText = true;
+    const playButton = document.getElementById('narrationTextButton');
+    if (narrationText) {
+        validNarration = true;
+        playButton.disabled = false;
+        playButton.style.cursor = 'pointer';
+        playButton.style.opacity = 1;
     } else {
-        validText = false;
+        validNarration = false;
+        playButton.disabled = true;
+        playButton.style.cursor = 'not-allowed';
+        playButton.style.opacity = 0.3;
     }
     validateForm();
 }
 
 function validateForm() {
     const generateVideoButton = document.getElementById('generateVideoButton');
+    validText = validIntro && (validNarration || validFacts);
     if (videoLinkValid && musicLinkValid && validText) {
         generateVideoButton.disabled = false;
         generateVideoButton.style.cursor = 'pointer';
@@ -188,11 +218,16 @@ function toggleVideoType() {
     if (videoType === 'facts') {
         factsContainer.style.display = 'block';
         narrationContainer.style.display = 'none';
+        narrationContainer.textContent = '';
+        validateFacts();
     } else {
         factsContainer.style.display = 'none';
         narrationContainer.style.display = 'block';
+        const facts = document.querySelectorAll('textarea[name="fact[]"]');
+        facts.forEach(fact => fact.value = ''); 
+        validateNarration();
     }
-    validateText();
+
 }
 
 
@@ -201,16 +236,15 @@ function addFact() {
     const fact = document.createElement('div');
     const buttonText = currentLanguage === 'en' ? 'Remove' : 'Eliminar';
     const placeholder = currentLanguage === 'en' ? 'Enter fact' : 'Ingrese curiosidad';
+    const id = 'fact' + factsCount;
     fact.className = 'fact';
     fact.innerHTML = `
-        <textarea name="fact[]" rows="2" cols="80" maxlength="300" oninput="validateText()"></textarea>
-        <button type="button" href="/play/" style="width: 45px; height: 45px;">🔊</button>
+        <textarea name="fact[]" rows="2" cols="80" maxlength="300" oninput="validateFacts()"></textarea>
+        <button type="button" id="${id}" href="/play-fact/" style="width: 45px; height: 45px;">🔊</button>
         <button type="button" id="removeFactButton" data-lang-key="remove" onclick="removeFact(this)" style="width: 45px; height: 45px;">🗑️</button>
     `;
     container.appendChild(fact);
     factsCount++;
-    
-    validateText();
     validateFacts();
 }
 
@@ -218,7 +252,6 @@ function removeFact(button) {
     const fact = button.parentNode;
     fact.parentNode.removeChild(fact);
     factsCount--;
-    validateText();
     validateFacts();
 }
 
@@ -294,7 +327,7 @@ function toggleLanguage() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({})  // Puedes enviar datos adicionales si es necesario
+        body: JSON.stringify({})
     })
     .then(response => response.json())
     .then(data => {
@@ -308,6 +341,7 @@ function toggleLanguage() {
 document.addEventListener('DOMContentLoaded', () => {
     setupListeners();
     validateFacts();
-    validateText();
+    validateIntro();
+    validateNarration();
     validateForm();
 });

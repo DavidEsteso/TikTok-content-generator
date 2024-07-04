@@ -30,3 +30,12 @@ def get_variable():
         lang="en"
     print(lang)
     return jsonify({'status': 'success', 'message': 'Language toggled'})
+
+@main.route('/play-intro/', methods=['POST'])
+def play_audio():
+    global lang
+    intro = request.form['introText']
+    print(f"LANGUAGE={lang}")
+    logic.text_to_speech(intro,lang)
+    return send_file(f'temporal_audio/narration.mp3',as_attachment=True)
+    
