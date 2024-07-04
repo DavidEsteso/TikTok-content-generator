@@ -1,5 +1,13 @@
+:root {
+    --font-size: 18px;
+    --button-width: 80px;
+    --button-height: 55px;
+    --button-padding: 10px;
+    --button-border-radius: 5px;
+}
+
 body {
-    display: flex;
+    display: grid;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -7,6 +15,7 @@ body {
     font-family: Arial, sans-serif;
     background-color: #ffffff;
     color: #333333;
+    position: relative; /* Necesario para el posicionamiento absoluto del botón */
 }
 
 #generateVideoForm {
@@ -14,12 +23,21 @@ body {
     flex-direction: column;
     align-items: center;
     border: 2px solid #cccccc;
-    padding: 30px; /* Aumentar el padding */
-    border-radius: 15px; /* Aumentar el border-radius */
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* Aumentar el box-shadow */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     background-color: #f2f2f2;
-    width: 90%; /* Aumentar el ancho */
-    max-width: 800px; /* Aumentar el max-width */
+    width: 90%;
+    max-width: 800px;
+    margin-top: 80px; 
+    margin-top: 60px;
+}
+
+#generateVideoForm h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333333;
 }
 
 #generateVideoForm label,
@@ -27,18 +45,19 @@ body {
 #generateVideoForm textarea,
 #generateVideoForm button,
 #generateVideoForm select {
-    margin-bottom: 20px; /* Aumentar el margin-bottom */
+    margin-bottom: 20px;
     width: 100%;
+    font-size: var(--font-size); /* Igualar el tamaño de fuente */
 }
 
 #generateVideoForm input,
 #generateVideoForm textarea,
 #generateVideoForm select {
-    padding: 15px; /* Aumentar el padding */
+    padding: 15px;
     border: 1px solid #cccccc;
-    border-radius: 10px; /* Aumentar el border-radius */
+    border-radius: 10px;
     box-sizing: border-box;
-    font-size: 18px; /* Aumentar el font-size */
+    font-size: var(--font-size);
     transition: border-color 0.3s;
 }
 
@@ -53,12 +72,16 @@ body {
     resize: none;
 }
 
-#generateVideoForm button {
+#generateVideoForm button,
+#addFactButton,
+#toggleMusicButton,
+.fact button,
+.narration button {
     border: none;
-    padding: 20px; /* Aumentar el padding */
-    border-radius: 10px; /* Aumentar el border-radius */
+    padding: var(--button-padding);
+    border-radius: var(--button-border-radius);
     cursor: pointer;
-    font-size: 18px; /* Aumentar el font-size */
+    font-size: var(--font-size);
     transition: background-color 0.3s, box-shadow 0.3s;
 }
 
@@ -72,73 +95,84 @@ body {
     box-shadow: 0 4px 10px rgba(230, 0, 70, 0.4);
 }
 
-#addFactButton {
+#addFactButton,
+#toggleMusicButton {
     background-color: #008CBA;
     color: white;
-    border: none;
-    padding: 20px; /* Aumentar el padding */
-    border-radius: 10px; /* Aumentar el border-radius */
-    cursor: pointer;
-    font-size: 18px; /* Aumentar el font-size */
-    transition: background-color 0.3s, box-shadow 0.3s;
     margin: 0 auto;
     display: block;
     width: auto;
     text-align: center;
 }
 
-#addFactButton:hover {
-    background-color: #007BB5;
-    box-shadow: 0 4px 10px rgba(0, 123, 181, 0.4);
-}
-
-#toggleMusicButton {
-    background-color: #008CBA;
-    color: white;
-}
-
+#addFactButton:hover,
 #toggleMusicButton:hover {
     background-color: #007BB5;
     box-shadow: 0 4px 10px rgba(0, 123, 181, 0.4);
 }
 
-.fact {
+.fact,
+.narration {
     display: flex;
     align-items: center;
     width: 100%;
 }
 
-.fact textarea {
-    margin-right: 15px; /* Aumentar el margin-right */
+.fact textarea,
+.narration textarea {
+    margin-right: 15px;
     flex-grow: 1;
-    padding: 15px; /* Aumentar el padding */
-    border-radius: 10px; /* Aumentar el border-radius */
+    padding: 15px;
+    border-radius: 10px;
     border: 1px solid #cccccc;
     box-sizing: border-box;
-    font-size: 18px; /* Aumentar el font-size */
-    width: calc(100% - 100px); /* Ajustar el ancho para dejar espacio para el botón */
+    font-size: var(--font-size);
+    width: calc(100% - 100px);
 }
 
-.fact button {
+.fact button,
+.narration button,
+.fact button.play-button,
+.narration button.play-button {
     background-color: #ff004f;
     color: white;
-    border: none;
-    padding: 20px; /* Aumentar el padding */
-    border-radius: 10px; /* Aumentar el border-radius */
+    padding: var(--button-padding);
+    border-radius: var(--button-border-radius);
     cursor: pointer;
-    font-size: 18px; /* Aumentar el font-size */
+    font-size: var(--font-size);
     transition: background-color 0.3s, box-shadow 0.3s;
-    width: 100px; /* Aumentar el ancho */
-    height: 0px; /* Aumentar la altura */
-    text-align: center;
+    width: var(--button-width);
+    height: var(--button-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
 }
 
-.fact button:hover {
+.fact button img,
+.narration button img {
+    width: 20px;
+    height: 20px;
+}
+
+.fact button:hover,
+.narration button:hover,
+.fact button.play-button:hover,
+.narration button.play-button:hover {
     background-color: #e60046;
     box-shadow: 0 4px 10px rgba(230, 0, 70, 0.4);
 }
 
+.fact button.play-button,
+.narration button.play-button {
+    background-color: #008CBA;
+}
 
+.fact button.play-button:hover,
+.narration button.play-button:hover {
+    background-color: #007BB5;
+    box-shadow: 0 4px 10px rgba(0, 123, 181, 0.4);
+}
 
 #videoDetails,
 #musicDetails {
@@ -146,7 +180,7 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-top: 20px; /* Aumentar el margin-top */
+    margin-top: 20px;
 }
 
 #videoDetails img,
@@ -154,8 +188,8 @@ body {
     max-width: 100%;
     height: auto;
     border: 1px solid #ccc;
-    border-radius: 10px; /* Aumentar el border-radius */
-    margin-bottom: 15px; /* Aumentar el margin-bottom */
+    border-radius: 10px;
+    margin-bottom: 15px;
     display: block;
 }
 
@@ -163,114 +197,10 @@ body {
 #musicTitle {
     font-weight: bold;
     text-align: center;
-    font-size: 18px; /* Aumentar el font-size */
+    font-size: var(--font-size);
 }
 
 #musicThumbnail {
     margin-left: auto;
     margin-right: auto;
 }
-.fact button {
-    background-color: #ff004f;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    width: 80px; /* Ancho ajustado para el botón "Remove Fact" */
-    height: 55px; /* Alto ajustado para el botón "Remove Fact" */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px; /* Espacio entre botones */
-}
-
-.fact button img {
-    width: 20px; /* Tamaño de la imagen dentro del botón */
-    height: 20px; /* Tamaño de la imagen dentro del botón */
-}
-
-.fact button:hover {
-    background-color: #e60046;
-    box-shadow: 0 4px 10px rgba(230, 0, 70, 0.4);
-}
-
-.fact button.play-button {
-    background-color: #008CBA; /* Color de fondo del botón */
-    color: white; /* Color del texto */
-    border: none; /* Sin borde */
-    padding: 10px; /* Padding interno */
-    border-radius: 5px; /* Borde redondeado */
-    cursor: pointer; /* Cursor apuntador */
-    font-size: 16px; /* Tamaño de fuente */
-    transition: background-color 0.3s, box-shadow 0.3s; /* Transiciones suaves */
-    width: 80px; /* Ancho del botón */
-    height: 55px; /* Alto del botón */
-    display: flex; /* Alinear elementos */
-    align-items: center; /* Alinear verticalmente */
-    justify-content: center; /* Alinear horizontalmente */
-    margin-right: 10px; /* Margen derecho */
-}
-
-
-.fact button.play-button:hover {
-    background-color: #007BB5; /* Color de fondo al pasar el ratón */
-    box-shadow: 0 4px 10px rgba(0, 123, 181, 0.4); /* Sombra al pasar el ratón */
-}
-
-.fact button.play-button {
-    background-color: #008CBA; /* Color de fondo del botón */
-    color: white; /* Color del texto */
-    border: none; /* Sin borde */
-    padding: 10px; /* Padding interno */
-    border-radius: 5px; /* Borde redondeado */
-    cursor: pointer; /* Cursor apuntador */
-    font-size: 16px; /* Tamaño de fuente */
-    transition: background-color 0.3s, box-shadow 0.3s; /* Transiciones suaves */
-    width: 80px; /* Ancho del botón */
-    height: 55px; /* Alto del botón */
-    display: flex; /* Alinear elementos */
-    align-items: center; /* Alinear verticalmente */
-    justify-content: center; /* Alinear horizontalmente */
-    margin-right: 10px; /* Margen derecho */
-}
-
-
-.fact button.play-button:hover {
-    background-color: #007BB5; /* Color de fondo al pasar el ratón */
-    box-shadow: 0 4px 10px rgba(0, 123, 181, 0.4); /* Sombra al pasar el ratón */
-}
-#narrationContainer {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-#narrationContainer textarea {
-    flex: 1;
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid #cccccc;
-    box-sizing: border-box;
-    font-size: 18px;
-}
-
-#narrationContainer button {
-    background-color: #008CBA;
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 18px;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    margin-left: 15px; /* Añadido para separar del textarea */
-}
-
-#narrationContainer button:hover {
-    background-color: #007BB5;
-    box-shadow: 0 4px 10px rgba(0, 123, 181, 0.4);
-}
-

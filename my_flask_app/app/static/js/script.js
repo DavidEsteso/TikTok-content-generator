@@ -12,7 +12,6 @@ const translations = {
         narration: 'Narration',
         introText: 'Introduction Text:',
         factsText: 'Facts:',
-        remove: 'Remove',
         addFact: 'Add Fact',
         narrationText: 'Narration Text:',
         videoLink: 'YouTube Video Link:',
@@ -20,11 +19,6 @@ const translations = {
         toggleMusic: 'Add Music to Video',
         generateVideoButton: 'Generate Video',
         toggleLanguage: 'Change Language',
-        introPlaceholder: 'Enter introduction',
-        factPlaceholder: 'Enter fact',
-        narrationPlaceholder: 'Enter narration',
-        videoLinkPlaceholder: 'Enter YouTube video link',
-        musicLinkPlaceholder: 'Enter YouTube music link'
     },
     es: {
         generateVideo: 'Generar Video',
@@ -33,7 +27,6 @@ const translations = {
         narration: 'Narración',
         introText: 'Texto de Introducción:',
         factsText: 'Curiosidades:',
-        remove: 'Eliminar',
         addFact: 'Añadir curiosidad',
         narrationText: 'Texto de Narración:',
         videoLink: 'Enlace de Video de YouTube:',
@@ -41,11 +34,6 @@ const translations = {
         toggleMusic: 'Agregar Música al Video',
         generateVideoButton: 'Generar Video',
         toggleLanguage: 'Cambiar Idioma',
-        introPlaceholder: 'Ingrese introducción',
-        factPlaceholder: 'Ingrese curiosidad',
-        narrationPlaceholder: 'Ingrese narración',
-        videoLinkPlaceholder: 'Ingrese enlace de video de YouTube',
-        musicLinkPlaceholder: 'Ingrese enlace de música de YouTube'
     }
 };
 
@@ -217,7 +205,7 @@ function addFact() {
     fact.innerHTML = `
         <textarea name="fact[]" rows="2" cols="80" maxlength="300" oninput="validateText()"></textarea>
         <button type="button" href="/play/" style="width: 45px; height: 45px;">🔊</button>
-        <button type="button" id="removeFactButton" data-lang-key="remove" onclick="removeFact(this)" style="width: 80px; height: 55px;">🗑️</button>
+        <button type="button" id="removeFactButton" data-lang-key="remove" onclick="removeFact(this)" style="width: 45px; height: 45px;">🗑️</button>
     `;
     container.appendChild(fact);
     factsCount++;
