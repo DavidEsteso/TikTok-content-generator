@@ -13,11 +13,11 @@ def generate_video(narration, youtube_link, bacground_music):
     # Aquí iría la lógica para generar el video
     # Por ahora, solo devolvemos un mensaje simulado
     id=uuid.uuid4()
-
+    limpiar()
     download_video_from_youtube(youtube_link,id)
     text_to_speech(narration,id)
     download_audio_from_youtube(bacground_music,id)
-    dur_sect=2.3
+    dur_sect=1
     palabras = narration.split()
     npalabra = len(palabras)
     dur_video=(round(npalabra/3)+2)*(2)
@@ -46,7 +46,7 @@ def generate_video(narration, youtube_link, bacground_music):
         )
         comms_ffmpeg.run_ffmpeg_command(command)
         command=(f"ffmpeg -y -i temp2_{id}.mp4 -vf \"drawtext=text='Curiosidades':fontfile=fuentes/uni-sans.heavy-italic-caps.otf:x=(w-text_w)/2:"
-                f"y=200:fontsize={30}:fontcolor=red:borderw=4:bordercolor=black\" -c:a copy app/output_video_{id}.mp4"
+                f"y=200:fontsize={30}:fontcolor=red:borderw=4:bordercolor=black\" -c:a copy app/output/output_video_{id}.mp4"
         )
         comms_ffmpeg.run_ffmpeg_command(command)
 
@@ -62,8 +62,6 @@ def generate_video(narration, youtube_link, bacground_music):
         print(e)
     
     return id
-    
-
 
 def download_video_from_youtube(url,id):
     try:
@@ -88,3 +86,12 @@ def download_audio_from_youtube(url,id):
 def text_to_speech(text,id):
     tts = gTTS(text=text, lang='es')
     tts.save(f'audio_content/narration_{id}.mp3')
+
+def limpiar():
+    for filename in os.listdir("app/output"):
+        file_path = os.path.join("app/output", filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.remove(file_path)
+        except Exception as e:
+            print()
