@@ -142,17 +142,19 @@ function validateFacts() {
         addFactButton.disabled = true;
         addFactButton.style.opacity = 0.3;
         addFactButton.style.cursor = 'not-allowed';
-        return;
     } else {
         addFactButton.disabled = false;
         addFactButton.style.opacity = 1;
         addFactButton.style.cursor = 'pointer';
     }
-    const removeFactButtons = document.querySelectorAll('.fact button');
-    if (factsCount == 1) {
-        removeFactButtons[0].disabled = true;
-        removeFactButtons[0].style.opacity = 0.3;
-        removeFactButtons[0].style.cursor = 'not-allowed';
+
+    const removeFactButtons = document.querySelectorAll('.fact button[id="removeFactButton"]');
+    if (factsCount === 1) {
+        removeFactButtons.forEach(button => {
+            button.disabled = true;
+            button.style.opacity = 0.3;
+            button.style.cursor = 'not-allowed';
+        });
     } else {
         removeFactButtons.forEach(button => {
             button.disabled = false;
@@ -160,6 +162,7 @@ function validateFacts() {
             button.style.cursor = 'pointer';
         });
     }
+
     validateForm();
 }
 
@@ -204,6 +207,7 @@ function toggleVideoType() {
     validateText();
 }
 
+
 function addFact() {
     const container = document.getElementById('factList');
     const fact = document.createElement('div');
@@ -212,7 +216,8 @@ function addFact() {
     fact.className = 'fact';
     fact.innerHTML = `
         <textarea name="fact[]" rows="2" cols="80" maxlength="300" oninput="validateText()"></textarea>
-        <button type="button" data-lang-key="remove" onclick="removeFact(this)" style="width: 80px; height: 55px;">${buttonText}</button>
+        <button type="button" href="/play/" style="width: 45px; height: 45px;">🔊</button>
+        <button type="button" id="removeFactButton" data-lang-key="remove" onclick="removeFact(this)" style="width: 80px; height: 55px;">🗑️</button>
     `;
     container.appendChild(fact);
     factsCount++;
@@ -234,6 +239,8 @@ function toggleMusicSection() {
     const musicLinkInput = document.getElementById('musicLink');
     const musicDetails = document.getElementById('musicDetails');
     const toggleMusicButton = document.getElementById('toggleMusicButton');
+    const musicThumbnail = document.getElementById('musicThumbnail');
+    const musicVideoTitle = document.getElementById('musicTitle');
 
     const isAddingMusic = musicLinkInput.style.display === 'none';
     if (isAddingMusic) {
@@ -242,6 +249,9 @@ function toggleMusicSection() {
         musicLinkValid = false;
     } else {
         musicLinkValid = true;
+        musicThumbnail.style.display = 'none';
+        musicThumbnail.src = '';
+        musicVideoTitle.textContent = '';
     }
     musicLinkInput.style.display = isAddingMusic ? 'block' : 'none';
     musicLinkLabel.style.display = isAddingMusic ? 'block' : 'none';

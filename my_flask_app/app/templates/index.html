@@ -25,15 +25,17 @@
             <div id="factList">
                 <div class="fact">
                     <textarea name="fact[]" rows="2" cols="80" placeholder="Enter fact" maxlength="300" oninput="validateText()" data-placeholder-key="factPlaceholder"></textarea>
-                    <button type="button" onclick="removeFact(this)" disabled="true" style="width: 80px; height: 55px; cursor: not-allowed; opacity: 0.3;" data-lang-key="remove">Remove</button>
+                    <button type="button" href="/play/" style="width: 45px; height: 45px;">🔊</button>
+                    <button type="button" id="removeFactButton" onclick="removeFact(this)" disabled="true" style="width: 80px; height: 55px; cursor: not-allowed; opacity: 0.3;" data-lang-key="remove">🗑️</button>
                 </div>
             </div>
-            <button type="button" id="addFactButton" onclick="addFact()" data-lang-key="addFact">Add Fact</button>
+            <button type="button" id="addFactButton" onclick="addFact()" data-lang-key="addFact">➕</button>
         </div>
 
         <div id="narrationContainer" style="display: none;">
             <label for="narrationText" data-lang-key="narrationText">Narration Text:</label>
             <textarea id="narrationText" name="narrationText" rows="4" cols="50" maxlength="1000" placeholder="Enter narration" oninput="validateText()" data-placeholder-key="narrationPlaceholder"></textarea>
+            <button type="button" href="/play/" style="width: 45px; height: 45px;">🔊</button>
         </div>
 
         <label for="videoLink" data-lang-key="videoLink">YouTube Video Link:</label>

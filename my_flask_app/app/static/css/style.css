@@ -129,7 +129,7 @@ body {
     font-size: 18px; /* Aumentar el font-size */
     transition: background-color 0.3s, box-shadow 0.3s;
     width: 100px; /* Aumentar el ancho */
-    height: 50px; /* Aumentar la altura */
+    height: 0px; /* Aumentar la altura */
     text-align: center;
 }
 
@@ -138,10 +138,7 @@ body {
     box-shadow: 0 4px 10px rgba(230, 0, 70, 0.4);
 }
 
-#narrationContainer textarea {
-    width: 100%;
-    height: 250px; /* Aumentar la altura */
-}
+
 
 #videoDetails,
 #musicDetails {
@@ -173,3 +170,107 @@ body {
     margin-left: auto;
     margin-right: auto;
 }
+.fact button {
+    background-color: #ff004f;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    width: 80px; /* Ancho ajustado para el botón "Remove Fact" */
+    height: 55px; /* Alto ajustado para el botón "Remove Fact" */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px; /* Espacio entre botones */
+}
+
+.fact button img {
+    width: 20px; /* Tamaño de la imagen dentro del botón */
+    height: 20px; /* Tamaño de la imagen dentro del botón */
+}
+
+.fact button:hover {
+    background-color: #e60046;
+    box-shadow: 0 4px 10px rgba(230, 0, 70, 0.4);
+}
+
+.fact button.play-button {
+    background-color: #008CBA; /* Color de fondo del botón */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    padding: 10px; /* Padding interno */
+    border-radius: 5px; /* Borde redondeado */
+    cursor: pointer; /* Cursor apuntador */
+    font-size: 16px; /* Tamaño de fuente */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Transiciones suaves */
+    width: 80px; /* Ancho del botón */
+    height: 55px; /* Alto del botón */
+    display: flex; /* Alinear elementos */
+    align-items: center; /* Alinear verticalmente */
+    justify-content: center; /* Alinear horizontalmente */
+    margin-right: 10px; /* Margen derecho */
+}
+
+
+.fact button.play-button:hover {
+    background-color: #007BB5; /* Color de fondo al pasar el ratón */
+    box-shadow: 0 4px 10px rgba(0, 123, 181, 0.4); /* Sombra al pasar el ratón */
+}
+
+.fact button.play-button {
+    background-color: #008CBA; /* Color de fondo del botón */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    padding: 10px; /* Padding interno */
+    border-radius: 5px; /* Borde redondeado */
+    cursor: pointer; /* Cursor apuntador */
+    font-size: 16px; /* Tamaño de fuente */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Transiciones suaves */
+    width: 80px; /* Ancho del botón */
+    height: 55px; /* Alto del botón */
+    display: flex; /* Alinear elementos */
+    align-items: center; /* Alinear verticalmente */
+    justify-content: center; /* Alinear horizontalmente */
+    margin-right: 10px; /* Margen derecho */
+}
+
+
+.fact button.play-button:hover {
+    background-color: #007BB5; /* Color de fondo al pasar el ratón */
+    box-shadow: 0 4px 10px rgba(0, 123, 181, 0.4); /* Sombra al pasar el ratón */
+}
+#narrationContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#narrationContainer textarea {
+    flex: 1;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #cccccc;
+    box-sizing: border-box;
+    font-size: 18px;
+}
+
+#narrationContainer button {
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    margin-left: 15px; /* Añadido para separar del textarea */
+}
+
+#narrationContainer button:hover {
+    background-color: #007BB5;
+    box-shadow: 0 4px 10px rgba(0, 123, 181, 0.4);
+}
+
