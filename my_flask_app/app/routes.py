@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, send_file, jsonify
+from flask import Blueprint, request, render_template, send_file, jsonify, after_this_request
 import app.logic as logic
 import sys
 import os
@@ -31,11 +31,23 @@ def get_variable():
     print(lang)
     return jsonify({'status': 'success', 'message': 'Language toggled'})
 
-@main.route('/play-intro/', methods=['POST'])
+@main.route('/play-audio', methods=['POST'])
 def play_audio():
-    global lang
-    intro = request.form['introText']
-    print(f"LANGUAGE={lang}")
-    logic.text_to_speech(intro,lang)
-    return send_file(f'temporal_audio/narration.mp3',as_attachment=True)
+    data = request.get_json()
+    narration_text = data.get('narration')
     
+    if not narration_text:
+        return jsonify({'error': 'No narration text provided'}), 400
+    
+    logic.text_to_speech(narration_text, lang)
+    
+    @after_this_request
+    def remove_file(response):
+        try:
+            os.remove('temporal_audio/narration.mp3')
+        except Exception as e:
+            print(f"Error removing file {'temporal_audio/narration.mp3'}: {e}")
+        return response
+        
+    return send_file('temporal_audio/narration.mp3', mimetype='audio/mpeg')
+

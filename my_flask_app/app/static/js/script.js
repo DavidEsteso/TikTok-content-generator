@@ -5,6 +5,7 @@ let validIntro = false;
 let validNarration = false;
 let validFacts = false; 
 let factsCount = 1;
+let totalFacts = 1;
 let currentLanguage = 'en';
 
 const translations = {
@@ -236,11 +237,13 @@ function addFact() {
     const fact = document.createElement('div');
     const buttonText = currentLanguage === 'en' ? 'Remove' : 'Eliminar';
     const placeholder = currentLanguage === 'en' ? 'Enter fact' : 'Ingrese curiosidad';
-    const id = 'fact' + factsCount;
+    totalFacts++;   
+    const idPlay = 'play' + totalFacts;
+    const idFact = 'fact' + totalFacts;
     fact.className = 'fact';
     fact.innerHTML = `
-        <textarea name="fact[]" rows="2" cols="80" maxlength="300" oninput="validateFacts()"></textarea>
-        <button type="button" id="${id}" href="/play-fact/" style="width: 45px; height: 45px;">🔊</button>
+        <textarea name="fact[]" id="${idFact}" class="fact" idrows="2" cols="80" maxlength="300" oninput="validateFacts()"></textarea>
+        <button type="button" id="${idPlay}" class="play-fact" onclick="playFact()" style="width: 45px; height: 45px;">🔊</button>
         <button type="button" id="removeFactButton" data-lang-key="remove" onclick="removeFact(this)" style="width: 45px; height: 45px;">🗑️</button>
     `;
     container.appendChild(fact);
@@ -254,6 +257,65 @@ function removeFact(button) {
     factsCount--;
     validateFacts();
 }
+
+function playNarration() {
+    const narrationText = document.getElementById('narrationText').value.trim();
+    fetch('/play-audio', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ content: narrationText })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+function playIntro() {  
+    const introText = document.getElementById('introText').value.trim();
+    fetch('/play-audio', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ content: introText })
+    })
+    .then(response => response.blob())
+    .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const audio = new Audio(url);
+        audio.play();
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+function playFact() {
+    const id = event.target.id;
+    const factId = id.replace('play', 'fact');
+    const factText = document.getElementById(factId).value.trim();
+    fetch('/play-audio', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ content: factText })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
 
 function toggleMusicSection() {
     const musicLinkLabel = document.getElementById('musicLinkLabel');

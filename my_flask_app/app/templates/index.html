@@ -23,7 +23,7 @@
             <div id="intro">
                 <div class="intro">
                     <textarea id="introText" name="introText" rows="2" cols="80"  maxlength="300" oninput="validateIntro()"></textarea>
-                    <button type="button" id="introTextButton" href="/play-intro/" style="width: 45px; height: 45px;">🔊</button>
+                    <button type="button" id="introTextButton" onclick="playIntro()" style="width: 45px; height: 45px;">🔊</button>
                 </div>
             </div>
         </div>
@@ -32,8 +32,8 @@
             <label for="factsText" data-lang-key="factsText"> Facts:</label>
             <div id="factList">
                 <div class="fact">
-                    <textarea name="fact[]" rows="2" cols="80"  maxlength="300" oninput="validateFacts()"></textarea>
-                    <button type="button" class="play" style="width: 45px; height: 45px;">🔊</button>
+                    <textarea name="fact[]" id="fact1" class="fact" rows="2" cols="80"  maxlength="300" oninput="validateFacts()"></textarea>
+                    <button type="button" if="play1" class="play-fact" onclick="playFact()" style="width: 45px; height: 45px;">🔊</button>
                     <button type="button" id="removeFactButton" onclick="removeFact(this)" disabled="true" style="width: 45px; height: 45px; cursor: not-allowed; opacity: 0.3;" data-lang-key="remove">🗑️</button>
                 </div>
             </div>
@@ -45,7 +45,7 @@
             <div id="narrationList">
                 <div class="narration">
                     <textarea id="narrationText" name="narrationText" rows="2" cols="80" maxlength="1000" oninput="validateNarration()"></textarea>
-                    <button type="button" id="narrationTextButton" href="/play-narration/" style="width: 45px; height: 45px;">🔊</button>
+                    <button type="button" id="narrationTextButton" onclick="playNarration()" style="width: 45px; height: 45px;">🔊</button>
                 </div>
             </div>
         </div>
