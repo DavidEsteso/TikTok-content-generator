@@ -18,6 +18,8 @@ body {
     position: relative; /* Necesario para el posicionamiento absoluto del botón */
 }
 
+
+
 #generateVideoForm {
     display: flex;
     flex-direction: column;
@@ -39,20 +41,16 @@ body {
     color: #333333;
 }
 
-
 #generateVideoForm input,
 #generateVideoForm textarea,
 #generateVideoForm button,
 #generateVideoForm select {
-    
     margin-bottom: 23px;
     width: 100%;
     font-size: var(--font-size); /* Igualar el tamaño de fuente */
 }
 
-#generateVideoForm label{
-    
-
+#generateVideoForm label {
     width: 100%;
     font-size: var(--font-size); /* Igualar el tamaño de fuente */
 }
@@ -94,12 +92,12 @@ body {
 }
 
 #generateVideoButton {
-    background-color: #ff004f;
+    background-color: #fe2e55;
     color: white;
 }
 
 #generateVideoButton:hover {
-    background-color: #e60046;
+    background-color: #fe2e55;
     box-shadow: 0 4px 10px rgba(230, 0, 70, 0.4);
 }
 
@@ -129,7 +127,7 @@ body {
 
 .fact textarea,
 .narration textarea,
-.intro textarea{
+.intro textarea {
     margin-right: 15px;
     flex-grow: 1;
     padding: 15px;
@@ -145,8 +143,8 @@ body {
 .fact button.play-button,
 .narration button.play-button,
 .intro button,
-.intro button.play-button{
-    background-color: #ff004f;
+.intro button.play-button {
+    background-color: #fe2e55;
     color: white;
     padding: var(--button-padding);
     border-radius: var(--button-border-radius);
@@ -163,7 +161,7 @@ body {
 
 .fact button img,
 .narration button img,
-.intro button img{
+.intro button img {
     width: 20px;
     height: 20px;
 }
@@ -173,20 +171,20 @@ body {
 .fact button.play-button:hover,
 .narration button.play-button:hover,
 .intro button:hover,
-.intro button.play-button:hover{
+.intro button.play-button:hover {
     background-color: #e60046;
     box-shadow: 0 4px 10px rgba(230, 0, 70, 0.4);
 }
 
 .fact button.play-button,
 .narration button.play-button,
-.intro button.play-button{
+.intro button.play-button {
     background-color: #008CBA;
 }
 
 .fact button.play-button:hover,
 .narration button.play-button:hover,
-.intro button.play-button:hover{
+.intro button.play-button:hover {
     background-color: #007BB5;
     box-shadow: 0 4px 10px rgba(0, 123, 181, 0.4);
 }
@@ -220,4 +218,27 @@ body {
 #musicThumbnail {
     margin-left: auto;
     margin-right: auto;
+}
+
+
+#generateVideoForm button:focus,
+#addFactButton:focus,
+#toggleMusicButton:focus,
+.fact button:focus,
+.narration button:focus,
+.intro button:focus {
+    transform: scale(0.7); /* Reduce el tamaño del botón en un 5% */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añade una sombra sutil */
+    filter: brightness(0.8); /* Oscurece ligeramente el botón */
+}
+
+#generateVideoForm button:focus,
+#addFactButton:focus,
+#toggleMusicButton:focus,
+.fact button:focus,
+.narration button:focus,
+.intro button:focus {
+    transform: none !important; /* Elimina la transformación de escala */
+    filter: brightness(1); /* Restaura el brillo normal */
+    box-shadow: none; /* Elimina la sombra */
 }

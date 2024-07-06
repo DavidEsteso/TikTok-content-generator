@@ -5,7 +5,7 @@ let validIntro = false;
 let validNarration = false;
 let validFacts = false; 
 let factsCount = 1;
-let totalFacts = 1;
+let totalFacts = 2;
 let currentLanguage = 'en';
 
 const translations = {
@@ -20,7 +20,8 @@ const translations = {
         narrationText: 'Narration Text:',
         videoLink: 'YouTube Video Link:',
         musicLink: 'YouTube Music Link:',
-        toggleMusic: 'Add Music to Video',
+        toggleMusicYes: 'Add Music to Video',
+        toggleMusicNo: 'Delete Music from Video',
         generateVideoButton: 'Generate Video',
         toggleLanguage: 'Change Language',
     },
@@ -35,7 +36,8 @@ const translations = {
         narrationText: 'Texto de Narración:',
         videoLink: 'Enlace de Video de YouTube:',
         musicLink: 'Enlace de Música de YouTube:',
-        toggleMusic: 'Agregar Música al Video',
+        toggleMusicYes: 'Agregar Música al Video',
+        toggleMusicNo: 'Eliminar Música del Video',
         generateVideoButton: 'Generar Video',
         toggleLanguage: 'Cambiar Idioma',
     }
@@ -128,126 +130,82 @@ function updateLinkValidation(type, isValid, title, thumbnail) {
     }
 }
 
-function validateFacts() {
-    const addFactButton = document.getElementById('addFactButton');
-    if (factsCount >= 5) {
-        addFactButton.disabled = true;
-        addFactButton.style.opacity = 0.3;
-        addFactButton.style.cursor = 'not-allowed';
-    } else {
-        addFactButton.disabled = false;
-        addFactButton.style.opacity = 1;
-        addFactButton.style.cursor = 'pointer';
-    }
 
-    const removeFactButtons = document.querySelectorAll('.fact button[id="removeFactButton"]');
-    if (factsCount === 1) {
-        removeFactButtons.forEach(button => {
-            button.disabled = true;
-            button.style.opacity = 0.3;
-            button.style.cursor = 'not-allowed';
-        });
-    } else {
-        removeFactButtons.forEach(button => {
-            button.disabled = false;
-            button.style.opacity = 1;
-            button.style.cursor = 'pointer';
-        });
-    }
+
+
+function setButtonState(button, state) {
+    button.disabled = !state;
+    button.style.opacity = state ? 1 : 0.3;
+    button.style.cursor = state ? 'pointer' : 'not-allowed';
+    button.style.pointerEvents = state ? 'auto' : 'none';
+}
+
+function checkFactsValidity() {
     const facts = document.querySelectorAll('textarea[name="fact[]"]');
-    const allFactsFilled = Array.from(facts).every(fact => fact.value.trim() !== '');
-    if (allFactsFilled) {
-        validFacts = true;
-    } else {    
-        validFacts = false;
-    }
+    validFacts = Array.from(facts).some(fact => fact.value.trim() !== '');
+}
+
+function validateFacts() {
+    checkFactsValidity();
+
+    const facts = document.querySelectorAll('textarea[name="fact[]"]');
+    facts.forEach(fact => {
+        const playButton = document.getElementById(fact.id.replace('fact', 'play'));
+        setButtonState(playButton, fact.value.trim() !== '');
+    });
+
     validateForm();
 }
 
-function validateIntro() {  
-    const introText = document.getElementById('introText').value.trim();
-    const playButton = document.getElementById('introTextButton');
-    if (introText) {
-        validIntro = true;
-        playButton.disabled = false;
-        playButton.style.cursor = 'pointer';
-        playButton.style.opacity = 1;
-    } else {    
-        validIntro = false;
-        playButton.disabled = true;
-        playButton.style.cursor = 'not-allowed';
-        playButton.style.opacity = 0.3;
-    }
+function validateIntro() {
+    validIntro = validateTextField('introText', 'introPlayButton');
     validateForm();
 }
 
-function validateNarration() {  
-    const narrationText = document.getElementById('narrationText').value.trim();
-    const playButton = document.getElementById('narrationTextButton');
-    if (narrationText) {
-        validNarration = true;
-        playButton.disabled = false;
-        playButton.style.cursor = 'pointer';
-        playButton.style.opacity = 1;
-    } else {
-        validNarration = false;
-        playButton.disabled = true;
-        playButton.style.cursor = 'not-allowed';
-        playButton.style.opacity = 0.3;
-    }
+function validateNarration() {
+    validNarration = validateTextField('narrationText', 'narrationPlayButton');
     validateForm();
+}
+
+function validateTextField(textId, playButtonId) {
+    const text = document.getElementById(textId).value.trim();
+    const valid = text !== '';
+    setButtonState(document.getElementById(playButtonId), valid);
+    return valid;
 }
 
 function validateForm() {
     const generateVideoButton = document.getElementById('generateVideoButton');
     validText = validIntro && (validNarration || validFacts);
-    if (videoLinkValid && musicLinkValid && validText) {
-        generateVideoButton.disabled = false;
-        generateVideoButton.style.cursor = 'pointer';
-        generateVideoButton.style.opacity = 1;
-    } else {
-        generateVideoButton.disabled = true;
-        generateVideoButton.style.cursor = 'not-allowed';
-        generateVideoButton.style.opacity = 0.3;
-    }
+    const allValid = videoLinkValid && musicLinkValid && validText;
+    setButtonState(generateVideoButton, allValid);
 }
 
-function toggleVideoType() {
-    const videoType = document.getElementById('videoType').value;
-    const factsContainer = document.getElementById('factsContainer');
-    const narrationContainer = document.getElementById('narrationContainer');
-    if (videoType === 'facts') {
-        factsContainer.style.display = 'block';
-        narrationContainer.style.display = 'none';
-        narrationContainer.textContent = '';
-        validateFacts();
-    } else {
-        factsContainer.style.display = 'none';
-        narrationContainer.style.display = 'block';
-        const facts = document.querySelectorAll('textarea[name="fact[]"]');
-        facts.forEach(fact => fact.value = ''); 
-        validateNarration();
-    }
 
-}
 
 
 function addFact() {
+    if (factsCount >= 5) return;
+
     const container = document.getElementById('factList');
+    factsCount++;
+    const idPlay = 'play' + factsCount;
+    const idFact = 'fact' + factsCount;
+
     const fact = document.createElement('div');
-    const buttonText = currentLanguage === 'en' ? 'Remove' : 'Eliminar';
-    const placeholder = currentLanguage === 'en' ? 'Enter fact' : 'Ingrese curiosidad';
-    totalFacts++;   
-    const idPlay = 'play' + totalFacts;
-    const idFact = 'fact' + totalFacts;
     fact.className = 'fact';
     fact.innerHTML = `
-        <textarea name="fact[]" id="${idFact}" class="fact" idrows="2" cols="80" maxlength="300" oninput="validateFacts()"></textarea>
-        <button type="button" id="${idPlay}" class="play-fact" onclick="playFact()" style="width: 45px; height: 45px;">🔊</button>
-        <button type="button" id="removeFactButton" data-lang-key="remove" onclick="removeFact(this)" style="width: 45px; height: 45px;">🗑️</button>
+        <textarea name="fact[]" id="${idFact}" class="fact" rows="2" cols="80" maxlength="300" oninput="validateFacts()" placeholder="Enter fact"></textarea>
+        <button type="button" id="${idPlay}" class="play-fact" onclick="playFact(event)" style="width: 45px; height: 45px;">🔊</button>
+        <button type="button" id="removeFactButton" onclick="removeFact(this)" style="width: 45px; height: 45px;">🗑️</button>
     `;
     container.appendChild(fact);
-    factsCount++;
+
+    setButtonState(document.getElementById('addFactButton'), factsCount < 5);
+
+    const removeFactButtons = document.querySelectorAll('button[id="removeFactButton"]');
+    removeFactButtons.forEach(btn => setButtonState(btn, factsCount > 1));
+
     validateFacts();
 }
 
@@ -255,39 +213,43 @@ function removeFact(button) {
     const fact = button.parentNode;
     fact.parentNode.removeChild(fact);
     factsCount--;
+    if (factsCount == 1) {
+        const removeFactButtons = document.querySelectorAll('button[id="removeFactButton"]');
+        removeFactButtons.forEach(btn => setButtonState(btn, factsCount > 1));
+    }
+    setButtonState(document.getElementById('addFactButton'), factsCount < 5);
     validateFacts();
 }
 
+
+
+
 function playNarration() {
-    const narrationText = document.getElementById('narrationText').value.trim();
-    fetch('/play-audio', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ content: narrationText })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+    playAudio('narrationText');
 }
 
-function playIntro() {  
-    const introText = document.getElementById('introText').value.trim();
+function playIntro() {
+    playAudio('introText');
+}
+
+function playFact(event) {
+    const id = event.target.id;
+    const factId = id.replace('play', 'fact');
+    playAudio(factId);
+}
+
+function playAudio(textId) {
+    const text = document.getElementById(textId).value.trim();
     fetch('/play-audio', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ content: introText })
+        body: JSON.stringify({ content: text })
     })
     .then(response => response.blob())
-    .then(blob => {
-        const url = window.URL.createObjectURL(blob);
+    .then(data => {
+        const url = window.URL.createObjectURL(data);
         const audio = new Audio(url);
         audio.play();
     })
@@ -296,25 +258,10 @@ function playIntro() {
     });
 }
 
-function playFact() {
-    const id = event.target.id;
-    const factId = id.replace('play', 'fact');
-    const factText = document.getElementById(factId).value.trim();
-    fetch('/play-audio', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ content: factText })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-}
+
+
+
+
 
 
 function toggleMusicSection() {
@@ -336,12 +283,71 @@ function toggleMusicSection() {
         musicThumbnail.src = '';
         musicVideoTitle.textContent = '';
     }
+
     musicLinkInput.style.display = isAddingMusic ? 'block' : 'none';
     musicLinkLabel.style.display = isAddingMusic ? 'block' : 'none';
     musicDetails.style.display = isAddingMusic ? 'block' : 'none';
-    toggleMusicButton.textContent = isAddingMusic ? translations[currentLanguage].toggleMusic : translations[currentLanguage].toggleMusic;
+    toggleMusicButton.textContent = isAddingMusic ? translations[currentLanguage].toggleMusicNo : translations[currentLanguage].toggleMusicYes;
+    toggleMusicButton.setAttribute('data-lang-key', isAddingMusic ? 'toggleMusicNo' : 'toggleMusicYes');
     validateForm();
 }
+
+function toggleVideoType() {
+    const videoType = document.getElementById('videoType').value;
+    const factsContainer = document.getElementById('factsContainer');
+    const narrationContainer = document.getElementById('narrationContainer');
+
+    switch (videoType) {
+        case 'facts':
+            factsContainer.style.display = 'block';
+            narrationContainer.style.display = 'none';
+            narrationContainer.textContent = '';
+            validateFacts();
+            break;
+        case 'narration':
+            factsContainer.style.display = 'none';
+            narrationContainer.style.display = 'block';
+            const facts = document.querySelectorAll('textarea[name="fact[]"]');
+            facts.forEach(fact => fact.value = ''); 
+            validateNarration();
+            break;
+        default:
+            factsContainer.style.display = 'none';
+            narrationContainer.style.display = 'none';
+            break;
+    }
+}
+
+function toggleLanguage() {
+    currentLanguage = currentLanguage === 'en' ? 'es' : 'en';
+    
+    document.querySelectorAll('[data-lang-key]').forEach(element => {
+        const key = element.getAttribute('data-lang-key');
+        element.textContent = translations[currentLanguage][key];
+    });
+
+    document.querySelectorAll('[data-placeholder-key]').forEach(element => {
+        const key = element.getAttribute('data-placeholder-key');
+        element.placeholder = translations[currentLanguage][key];
+    });
+
+    fetch('/toggle-language', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+
 
 function generateFactsVideo() {
     const facts = document.querySelectorAll('textarea[name="fact[]"]');
@@ -373,32 +379,6 @@ function getVideoInfo(youtubeLink) {
         });
 }
 
-function toggleLanguage() {
-    currentLanguage = currentLanguage === 'en' ? 'es' : 'en';
-    document.querySelectorAll('[data-lang-key]').forEach(element => {
-        const key = element.getAttribute('data-lang-key');
-        element.textContent = translations[currentLanguage][key];
-    });
-    document.querySelectorAll('[data-placeholder-key]').forEach(element => {
-        const key = element.getAttribute('data-placeholder-key');
-        element.placeholder = translations[currentLanguage][key];
-    });
-
-    fetch('/toggle-language', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({})
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-}
 
 document.addEventListener('DOMContentLoaded', () => {
     setupListeners();
