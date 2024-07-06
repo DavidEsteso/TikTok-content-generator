@@ -1,8 +1,9 @@
-from flask import Blueprint, request, render_template, send_file, jsonify, after_this_request
+from flask import Blueprint, request, render_template, send_file, jsonify, after_this_request, app, current_app
 import app.logic as logic
 import sys
 import os
 import time
+from gtts import gTTS
 
 main = Blueprint('main', __name__)
 lang='en'
@@ -33,21 +34,14 @@ def get_variable():
 
 @main.route('/play-audio', methods=['POST'])
 def play_audio():
-    data = request.get_json()
-    narration_text = data.get('narration')
-    
-    if not narration_text:
-        return jsonify({'error': 'No narration text provided'}), 400
-    
-    logic.text_to_speech(narration_text, lang)
-    
-    @after_this_request
-    def remove_file(response):
-        try:
-            os.remove('temporal_audio/narration.mp3')
-        except Exception as e:
-            print(f"Error removing file {'temporal_audio/narration.mp3'}: {e}")
-        return response
-        
-    return send_file('temporal_audio/narration.mp3', mimetype='audio/mpeg')
+    content = request.json
+    tts = gTTS(content['content'], lang='en')
+    print(content['content'])
+    save_path = os.path.join(current_app.root_path, 'temporal_audio', 'narration.mp3')
+    tts.save(save_path)
 
+    try:
+        return send_file(save_path, mimetype='audio/mpeg')
+
+    except Exception as e:
+        return str(e), 500

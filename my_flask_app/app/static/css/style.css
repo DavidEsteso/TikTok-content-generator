@@ -221,24 +221,5 @@ body {
 }
 
 
-#generateVideoForm button:focus,
-#addFactButton:focus,
-#toggleMusicButton:focus,
-.fact button:focus,
-.narration button:focus,
-.intro button:focus {
-    transform: scale(0.7); /* Reduce el tamaño del botón en un 5% */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añade una sombra sutil */
-    filter: brightness(0.8); /* Oscurece ligeramente el botón */
-}
 
-#generateVideoForm button:focus,
-#addFactButton:focus,
-#toggleMusicButton:focus,
-.fact button:focus,
-.narration button:focus,
-.intro button:focus {
-    transform: none !important; /* Elimina la transformación de escala */
-    filter: brightness(1); /* Restaura el brillo normal */
-    box-shadow: none; /* Elimina la sombra */
-}
+

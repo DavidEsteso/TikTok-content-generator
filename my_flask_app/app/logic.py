@@ -87,9 +87,9 @@ def text_to_speech(text, id, lang):
     tts = gTTS(text=text, lang=lang)
     tts.save(f'audio_content/narration_{id}.mp3')
 
-def text_to_speech(text, lang):
+def text_to_speech(text, lang, save_path):
     tts = gTTS(text=text, lang=lang)
-    tts.save(f'temporal_audio/narration.mp3')
+    tts.save(save_path)
 
 def limpiar():
     for filename in os.listdir("app/output"):

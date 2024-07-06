@@ -5,7 +5,7 @@ let validIntro = false;
 let validNarration = false;
 let validFacts = false; 
 let factsCount = 1;
-let totalFacts = 2;
+let totalFacts = 10;
 let currentLanguage = 'en';
 
 const translations = {
@@ -189,13 +189,12 @@ function addFact() {
 
     const container = document.getElementById('factList');
     factsCount++;
-    const idPlay = 'play' + factsCount;
     const idFact = 'fact' + factsCount;
-
+    const idPlay = 'play' + factsCount;
     const fact = document.createElement('div');
     fact.className = 'fact';
     fact.innerHTML = `
-        <textarea name="fact[]" id="${idFact}" class="fact" rows="2" cols="80" maxlength="300" oninput="validateFacts()" placeholder="Enter fact"></textarea>
+        <textarea name="fact[]" id="${idFact}" class="fact" rows="2" cols="80" maxlength="300" oninput="validateFacts()"></textarea>
         <button type="button" id="${idPlay}" class="play-fact" onclick="playFact(event)" style="width: 45px; height: 45px;">🔊</button>
         <button type="button" id="removeFactButton" onclick="removeFact(this)" style="width: 45px; height: 45px;">🗑️</button>
     `;
