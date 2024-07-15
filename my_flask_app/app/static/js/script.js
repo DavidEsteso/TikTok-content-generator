@@ -179,7 +179,7 @@ function validateForm() {
     const generateVideoButton = document.getElementById('generateVideoButton');
     validText = validIntro && (validNarration || validFacts);
     const allValid = videoLinkValid && musicLinkValid && validText;
-    setButtonState(generateVideoButton, allValid);
+    setButtonState(generateVideoButton, true);
 }
 
 
@@ -417,11 +417,84 @@ function toggleLanguage() {
 }
 
 
+function generateVideo() {
+    // Recopilar información de introducción
+    const introText = document.getElementById('introText').value.trim();
 
-function generateFactsVideo() {
-    const facts = document.querySelectorAll('textarea[name="fact[]"]');
-    return Array.from(facts).map(fact => fact.value.trim()).join('\n');
+    // Determinar el tipo de video
+    const videoType = document.getElementById('videoType').value;
+
+    // Recopilar información de hechos (facts) o narración
+    let content = [];
+
+    if (videoType === 'facts') {
+        const facts = document.querySelectorAll('textarea[name="fact[]"]');
+        content = Array.from(facts).map(fact => fact.value.trim()).filter(fact => fact !== '');
+    } else if (videoType === 'narration') {
+        const narrationText = document.getElementById('narrationText').value.trim();
+        if (narrationText) {
+            content.push(narrationText);
+        }
+    }
+
+    // Recopilar información de los enlaces de video y música
+    const videoLink = document.getElementById('videoLink').value.trim();
+    const musicLink = document.getElementById('musicLink').value.trim();
+
+    // Verificar si se subieron archivos
+    const videoFileInput = document.getElementById('videoHiddenFileInput');
+    const musicFileInput = document.getElementById('musicHiddenFileInput');
+    let videoFile = null;
+    let musicFile = null;
+
+    if (videoFileInput && videoFileInput.files.length > 0) {
+        videoFile = videoFileInput.files[0];
+    }
+
+    if (musicFileInput && musicFileInput.files.length > 0) {
+        musicFile = musicFileInput.files[0];
+    }
+
+    // Crear el objeto JSON con toda la información
+    const videoData = {
+        introText: introText,
+        videoType: videoType,
+        content: content,
+        videoLink: videoLink || null,
+        musicLink: musicLink || null,
+        fileSourceLink: fileSourceLink,  // Asumiendo que esto indica si estamos usando enlaces o archivos
+        videoFile: videoFile ? videoFile.name : null,
+        musicFile: musicFile ? musicFile.name : null,
+    };
+
+    // Enviar el objeto JSON al servidor
+    const formData = new FormData();
+    formData.append('videoData', JSON.stringify(videoData));
+
+    if (videoFile) {
+        formData.append('videoFile', videoFile);
+    }
+
+    if (musicFile) {
+        formData.append('musicFile', musicFile);
+    }
+
+    fetch('/generate-video/', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        alert('Video generated successfully!');
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        alert('Failed to generate video.');
+    });
 }
+
+
 
 function extractVideoId(youtubeLink) {
     const regex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/(watch\?v=)?([^#\&\?]*).*/;
