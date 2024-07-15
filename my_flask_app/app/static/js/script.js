@@ -257,7 +257,6 @@ function playAudio(textId) {
         console.error('Error:', error);
     });
 }
-
 function addFile(type) {
     let fileInput = document.getElementById(type + "HiddenFileInput");
     const fileButton = document.getElementById(type + "FileButton");
@@ -267,9 +266,8 @@ function addFile(type) {
     if (!fileInput) {
         fileInput = document.createElement("input");
         fileInput.type = "file";
-        fileInput.accept = type === 'video' ? "video/*" : "audio/*";
+        fileInput.accept = type === 'video' ? "video/*" : "audio/*"; // Accept video or audio files
         fileInput.id = type + "HiddenFileInput";
-        fileInput.style.display = "none";
         document.body.appendChild(fileInput);
 
         fileInput.addEventListener("change", function() {
@@ -277,52 +275,38 @@ function addFile(type) {
                 const file = fileInput.files[0];
                 linkInput.style.display = "none";
                 fileButton.style.display = "none";
-                details.innerHTML = "";  // Clear previous details
+                details.innerHTML = `
+                    <div class="${type}">
+                        <p id="${type}FileName" style="margin-right: 10px;">${file.name}</p>
+                        <button type="button" id="${type}RemoveFileButton" style="width: 45px; height: 45px;">🗑️</button>
+                    </div>
+                `;
+                details.style.display = "block";
 
-                const fileDetailsDiv = document.createElement('div');
-                fileDetailsDiv.className = type;
-
-                const fileNameP = document.createElement('p');
-                fileNameP.style.marginRight = "10px";
-                fileNameP.textContent = file.name;
-
-                const removeFileButton = document.createElement('button');
-                removeFileButton.type = "button";
-                removeFileButton.style.width = "45px";
-                removeFileButton.style.height = "45px";
-                removeFileButton.textContent = "🗑️";
-
+                const removeFileButton = document.getElementById(type + "RemoveFileButton");
                 removeFileButton.addEventListener("click", function() {
                     resetFileInput(type);
                 });
-
-                fileDetailsDiv.appendChild(fileNameP);
-                fileDetailsDiv.appendChild(removeFileButton);
-                details.appendChild(fileDetailsDiv);
-                details.style.display = "block";
             }
         });
+    }
+
+    function resetFileInput(type) {
+        const hiddenFileInput = document.getElementById(type + "HiddenFileInput");
+        if (hiddenFileInput) {
+            hiddenFileInput.remove(); // Remove the hidden file input
+        }
+        linkInput.style.display = "block";
+        fileButton.style.display = "block";
+        linkInput.value = ""; // Clear the input value
+        details.innerHTML = ""; // Clear the file details
+        details.style.display = "none";
     }
 
     fileInput.click();
 }
 
-function resetFileInput(type) {
-    const fileInput = document.getElementById(type + "HiddenFileInput");
-    const fileButton = document.getElementById(type + "FileButton");
-    const linkInput = document.getElementById(type + "Link");
-    const details = document.getElementById(type + "Details");
 
-    if (fileInput) {
-        fileInput.remove();
-    }
-
-    linkInput.style.display = "block";
-    fileButton.style.display = "block";
-    linkInput.value = "";
-    details.innerHTML = "";
-    details.style.display = "none";
-}
 
 function toggleMusicSection() {
     const musicContainer = document.getElementById('musicContainer');
@@ -452,32 +436,20 @@ function generateVideo() {
     }
 
     if (musicFileInput && musicFileInput.files.length > 0) {
-        musicFile = musicFileInput.files[0];
+        musicFile = true;
     }
 
-    // Crear el objeto JSON con toda la información
-    const videoData = {
-        introText: introText,
-        videoType: videoType,
-        content: content,
-        videoLink: videoLink || null,
-        musicLink: musicLink || null,
-        fileSourceLink: fileSourceLink,  // Asumiendo que esto indica si estamos usando enlaces o archivos
-        videoFile: videoFile ? videoFile.name : null,
-        musicFile: musicFile ? musicFile.name : null,
-    };
+
 
     // Enviar el objeto JSON al servidor
     const formData = new FormData();
-    formData.append('videoData', JSON.stringify(videoData));
-
-    if (videoFile) {
-        formData.append('videoFile', videoFile);
-    }
-
-    if (musicFile) {
-        formData.append('musicFile', musicFile);
-    }
+    formData.append('introText', introText);
+    formData.append('videoType', videoType);
+    formData.append('content', JSON.stringify(content)); // Si content es un array, conviértelo en JSON
+    formData.append('videoLink', videoLink);
+    formData.append('musicLink', musicLink);
+    formData.append('videoFile', videoFile);
+    formData.append('musicFile', musicFile);
 
     fetch('/generate-video/', {
         method: 'POST',
@@ -493,7 +465,6 @@ function generateVideo() {
         alert('Failed to generate video.');
     });
 }
-
 
 
 function extractVideoId(youtubeLink) {

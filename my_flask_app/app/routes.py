@@ -2,6 +2,7 @@ from flask import Blueprint, request, render_template, send_file, jsonify, app, 
 import app.logic as logic
 import os
 from gtts import gTTS
+import json
 
 main = Blueprint('main', __name__)
 lang='en'
@@ -11,15 +12,16 @@ def index():
     return render_template('index.html')
 
 @main.route('/generate-video/', methods=['POST'])
-def my_link():
+def generate_video():
     global lang
-    narration = request.form['narrationText']
-    intro=request.form['introText']
-    youtube_link = request.form['videoLink']
-    music_link=request.form["musicLink"]
-    print(f"LANGUAGE={lang}")
-    id=logic.generate_video(intro,narration,youtube_link,music_link,lang)
-    return send_file(f'output\\output_video_{id}.mp4',as_attachment=True)
+    try:
+        video_data = json.loads(request.form['videoData'])
+    except KeyError:
+        return "No videoData found in the request", 400
+
+    print(video_data)
+
+    return render_template('index.html')
 
 @main.route('/toggle-language', methods=['POST'])
 def get_variable():
