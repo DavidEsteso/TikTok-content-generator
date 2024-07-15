@@ -383,21 +383,6 @@ function toggleLanguage() {
         const key = element.getAttribute('data-placeholder-key');
         element.placeholder = translations[currentLanguage][key];
     });
-
-    fetch('/toggle-language', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({})
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
 }
 
 
@@ -436,7 +421,7 @@ function generateVideo() {
     }
 
     if (musicFileInput && musicFileInput.files.length > 0) {
-        musicFile = true;
+        musicFile = musicFileInput.files[0];
     }
 
 
@@ -450,6 +435,7 @@ function generateVideo() {
     formData.append('musicLink', musicLink);
     formData.append('videoFile', videoFile);
     formData.append('musicFile', musicFile);
+    formData.append('lang', currentLanguage)
 
     fetch('/generate-video/', {
         method: 'POST',
