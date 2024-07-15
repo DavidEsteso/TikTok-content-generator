@@ -9,21 +9,22 @@ import shutil
 import uuid
 
 
-def generate_video(narration, youtube_link, bacground_music, lang):
-    # Aquí iría la lógica para generar el video
-    # Por ahora, solo devolvemos un mensaje simulado
+def generate_video(intro,narration, youtube_link, bacground_music, lang):
     id=uuid.uuid4()
     limpiar()
     download_video_from_youtube(youtube_link,id)
-    text_to_speech(narration,id,lang)
+    text_to_speech("narration",narration,id,lang)
+    text_to_speech("intro",intro,id,lang)
     download_audio_from_youtube(bacground_music,id)
     dur_sect=1
     palabras = narration.split()
     npalabra = len(palabras)
     dur_video=(round(npalabra/3)+2)*(2)
 
+    texto=intro + " " + narration
+
     random_vid_gen.create_short_video(id,f"video_content/fondo_{id}.mp4",f"video_corto_tmp_{id}.mp4",5,dur_video)
-    add_text.add_centered_text_transitions_to_video(f"video_corto_tmp_{id}.mp4", f"temp_{id}.mp4", dur_sect,narration,words_per_transition=3,fontsize_ini=-4)
+    add_text.add_centered_text_transitions_to_video(f"video_corto_tmp_{id}.mp4", f"temp_{id}.mp4", dur_sect,texto,words_per_transition=3,fontsize_ini=-4)
     
     segs_musica=comms_ffmpeg.obtener_duracion(f"audio_content/audio_vid_{id}.mp4")
     Tmus=random.randint(1,int(segs_musica-dur_video))
@@ -36,12 +37,13 @@ def generate_video(narration, youtube_link, bacground_music, lang):
 
     try:
         command = (
-            f"ffmpeg -y -i temp_{id}.mp4 -i audio_content/musica_recortada_{id}.mp3 -i audio_content/narration_{id}.mp3 "  # Nueva pista de audio añadida
+            f"ffmpeg -y -i temp_{id}.mp4 -i audio_content/intro_{id}.mp3 -i audio_content/musica_recortada_{id}.mp3 -i audio_content/narration_{id}.mp3 "
             "-filter_complex "
-            "\"[0:a]aformat=sample_rates=44100:channel_layouts=stereo[v0];"
-            "[1:a]aformat=sample_rates=44100:channel_layouts=stereo,volume=0.6[v1];"
-            "[2:a]aformat=sample_rates=44100:channel_layouts=stereo,volume=2[v2];"  # Voz off retrasada
-            "[v0][v1][v2]amix=inputs=3:duration=longest[a]\" "  # Combinar las cuatro pistas de audio
+            "\"[0:a]aformat=sample_rates=44100:channel_layouts=stereo[v0]; "
+            "[1:a]aformat=sample_rates=44100:channel_layouts=stereo,volume=1[intro]; "
+            "[2:a]aformat=sample_rates=44100:channel_layouts=stereo,volume=0.6[v1]; "
+            "[3:a]aformat=sample_rates=44100:channel_layouts=stereo,volume=2[v2]; "
+            "[intro][v0][v1][v2]concat=n=4:v=0:a=1[a]\" "
             f"-map 0:v -map \"[a]\" -c:v copy temp2_{id}.mp4"
         )
         comms_ffmpeg.run_ffmpeg_command(command)
@@ -83,11 +85,11 @@ def download_audio_from_youtube(url,id):
         print(f'Error downloading audio from {url}: {str(e)}')
 
     
-def text_to_speech(text, id, lang):
+def text_to_speech(nombre,text, id, lang):
     tts = gTTS(text=text, lang=lang)
-    tts.save(f'audio_content/narration_{id}.mp3')
+    tts.save(f'audio_content/{nombre}_{id}.mp3')
 
-def text_to_speech(text, lang, save_path):
+def text_to_speech_aux(text, lang, save_path):
     tts = gTTS(text=text, lang=lang)
     tts.save(save_path)
 

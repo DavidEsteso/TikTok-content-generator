@@ -1,8 +1,6 @@
-from flask import Blueprint, request, render_template, send_file, jsonify, after_this_request, app, current_app
+from flask import Blueprint, request, render_template, send_file, jsonify, app, current_app
 import app.logic as logic
-import sys
 import os
-import time
 from gtts import gTTS
 
 main = Blueprint('main', __name__)
@@ -16,10 +14,11 @@ def index():
 def my_link():
     global lang
     narration = request.form['narrationText']
+    intro=request.form['introText']
     youtube_link = request.form['videoLink']
     music_link=request.form["musicLink"]
     print(f"LANGUAGE={lang}")
-    id=logic.generate_video(narration,youtube_link,music_link,lang)
+    id=logic.generate_video(intro,narration,youtube_link,music_link,lang)
     return send_file(f'output\\output_video_{id}.mp4',as_attachment=True)
 
 @main.route('/toggle-language', methods=['POST'])
