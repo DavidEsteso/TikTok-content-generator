@@ -13,16 +13,15 @@
         
         <label for="videoType" data-lang-key="videoType">Video Type:</label>
         <select id="videoType" name="videoType" onchange="toggleVideoType()">
-            <option value="facts" data-lang-key="facts">Facts</option>
             <option value="narration" data-lang-key="narration">Narration</option>
+            <option value="facts" data-lang-key="facts">Facts</option>
         </select>
 
-        
         <div id="introContainer">
             <label for="introText" data-lang-key="introText">Introduction Text:</label>
             <div id="intro">
                 <div class="intro">
-                    <textarea id="introText" name="introText" rows="2" cols="80"  maxlength="300" oninput="validateIntro()"></textarea>
+                    <textarea id="introText" name="introText" rows="2" cols="80" maxlength="300" oninput="validateIntro()"></textarea>
                     <button type="button" id="introPlayButton" onclick="playIntro()" style="width: 45px; height: 45px;">🔊</button>
                 </div>
             </div>
@@ -32,15 +31,15 @@
             <label for="factsText" data-lang-key="factsText"> Facts:</label>
             <div id="factList">
                 <div class="fact">
-                    <textarea name="fact[]" id="fact1" class="fact" rows="2" cols="80"  maxlength="300" oninput="validateFacts()"></textarea>
+                    <textarea name="fact[]" id="fact1" class="fact" rows="2" cols="80" maxlength="300" oninput="validateFacts()"></textarea>
                     <button type="button" id="play1" class="play-fact" onclick="playFact(event)" style="width: 45px; height: 45px;">🔊</button>
-                    <button type="button" id="removeFactButton" onclick="removeFact(this)" disabled="true" style="width: 45px; height: 45px; cursor: not-allowed; opacity: 0.3; pointer-events: none;" >🗑️</button>
+                    <button type="button" id="removeFactButton" onclick="removeFact(this)" disabled="true" style="width: 45px; height: 45px; cursor: not-allowed; opacity: 0.3; pointer-events: none;">🗑️</button>
                 </div>
             </div>
             <button type="button" id="addFactButton" onclick="addFact()" data-lang-key="addFact">➕</button>
         </div>
 
-        <div id="narrationContainer" style="display: none;">
+        <div id="narrationContainer">
             <label for="narrationText" data-lang-key="narrationText">Narration Text:</label>
             <div id="narrationList">
                 <div class="narration">
@@ -50,18 +49,36 @@
             </div>
         </div>
 
-        <label for="videoLink" data-lang-key="videoLink">YouTube Video Link:</label>
-        <input type="text" id="videoLink" name="videoLink" oninput="videoLinkListener()">
-        <div id="videoDetails">
-            <img id="videoThumbnail" src="" alt="Thumbnail" style="display: none;">
-            <p id="videoTitle"></p>
+        <div id="videoContainer">
+            <label for="videoLink" data-lang-key="videoLink">YouTube Video Link:</label>
+            <div id="videoList">
+                <div id="videoAndButton">
+                    <div class="video">
+                        <textarea type="text" id="videoLink" name="videoLink" rows="1" cols="80" maxlength="1000" oninput="videoLinkListener()"></textarea>
+                        <button type="button" id="videoFileButton" onclick="addFile('video')" style="width: 45px; height: 45px;">📁</button>
+                        <div id="videoDetails">
+                            <img id="videoThumbnail" src="" alt="Thumbnail" style="display: none;">
+                            <p id="videoTitle" class="bold"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <label for="musicLink" id="musicLinkLabel" style="display: none;" data-lang-key="musicLink">YouTube Music Link:</label>
-        <input type="text" id="musicLink" name="musicLink" style="display: none;" oninput="musicLinkListener()">
-        <div id="musicDetails" style="display: none;">
-            <img id="musicThumbnail" src="" alt="Thumbnail" style="display: none;">
-            <p id="musicTitle" class="bold"></p>
+        <div id="musicContainer" style="display: none;">
+            <label for="musicLink" data-lang-key="musicLink">YouTube Music Link:</label>
+            <div id="musicList">
+                <div id="musicAndButton">
+                    <div class="music">
+                        <textarea type="text" id="musicLink" name="musicLink" rows="1" cols="80" maxlength="1000" oninput="musicLinkListener()"></textarea>
+                        <button type="button" id="musicFileButton" onclick="addFile('music')" style="width: 45px; height: 45px;">📁</button>
+                        <div id="musicDetails">
+                            <img id="musicThumbnail" src="" alt="Thumbnail" style="display: none;">
+                            <p id="musicTitle" class="bold"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <button type="button" id="toggleMusicButton" onclick="toggleMusicSection()" data-lang-key="toggleMusicYes">Add Music to Video</button>

@@ -7,6 +7,7 @@ let validFacts = false;
 let factsCount = 1;
 let totalFacts = 10;
 let currentLanguage = 'en';
+let fileSourceLink = true;
 
 const translations = {
     en: {
@@ -189,8 +190,8 @@ function addFact() {
 
     const container = document.getElementById('factList');
     factsCount++;
-    const idFact = 'fact' + factsCount;
-    const idPlay = 'play' + factsCount;
+    const idFact = 'fact' + totalFacts;
+    const idPlay = 'play' + totalFacts;
     const fact = document.createElement('div');
     fact.className = 'fact';
     fact.innerHTML = `
@@ -204,7 +205,7 @@ function addFact() {
 
     const removeFactButtons = document.querySelectorAll('button[id="removeFactButton"]');
     removeFactButtons.forEach(btn => setButtonState(btn, factsCount > 1));
-
+    totalFacts++;
     validateFacts();
 }
 
@@ -257,39 +258,107 @@ function playAudio(textId) {
     });
 }
 
+function addFile(type) {
+    let fileInput = document.getElementById(type + "HiddenFileInput");
+    const fileButton = document.getElementById(type + "FileButton");
+    const linkInput = document.getElementById(type + "Link");
+    const details = document.getElementById(type + "Details");
 
+    if (!fileInput) {
+        fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.accept = type === 'video' ? "video/*" : "audio/*";
+        fileInput.id = type + "HiddenFileInput";
+        fileInput.style.display = "none";
+        document.body.appendChild(fileInput);
 
+        fileInput.addEventListener("change", function() {
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                linkInput.style.display = "none";
+                fileButton.style.display = "none";
+                details.innerHTML = "";  // Clear previous details
 
+                const fileDetailsDiv = document.createElement('div');
+                fileDetailsDiv.className = type;
 
+                const fileNameP = document.createElement('p');
+                fileNameP.style.marginRight = "10px";
+                fileNameP.textContent = file.name;
 
+                const removeFileButton = document.createElement('button');
+                removeFileButton.type = "button";
+                removeFileButton.style.width = "45px";
+                removeFileButton.style.height = "45px";
+                removeFileButton.textContent = "🗑️";
 
-function toggleMusicSection() {
-    const musicLinkLabel = document.getElementById('musicLinkLabel');
-    const musicLinkInput = document.getElementById('musicLink');
-    const musicDetails = document.getElementById('musicDetails');
-    const toggleMusicButton = document.getElementById('toggleMusicButton');
-    const musicThumbnail = document.getElementById('musicThumbnail');
-    const musicVideoTitle = document.getElementById('musicTitle');
+                removeFileButton.addEventListener("click", function() {
+                    resetFileInput(type);
+                });
 
-    const isAddingMusic = musicLinkInput.style.display === 'none';
-    if (isAddingMusic) {
-        musicLinkInput.value = '';
-        musicLinkInput.style.borderColor = '';
-        musicLinkValid = false;
-    } else {
-        musicLinkValid = true;
-        musicThumbnail.style.display = 'none';
-        musicThumbnail.src = '';
-        musicVideoTitle.textContent = '';
+                fileDetailsDiv.appendChild(fileNameP);
+                fileDetailsDiv.appendChild(removeFileButton);
+                details.appendChild(fileDetailsDiv);
+                details.style.display = "block";
+            }
+        });
     }
 
-    musicLinkInput.style.display = isAddingMusic ? 'block' : 'none';
-    musicLinkLabel.style.display = isAddingMusic ? 'block' : 'none';
-    musicDetails.style.display = isAddingMusic ? 'block' : 'none';
+    fileInput.click();
+}
+
+function resetFileInput(type) {
+    const fileInput = document.getElementById(type + "HiddenFileInput");
+    const fileButton = document.getElementById(type + "FileButton");
+    const linkInput = document.getElementById(type + "Link");
+    const details = document.getElementById(type + "Details");
+
+    if (fileInput) {
+        fileInput.remove();
+    }
+
+    linkInput.style.display = "block";
+    fileButton.style.display = "block";
+    linkInput.value = "";
+    details.innerHTML = "";
+    details.style.display = "none";
+}
+
+function toggleMusicSection() {
+    const musicContainer = document.getElementById('musicContainer');
+    const toggleMusicButton = document.getElementById('toggleMusicButton');
+    
+    const isAddingMusic = musicContainer.style.display === 'none';
+    
+    if (isAddingMusic) {
+        resetMusicInputs();
+    }
+
+    musicContainer.style.display = isAddingMusic ? 'block' : 'none';
     toggleMusicButton.textContent = isAddingMusic ? translations[currentLanguage].toggleMusicNo : translations[currentLanguage].toggleMusicYes;
     toggleMusicButton.setAttribute('data-lang-key', isAddingMusic ? 'toggleMusicNo' : 'toggleMusicYes');
+
     validateForm();
 }
+
+function resetMusicInputs() {
+    const musicLinkInput = document.getElementById('musicLink');
+    const musicFileButton = document.getElementById('musicFileButton');
+    const musicDetails = document.getElementById('musicDetails');
+    const musicThumbnail = document.getElementById('musicThumbnail');
+    const musicTitle = document.getElementById('musicTitle');
+
+    musicLinkInput.value = '';
+    musicLinkInput.style.borderColor = '';
+    musicLinkValid = false;
+
+    musicFileButton.style.display = 'block';
+    musicDetails.style.display = 'none';
+    musicThumbnail.src = '';
+    musicTitle.textContent = '';
+}
+
+
 
 function toggleVideoType() {
     const videoType = document.getElementById('videoType').value;
@@ -300,7 +369,8 @@ function toggleVideoType() {
         case 'facts':
             factsContainer.style.display = 'block';
             narrationContainer.style.display = 'none';
-            narrationContainer.textContent = '';
+            const narration = document.getElementById('narrationText');
+            narration.value = '';
             validateFacts();
             break;
         case 'narration':
@@ -380,6 +450,7 @@ function getVideoInfo(youtubeLink) {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+    toggleVideoType();
     setupListeners();
     validateFacts();
     validateIntro();
