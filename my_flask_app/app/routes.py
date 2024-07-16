@@ -28,16 +28,27 @@ def generate_video():
     if videoFile:
         videoFile_name = secure_filename(videoFile.filename)+f"_{id}"
         videoFile.save(os.path.join('uploads', videoFile_name))
+    else:
+        videoFile_name=""
 
     if musicFile:
         musicFile_name = secure_filename(musicFile.filename)+f"_{id}"
         musicFile.save(os.path.join('uploads', musicFile_name))
+    else:
+        musicFile_name =""
+
+    if videoType=='narration':
+        narration=content[0]
 
     print(f"LANGUAGE={lang}")
     print(f"Content:{content}")
 
-    return redirect("/")
-    #logic.generate_video(id,intro,narration,youtube_link,music_link,lang)
+    logic.generate_video(id,
+                         introText,narration,
+                         videoLink,musicLink,
+                         videoFile_name,musicFile_name,
+                         lang)
+    
     #return send_file(f'output\\output_video_{id}.mp4',as_attachment=True)
 
 @main.route('/play-audio', methods=['POST'])

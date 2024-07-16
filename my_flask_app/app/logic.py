@@ -8,12 +8,20 @@ import comms_ffmpeg
 import uuid
 
 
-def generate_video(id,intro,narration, youtube_link, bacground_music, lang):
+def generate_video(id,
+                   intro,narration, 
+                   youtube_link, music_link, 
+                   videoFile_name,musicFile_name,
+                   lang):
     limpiar()
-    download_video_from_youtube(youtube_link,id)
+    if (videoFile_name==""):
+        download_video_from_youtube(youtube_link,id)
+    if (musicFile_name==""):
+        download_audio_from_youtube(music_link,id)
+
     text_to_speech("narration",narration,id,lang)
     text_to_speech("intro",intro,id,lang)
-    download_audio_from_youtube(bacground_music,id)
+    
     dur_sect=1
     palabras = narration.split()
     npalabra = len(palabras)
@@ -21,7 +29,12 @@ def generate_video(id,intro,narration, youtube_link, bacground_music, lang):
 
     texto=intro + " " + narration
 
-    random_vid_gen.create_short_video(id,f"video_content/fondo_{id}.mp4",f"video_corto_tmp_{id}.mp4",5,dur_video)
+    if (videoFile_name==""):
+        random_vid_gen.create_short_video(id,f"video_content/fondo_{id}.mp4",f"video_corto_tmp_{id}.mp4",5,dur_video)
+    else:
+        random_vid_gen.create_short_video(id,f"uploads/{videoFile_name}",f"video_corto_tmp_{id}.mp4",5,dur_video)
+       
+
     add_text.add_centered_text_transitions_to_video(f"video_corto_tmp_{id}.mp4", f"temp_{id}.mp4", dur_sect,texto,words_per_transition=3,fontsize_ini=-4)
     
     segs_musica=comms_ffmpeg.obtener_duracion(f"audio_content/audio_vid_{id}.mp4")
@@ -79,7 +92,6 @@ def download_audio_from_youtube(url,id):
         return audio_file
     except Exception as e:
         print(f'Error downloading audio from {url}: {str(e)}')
-
     
 def text_to_speech(nombre,text, id, lang):
     tts = gTTS(text=text, lang=lang)
