@@ -245,7 +245,10 @@ function playAudio(textId) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ content: text })
+        body: JSON.stringify({ 
+            content: text,
+            lang: currentLanguage
+        })
     })
     .then(response => response.blob())
     .then(data => {
@@ -424,21 +427,19 @@ function generateVideo() {
         musicFile = musicFileInput.files[0];
     }
 
-    var data={
-        'introText' : introText,
-        'videoType' : videoType,
-        'content' : JSON.stringify(content),
-        'videoLink' : videoLink,
-        'musicLink' : musicLink,
-        'lang' : currentLanguage
-    };
+    var formData = new FormData();
+    formData.append('introText', introText);
+    formData.append('videoType', videoType);
+    formData.append('content', JSON.stringify(content));
+    formData.append('videoLink', videoLink);
+    formData.append('musicLink', musicLink);
+    formData.append('lang', currentLanguage);
+    formData.append('musicFile', musicFile);  
+    formData.append('videoFile', videoFile);
 
     fetch('/generate-video/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
+        method: 'POST',     
+        body: formData
     })
 }
 

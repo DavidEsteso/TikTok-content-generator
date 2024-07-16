@@ -5,12 +5,10 @@ import random_vid_gen
 import add_text
 import os
 import comms_ffmpeg
-import shutil
 import uuid
 
 
-def generate_video(intro,narration, youtube_link, bacground_music, lang):
-    id=uuid.uuid4()
+def generate_video(id,intro,narration, youtube_link, bacground_music, lang):
     limpiar()
     download_video_from_youtube(youtube_link,id)
     text_to_speech("narration",narration,id,lang)
@@ -62,8 +60,6 @@ def generate_video(intro,narration, youtube_link, bacground_music, lang):
         os.remove(f"video_content/fondo_{id}.mp4")
     except Exception as e:
         print(e)
-    
-    return id
 
 def download_video_from_youtube(url,id):
     try:
@@ -96,6 +92,14 @@ def text_to_speech_aux(text, lang, save_path):
 def limpiar():
     for filename in os.listdir("app/output"):
         file_path = os.path.join("app/output", filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.remove(file_path)
+        except Exception as e:
+            print()
+    
+    for filename in os.listdir("app/temporal_audio"):
+        file_path = os.path.join("app/temporal_audio", filename)
         try:
             if os.path.isfile(file_path) or os.path.islink(file_path):
                 os.remove(file_path)

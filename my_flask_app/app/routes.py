@@ -3,6 +3,8 @@ import app.logic as logic
 import os
 from gtts import gTTS
 from werkzeug.utils import secure_filename
+import uuid
+import time
 
 main = Blueprint('main', __name__)
 
@@ -12,45 +14,44 @@ def index():
 
 @main.route('/generate-video/', methods=['POST'])
 def generate_video():
-    data=request.get_json()
-    narration = data.get('narrationText','')
-    intro=data.get('introText','')
-    
-    youtube_link = data.get('videoLink','')
-    music_link=data.get('musicLink','')
+    id=uuid.uuid4()
+    introText = request.form.get('introText')
+    videoType = request.form.get('videoType')
+    content = request.form.get('content')  
+    videoLink = request.form.get('videoLink')
+    musicLink = request.form.get('musicLink')
+    lang = request.form.get('lang')
 
-
-    lang=data.get('lang','')
-    videoFile=request.files.get('videoFile')
-    musicFile=request.files.get('musicFile')
-
-    content=data.get("content",'')
+    videoFile = request.files.get("videoFile")
+    musicFile = request.files.get("musicFile")
 
     if videoFile:
-        videoFile_name = secure_filename(videoFile.filename)
-        videoFile.save("uploads/", videoFile_name)
+        videoFile_name = secure_filename(videoFile.filename)+f"_{id}"
+        videoFile.save(os.path.join('uploads', videoFile_name))
 
     if musicFile:
-        musicFile_name = secure_filename(musicFile.filename)
-        musicFile.save("uploads/", musicFile_name)
+        musicFile_name = secure_filename(musicFile.filename)+f"_{id}"
+        musicFile.save(os.path.join('uploads', musicFile_name))
 
     print(f"LANGUAGE={lang}")
     print(f"Content:{content}")
 
-    return render_template('index.html')
-    #id=logic.generate_video(intro,narration,youtube_link,music_link,lang)
+    return redirect("/")
+    #logic.generate_video(id,intro,narration,youtube_link,music_link,lang)
     #return send_file(f'output\\output_video_{id}.mp4',as_attachment=True)
 
 @main.route('/play-audio', methods=['POST'])
 def play_audio():
-    content = request.json
-    tts = gTTS(content['content'], lang='en')
-    print(content['content'])
-    save_path = os.path.join(current_app.root_path, 'temporal_audio', 'narration.mp3')
+    id=uuid.uuid4()
+    data= request.get_json()
+    content=data.get('content','')
+    lang=data.get('lang','')
+    tts = gTTS(content, lang=lang)
+    save_path = os.path.join(current_app.root_path, 'temporal_audio', f'narration_{id}.mp3')
     tts.save(save_path)
 
     try:
         return send_file(save_path, mimetype='audio/mpeg')
-
     except Exception as e:
         return str(e), 500
+    
