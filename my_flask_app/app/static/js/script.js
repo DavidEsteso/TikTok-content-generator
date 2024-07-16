@@ -424,32 +424,22 @@ function generateVideo() {
         musicFile = musicFileInput.files[0];
     }
 
-
-
-    // Enviar el objeto JSON al servidor
-    const formData = new FormData();
-    formData.append('introText', introText);
-    formData.append('videoType', videoType);
-    formData.append('content', JSON.stringify(content)); // Si content es un array, conviértelo en JSON
-    formData.append('videoLink', videoLink);
-    formData.append('musicLink', musicLink);
-    formData.append('videoFile', videoFile);
-    formData.append('musicFile', musicFile);
-    formData.append('lang', currentLanguage)
+    var data={
+        'introText' : introText,
+        'videoType' : videoType,
+        'content' : JSON.stringify(content),
+        'videoLink' : videoLink,
+        'musicLink' : musicLink,
+        'lang' : currentLanguage
+    };
 
     fetch('/generate-video/', {
         method: 'POST',
-        body: formData
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        alert('Video generated successfully!');
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-        alert('Failed to generate video.');
-    });
 }
 
 

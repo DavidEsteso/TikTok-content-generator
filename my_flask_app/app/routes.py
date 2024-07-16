@@ -1,10 +1,10 @@
-from flask import Blueprint, request, render_template, send_file, jsonify, app, current_app
+from flask import Blueprint, request, render_template, send_file, current_app, app, redirect
 import app.logic as logic
 import os
 from gtts import gTTS
+from werkzeug.utils import secure_filename
 
 main = Blueprint('main', __name__)
-lang='en'
 
 @main.route('/')
 def index():
@@ -12,16 +12,34 @@ def index():
 
 @main.route('/generate-video/', methods=['POST'])
 def generate_video():
-    narration = request.form['narrationText']
-    intro=request.form['introText']
-    youtube_link = request.form['videoLink']
-    music_link=request.form["musicLink"]
-    lang=request.form["lang"]
+    data=request.get_json()
+    narration = data.get('narrationText','')
+    intro=data.get('introText','')
+    
+    youtube_link = data.get('videoLink','')
+    music_link=data.get('musicLink','')
+
+
+    lang=data.get('lang','')
+    videoFile=request.files.get('videoFile')
+    musicFile=request.files.get('musicFile')
+
+    content=data.get("content",'')
+
+    if videoFile:
+        videoFile_name = secure_filename(videoFile.filename)
+        videoFile.save("uploads/", videoFile_name)
+
+    if musicFile:
+        musicFile_name = secure_filename(musicFile.filename)
+        musicFile.save("uploads/", musicFile_name)
 
     print(f"LANGUAGE={lang}")
+    print(f"Content:{content}")
 
-    id=logic.generate_video(intro,narration,youtube_link,music_link,lang)
-    return send_file(f'output\\output_video_{id}.mp4',as_attachment=True)
+    return render_template('index.html')
+    #id=logic.generate_video(intro,narration,youtube_link,music_link,lang)
+    #return send_file(f'output\\output_video_{id}.mp4',as_attachment=True)
 
 @main.route('/play-audio', methods=['POST'])
 def play_audio():
