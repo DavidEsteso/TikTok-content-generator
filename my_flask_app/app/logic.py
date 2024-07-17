@@ -13,6 +13,9 @@ def generate_video(id,
                    videoFile_name,musicFile_name,
                    lang):
     limpiar()
+    if (musicFile_name=="" and music_link==""):
+        musicFile_name="silencio.mp4"
+
     if (videoFile_name==""):
         download_video_from_youtube(youtube_link,id)
     if (musicFile_name==""):
