@@ -5,7 +5,6 @@ import random_vid_gen
 import add_text
 import os
 import comms_ffmpeg
-from flask import send_file
 
 
 def generate_video(id,
@@ -42,7 +41,10 @@ def generate_video(id,
     else:
         segs_musica=comms_ffmpeg.obtener_duracion(f"uploads/{musicFile_name}")
     
-    Tmus=random.randint(1,int(segs_musica-dur_video))
+    if (dur_video<segs_musica):
+        Tmus=random.randint(1,int(segs_musica-dur_video))
+    else:
+        Tmus=1
     
     if (musicFile_name==""):
         command=(f"ffmpeg -y -i audio_content/audio_vid_{id}.mp4 -ss {Tmus} -t {dur_video} -c copy audio_content/audio_vid_recortado_{id}.mp4")
@@ -56,14 +58,14 @@ def generate_video(id,
 
     try:
         command = (
-            f"ffmpeg -y -i temp_{id}.mp4 -i audio_content/intro_{id}.mp3 -i audio_content/musica_recortada_{id}.mp3 -i audio_content/narration_{id}.mp3 "
-            "-filter_complex "
-            "\"[0:a]aformat=sample_rates=44100:channel_layouts=stereo[v0]; "
-            "[1:a]aformat=sample_rates=44100:channel_layouts=stereo,volume=1[intro]; "
-            "[2:a]aformat=sample_rates=44100:channel_layouts=stereo,volume=0.6[v1]; "
-            "[3:a]aformat=sample_rates=44100:channel_layouts=stereo,volume=2[v2]; "
-            "[intro][v0][v1][v2]concat=n=4:v=0:a=1[a]\" "
-            f"-map 0:v -map \"[a]\" -c:v copy temp2_{id}.mp4"
+                f"ffmpeg -y -i temp_{id}.mp4 -i audio_content/intro_{id}.mp3 -i audio_content/musica_recortada_{id}.mp3 -i audio_content/narration_{id}.mp3 "
+                "-filter_complex "
+                "\"[2:a]aformat=sample_rates=44100:channel_layouts=stereo,volume=0.4[bgm]; "
+                "[1:a]aformat=sample_rates=44100:channel_layouts=stereo,volume=2[intro]; "
+                "[3:a]aformat=sample_rates=44100:channel_layouts=stereo,volume=2[narration]; "
+                "[intro][narration]concat=n=2:v=0:a=1[intro_narr]; "
+                "[bgm][intro_narr]amix=inputs=2:duration=longest:dropout_transition=3[a]\" "
+                f"-map 0:v -map \"[a]\" -c:v copy temp2_{id}.mp4"
         )
         comms_ffmpeg.run_ffmpeg_command(command)
         command=(f"ffmpeg -y -i temp2_{id}.mp4 -vf \"drawtext=text='Curiosidades':fontfile=fuentes/uni-sans.heavy-italic-caps.otf:x=(w-text_w)/2:"

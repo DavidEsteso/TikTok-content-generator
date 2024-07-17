@@ -17,7 +17,7 @@ def obtener_duracion(video_path):
     probe = ffmpeg.probe(video_path)
     
     # Extraer la duración del video del resultado de la sonda
-    duracion_str = next(s['duration'] for s in probe['streams'] if s['codec_type'] == 'video')
+    duracion_str = next(s['duration'] for s in probe['streams'] if s['codec_type'] in ['video', 'audio'])
     
     # Convertir la duración a segundos
     duracion_segundos = float(duracion_str)
