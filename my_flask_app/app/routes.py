@@ -1,10 +1,10 @@
-from flask import Blueprint, request, render_template, send_file, current_app, app, redirect
+from flask import Blueprint, request, render_template, send_file, current_app, app, redirect, url_for
 import app.logic as logic
 import os
 from gtts import gTTS
 from werkzeug.utils import secure_filename
 import uuid
-import time
+import json
 
 main = Blueprint('main', __name__)
 
@@ -25,14 +25,21 @@ def generate_video():
     videoFile = request.files.get("videoFile")
     musicFile = request.files.get("musicFile")
 
+    content=json.loads(content)
+
     if videoFile:
-        videoFile_name = secure_filename(videoFile.filename)+f"_{id}"
+        filename_without_extension, file_extension = os.path.splitext(videoFile.filename)
+
+        videoFile_name = secure_filename(f"{filename_without_extension}_{id}{file_extension}")
+
         videoFile.save(os.path.join('uploads', videoFile_name))
     else:
         videoFile_name=""
 
     if musicFile:
-        musicFile_name = secure_filename(musicFile.filename)+f"_{id}"
+        filename_without_extension, file_extension = os.path.splitext(musicFile.filename)
+
+        musicFile_name = secure_filename(f"{filename_without_extension}_{id}{file_extension}")
         musicFile.save(os.path.join('uploads', musicFile_name))
     else:
         musicFile_name =""
@@ -41,15 +48,22 @@ def generate_video():
         narration=content[0]
 
     print(f"LANGUAGE={lang}")
-    print(f"Content:{content}")
+    print(f"Narration:{narration}")
+    print(musicFile_name)
 
-    logic.generate_video(id,
+    fin=logic.generate_video(id,
                          introText,narration,
                          videoLink,musicLink,
                          videoFile_name,musicFile_name,
                          lang)
     
-    #return send_file(f'output\\output_video_{id}.mp4',as_attachment=True)
+    filename=os.path.join(os.getcwd(), 'app\\output', f'output_video_{id}.mp4')
+    return send_file(filename, as_attachment=True)
+        #url_for("/download/", filename=filename))
+
+@main.route('/download/', methods=['GET'])
+def download(filename):
+    return send_file(filename, as_attachment=True)
 
 @main.route('/play-audio', methods=['POST'])
 def play_audio():
@@ -65,4 +79,3 @@ def play_audio():
         return send_file(save_path, mimetype='audio/mpeg')
     except Exception as e:
         return str(e), 500
-    

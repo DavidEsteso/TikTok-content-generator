@@ -441,6 +441,19 @@ function generateVideo() {
         method: 'POST',     
         body: formData
     })
+    .then(response => response.blob())
+    .then(data => {
+        const aElement = document.createElement("a");
+        aElement.setAttribute("download", "output.mp4");
+        const href = window.URL.createObjectURL(data);
+        aElement.href = href;
+        aElement.setAttribute("target", "_blank");
+        aElement.click();
+        URL.revokeObjectURL(href);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
 }
 
 

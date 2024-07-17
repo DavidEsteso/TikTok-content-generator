@@ -1,11 +1,11 @@
 import random
-from pytube import YouTube
+from pytubefix import YouTube
 from gtts import gTTS
 import random_vid_gen
 import add_text
 import os
 import comms_ffmpeg
-import uuid
+from flask import send_file
 
 
 def generate_video(id,
@@ -37,10 +37,18 @@ def generate_video(id,
 
     add_text.add_centered_text_transitions_to_video(f"video_corto_tmp_{id}.mp4", f"temp_{id}.mp4", dur_sect,texto,words_per_transition=3,fontsize_ini=-4)
     
-    segs_musica=comms_ffmpeg.obtener_duracion(f"audio_content/audio_vid_{id}.mp4")
+    if (musicFile_name==""):
+        segs_musica=comms_ffmpeg.obtener_duracion(f"audio_content/audio_vid_{id}.mp4")
+    else:
+        segs_musica=comms_ffmpeg.obtener_duracion(f"uploads/{musicFile_name}")
+    
     Tmus=random.randint(1,int(segs_musica-dur_video))
+    
+    if (musicFile_name==""):
+        command=(f"ffmpeg -y -i audio_content/audio_vid_{id}.mp4 -ss {Tmus} -t {dur_video} -c copy audio_content/audio_vid_recortado_{id}.mp4")
+    else:
+        command=(f"ffmpeg -y -i uploads/{musicFile_name} -ss {Tmus} -t {dur_video} -c copy audio_content/audio_vid_recortado_{id}.mp4")
 
-    command=(f"ffmpeg -y -i audio_content/audio_vid_{id}.mp4 -ss {Tmus} -t {dur_video} -c copy audio_content/audio_vid_recortado_{id}.mp4")
     comms_ffmpeg.run_ffmpeg_command(command)
 
     command=(f"ffmpeg -y -i audio_content/audio_vid_recortado_{id}.mp4 -vn -c:a libmp3lame audio_content/musica_recortada_{id}.mp3")
@@ -66,13 +74,25 @@ def generate_video(id,
         os.remove(f"temp_{id}.mp4")
         os.remove(f"temp2_{id}.mp4")
         os.remove(f"video_corto_tmp_{id}.mp4")
-        os.remove(f"audio_content/audio_vid_{id}.mp4")
+
+        if (musicFile_name==""):
+            os.remove(f"audio_content/audio_vid_{id}.mp4")
+        else:
+            os.remove(f"uploads/{musicFile_name}")
+
         os.remove(f"audio_content/narration_{id}.mp3")
+        os.remove(f"audio_content/intro_{id}.mp3")
         os.remove(f"audio_content/musica_recortada_{id}.mp3")
         os.remove(f"audio_content/audio_vid_recortado_{id}.mp4")
-        os.remove(f"video_content/fondo_{id}.mp4")
+
+        if (videoFile_name==""):
+            os.remove(f"video_content/fondo_{id}.mp4")
+        else:
+            os.remove(f"uploads/{videoFile_name}")
     except Exception as e:
         print(e)
+    
+    return True
 
 def download_video_from_youtube(url,id):
     try:
