@@ -208,7 +208,7 @@ function addFact() {
     totalFacts++;
     validateFacts();
 }
-çç
+
 
 function removeFact(button) {
     const fact = button.parentNode;
@@ -262,6 +262,10 @@ function playAudio(textId) {
     });
 }
 
+
+
+
+
 function addFile(type) {
     let fileInput = document.getElementById(type + "HiddenFileInput");
     const fileButton = document.getElementById(type + "FileButton");
@@ -270,9 +274,11 @@ function addFile(type) {
     const container = document.getElementById(type + "Container");
 
     if (!fileInput) {
+        const div = document.createElement("div");
+        div.id = type + 'FileInputDiv';
         fileInput = document.createElement("input");
         fileInput.type = "file";
-        fileInput.accept = type === 'video' ? "video/*" : "audio/*"; // Accept video or audio files
+        fileInput.accept = type === 'video' ? "video/*" : "audio/*";
         fileInput.id = type + "HiddenFileInput";
 
         fileInput.addEventListener("change", function() {
@@ -280,66 +286,37 @@ function addFile(type) {
                 const file = fileInput.files[0];
                 linkInput.style.display = "none";
                 fileButton.style.display = "none";
+                div.innerHTML = `
+                    <div class="${type}">
+                        <p id="${type}FileName" style="margin-right: 10px;">${file.name}</p>
+                        <button type="button" id="${type}RemoveFileButton" style="width: 45px; height: 45px;">🗑️</button>
+                    </div>
+                `;
+                details.style.display = "block";
+                container.appendChild(div);
 
-                // Create the div element dynamically
-                const fileDetailsDiv = document.createElement('div');
-                fileDetailsDiv.classList.add(type);
-
-                const fileNameParagraph = document.createElement('p');
-                fileNameParagraph.id = type + "FileName";
-                fileNameParagraph.style.marginRight = "10px";
-                fileNameParagraph.textContent = file.name;
-
-                const removeFileButton = document.createElement('button');
-                removeFileButton.type = "button";
-                removeFileButton.id = type + "RemoveFileButton";
-                removeFileButton.style.width = "45px";
-                removeFileButton.style.height = "45px";
-                removeFileButton.textContent = "🗑️";
-                removeFileButton.addEventListener("click", function() {
-                    resetFileInput(type);
+                document.getElementById(type + "RemoveFileButton").addEventListener("click", function() {
+                    removeFile(type);
                 });
-
-                fileDetailsDiv.appendChild(fileNameParagraph);
-                fileDetailsDiv.appendChild(removeFileButton);
-
-                container.innerHTML = ''; // Clear previous content
-                container.appendChild(fileDetailsDiv);
-                container.style.display = "block";
             }
         });
 
-        // Append fileInput to the document body so it can be clicked programmatically
-        document.body.appendChild(fileInput);
+
+        container.appendChild(div); 
     }
 
-    fileInput.click(); // Trigger file input click
+    fileInput.click(); 
 }
-
-function resetFileInput(type) {
-    const hiddenFileInput = document.getElementById(type + "HiddenFileInput");
-    if (hiddenFileInput) {
-        hiddenFileInput.remove(); // Remove the hidden file input
-    }
-    const linkInput = document.getElementById(type + "Link");
-    const fileButton = document.getElementById(type + "FileButton");
-    const details = document.getElementById(type + "Details");
-    linkInput.style.display = "block";
-    fileButton.style.display = "block";
-    linkInput.value = ""; // Clear the input value
-    details.innerHTML = ""; // Clear the file details
-    details.style.display = "none";
-}
-
 
 function toggleMusicSection() {
     const musicContainer = document.getElementById('musicContainer');
     const toggleMusicButton = document.getElementById('toggleMusicButton');
-    
+
     const isAddingMusic = musicContainer.style.display === 'none';
-    
-    if (isAddingMusic) {
-        resetMusicInputs();
+
+    if (!isAddingMusic) {
+
+        removeFile('music');
     }
 
     musicContainer.style.display = isAddingMusic ? 'block' : 'none';
@@ -349,22 +326,35 @@ function toggleMusicSection() {
     validateForm();
 }
 
-function resetMusicInputs() {
-    const musicLinkInput = document.getElementById('musicLink');
-    const musicFileButton = document.getElementById('musicFileButton');
-    const musicDetails = document.getElementById('musicDetails');
-    const musicThumbnail = document.getElementById('musicThumbnail');
-    const musicTitle = document.getElementById('musicTitle');
-
-    musicLinkInput.value = '';
-    musicLinkInput.style.borderColor = '';
-    musicLinkValid = false;
-
-    musicFileButton.style.display = 'block';
-    musicDetails.style.display = 'none';
-    musicThumbnail.src = '';
-    musicTitle.textContent = '';
+function removeFile(type) {
+    const container = document.getElementById(type + "Container");
+    const fileInputDiv = document.getElementById(type + 'FileInputDiv');
+    if (fileInputDiv) {
+        fileInputDiv.remove(); 
+    resetFileInput(type);
 }
+}
+
+function resetFileInput(type) {
+    const linkInput = document.getElementById(type + "Link");
+    const fileButton = document.getElementById(type + "FileButton");
+    const details = document.getElementById(type + "Details");
+    linkInput.style.display = "block";
+    fileButton.style.display = "block";
+    linkInput.value = ""; 
+    details.innerHTML = ""; 
+    details.style.display = "none";
+}
+
+function resetMusicInputs() {
+
+    resetFileInput('music');
+}
+
+
+
+
+
 
 
 
@@ -411,6 +401,7 @@ function toggleLanguage() {
 
 
 function generateVideo() {
+    showLoadingScreen();
     // Recopilar información de introducción
     const introText = document.getElementById('introText').value.trim();
 
@@ -464,6 +455,7 @@ function generateVideo() {
     })
     .then(response => response.blob())
     .then(data => {
+        hideLoadingScreen();
         const aElement = document.createElement("a");
         aElement.setAttribute("download", "output.mp4");
         const href = window.URL.createObjectURL(data);
@@ -512,3 +504,14 @@ document.addEventListener('DOMContentLoaded', () => {
     validateNarration();
     validateForm();
 });
+
+
+function showLoadingScreen() {
+    document.getElementById('loadingScreen').style.display = 'flex';
+}
+
+// Function to hide the loading screen
+function hideLoadingScreen() {
+    document.getElementById('loadingScreen').style.display = 'none';
+}
+

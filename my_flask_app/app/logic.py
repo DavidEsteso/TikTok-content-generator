@@ -1,5 +1,5 @@
 import random
-from pytubefix import YouTube
+from pytube import YouTube
 from gtts import gTTS
 import random_vid_gen
 import add_text

@@ -81,7 +81,8 @@ body {
 .fact button,
 .narration button,
 .intro button,
-.video button {
+.video button,
+.music button {
     border: none;
     padding: var(--button-padding);
     border-radius: var(--button-border-radius);
@@ -119,7 +120,8 @@ body {
 .fact,
 .narration,
 .intro,
-.video {
+.video,
+.music {
     display: flex;
     align-items: center;
     width: 100%;
@@ -128,7 +130,8 @@ body {
 .fact textarea,
 .narration textarea,
 .intro textarea,
-.video textarea {
+.video textarea,
+.music textarea {
     margin-right: 15px;
     flex-grow: 1;
     padding: 15px;
@@ -145,7 +148,8 @@ body {
 .narration button.play-button,
 .intro button,
 .intro button.play-button,
-.video button {
+.video button,
+.music button {
     background-color: #fe2e55;
     color: white;
     padding: var(--button-padding);
@@ -164,7 +168,8 @@ body {
 .fact button img,
 .narration button img,
 .intro button img,
-.video button img {
+.video button img,
+.music button img {
     width: 20px;
     height: 20px;
 }
@@ -175,7 +180,8 @@ body {
 .narration button.play-button:hover,
 .intro button:hover,
 .intro button.play-button:hover,
-.video button:hover {
+.video button:hover,
+.music button:hover {
     background-color: #e60046;
     box-shadow: 0 4px 10px rgba(230, 0, 70, 0.4);
 }
@@ -183,14 +189,16 @@ body {
 .fact button.play-button,
 .narration button.play-button,
 .intro button.play-button,
-.video button.play-button {
+.video button.play-button,
+.music button.play-button {
     background-color: #008CBA;
 }
 
 .fact button.play-button:hover,
 .narration button.play-button:hover,
 .intro button.play-button:hover,
-.video button.play-button:hover {
+.video button.play-button:hover,
+.music button.play-button:hover {
     background-color: #007BB5;
     box-shadow: 0 4px 10px rgba(0, 123, 181, 0.4);
 }
@@ -224,4 +232,69 @@ body {
 #musicThumbnail {
     margin-left: auto;
     margin-right: auto;
+}
+
+/* Media queries for responsive design */
+@media only screen and (max-width: 833px) {
+    #generateVideoForm {
+        padding: 20px;
+    }
+
+    #generateVideoForm h1 {
+        font-size: 22px;
+    }
+
+    #generateVideoForm input,
+    #generateVideoForm textarea,
+    #generateVideoForm button,
+    #generateVideoForm select {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .fact button,
+    .narration button,
+    .fact button.play-button,
+    .narration button.play-button,
+    .intro button,
+    .intro button.play-button,
+    .video button,
+    .music button {
+        width: 70px;
+        height: 45px;
+    }
+}
+/* Add this to your existing CSS file */
+
+/* Add this to your existing CSS file */
+
+.hidden {
+    display: none;
+}
+
+#loadingScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

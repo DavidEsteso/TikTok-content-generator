@@ -84,6 +84,12 @@
         <button type="button" id="toggleMusicButton" onclick="toggleMusicSection()" data-lang-key="toggleMusicYes">Add Music to Video</button>
         <button type="button" id="generateVideoButton" onclick="generateVideo()" data-lang-key="generateVideoButton">Generate Video</button>
     </form>
+
+    <!-- Loading screen element -->
+    <div id="loadingScreen" class="hidden"  style="display: none;">
+        <div class="loader"></div>
+    </div>
+    
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
