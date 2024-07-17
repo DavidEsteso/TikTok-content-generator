@@ -44,7 +44,7 @@ def add_centered_text_transitions_to_video(input_video, output_video, dur_sct,te
             drawtext_filters.append(
                 f"drawtext=text='{words_segment}':fontfile=C\\:/Windows/Fonts/Impact.ttf:fontcolor=yellow:fontsize={fontsize}:"
                 f"shadowcolor=black@0.75:shadowx=2:shadowy=2:borderw=2:bordercolor=black:"
-                f"x=(w-text_w)/2:y={y_position}:enable='between(t,{start_time},{end_time})'"
+                f"x=(w-text_w)/2:y={y_position}:enable='between(t,{start_time+0.01},{end_time-0.01})'"
             )
 
     # Unir los filtros con una coma

@@ -46,6 +46,11 @@ def generate_video():
 
     if videoType=='narration':
         narration=content[0]
+    else:
+        narration=""
+        n_facts=len(content)
+        for i in range(n_facts):
+            narration=narration+f"Curiosidad {i+1}. SCT "+content[i]+" SCT "
 
     print(f"LANGUAGE={lang}")
     print(f"Narration:{narration}")
@@ -58,11 +63,6 @@ def generate_video():
                          lang)
     
     filename=os.path.join(os.getcwd(), 'app\\output', f'output_video_{id}.mp4')
-    return send_file(filename, as_attachment=True)
-        #url_for("/download/", filename=filename))
-
-@main.route('/download/', methods=['GET'])
-def download(filename):
     return send_file(filename, as_attachment=True)
 
 @main.route('/play-audio', methods=['POST'])

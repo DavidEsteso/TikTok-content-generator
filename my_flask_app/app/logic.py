@@ -20,10 +20,7 @@ def generate_video(id,
         download_video_from_youtube(youtube_link,id)
     if (musicFile_name==""):
         download_audio_from_youtube(music_link,id)
-
-    text_to_speech("narration",narration,id,lang)
-    text_to_speech("intro",intro,id,lang)
-    
+   
     dur_sect=1
     palabras = narration.split()
     npalabra = len(palabras)
@@ -36,8 +33,10 @@ def generate_video(id,
     else:
         random_vid_gen.create_short_video(id,f"uploads/{videoFile_name}",f"video_corto_tmp_{id}.mp4",5,dur_video)
        
-
     add_text.add_centered_text_transitions_to_video(f"video_corto_tmp_{id}.mp4", f"temp_{id}.mp4", dur_sect,texto,words_per_transition=3,fontsize_ini=-4)
+
+    text_to_speech("narration",narration.replace("SCT",""),id,lang)
+    text_to_speech("intro",intro,id,lang)
     
     if (musicFile_name==""):
         segs_musica=comms_ffmpeg.obtener_duracion(f"audio_content/audio_vid_{id}.mp4")
@@ -83,7 +82,8 @@ def generate_video(id,
         if (musicFile_name==""):
             os.remove(f"audio_content/audio_vid_{id}.mp4")
         else:
-            os.remove(f"uploads/{musicFile_name}")
+            if (musicFile_name!="silencio.mp4"):
+                os.remove(f"uploads/{musicFile_name}")
 
         os.remove(f"audio_content/narration_{id}.mp3")
         os.remove(f"audio_content/intro_{id}.mp3")
