@@ -208,6 +208,7 @@ function addFact() {
     totalFacts++;
     validateFacts();
 }
+çç
 
 function removeFact(button) {
     const fact = button.parentNode;
@@ -260,55 +261,75 @@ function playAudio(textId) {
         console.error('Error:', error);
     });
 }
+
 function addFile(type) {
     let fileInput = document.getElementById(type + "HiddenFileInput");
     const fileButton = document.getElementById(type + "FileButton");
     const linkInput = document.getElementById(type + "Link");
     const details = document.getElementById(type + "Details");
+    const container = document.getElementById(type + "Container");
 
     if (!fileInput) {
         fileInput = document.createElement("input");
         fileInput.type = "file";
         fileInput.accept = type === 'video' ? "video/*" : "audio/*"; // Accept video or audio files
         fileInput.id = type + "HiddenFileInput";
-        document.body.appendChild(fileInput);
 
         fileInput.addEventListener("change", function() {
             if (fileInput.files.length > 0) {
                 const file = fileInput.files[0];
                 linkInput.style.display = "none";
                 fileButton.style.display = "none";
-                details.innerHTML = `
-                    <div class="${type}">
-                        <p id="${type}FileName" style="margin-right: 10px;">${file.name}</p>
-                        <button type="button" id="${type}RemoveFileButton" style="width: 45px; height: 45px;">🗑️</button>
-                    </div>
-                `;
-                details.style.display = "block";
 
-                const removeFileButton = document.getElementById(type + "RemoveFileButton");
+                // Create the div element dynamically
+                const fileDetailsDiv = document.createElement('div');
+                fileDetailsDiv.classList.add(type);
+
+                const fileNameParagraph = document.createElement('p');
+                fileNameParagraph.id = type + "FileName";
+                fileNameParagraph.style.marginRight = "10px";
+                fileNameParagraph.textContent = file.name;
+
+                const removeFileButton = document.createElement('button');
+                removeFileButton.type = "button";
+                removeFileButton.id = type + "RemoveFileButton";
+                removeFileButton.style.width = "45px";
+                removeFileButton.style.height = "45px";
+                removeFileButton.textContent = "🗑️";
                 removeFileButton.addEventListener("click", function() {
                     resetFileInput(type);
                 });
+
+                fileDetailsDiv.appendChild(fileNameParagraph);
+                fileDetailsDiv.appendChild(removeFileButton);
+
+                container.innerHTML = ''; // Clear previous content
+                container.appendChild(fileDetailsDiv);
+                container.style.display = "block";
             }
         });
+
+        // Append fileInput to the document body so it can be clicked programmatically
+        document.body.appendChild(fileInput);
     }
 
-    function resetFileInput(type) {
-        const hiddenFileInput = document.getElementById(type + "HiddenFileInput");
-        if (hiddenFileInput) {
-            hiddenFileInput.remove(); // Remove the hidden file input
-        }
-        linkInput.style.display = "block";
-        fileButton.style.display = "block";
-        linkInput.value = ""; // Clear the input value
-        details.innerHTML = ""; // Clear the file details
-        details.style.display = "none";
-    }
-
-    fileInput.click();
+    fileInput.click(); // Trigger file input click
 }
 
+function resetFileInput(type) {
+    const hiddenFileInput = document.getElementById(type + "HiddenFileInput");
+    if (hiddenFileInput) {
+        hiddenFileInput.remove(); // Remove the hidden file input
+    }
+    const linkInput = document.getElementById(type + "Link");
+    const fileButton = document.getElementById(type + "FileButton");
+    const details = document.getElementById(type + "Details");
+    linkInput.style.display = "block";
+    fileButton.style.display = "block";
+    linkInput.value = ""; // Clear the input value
+    details.innerHTML = ""; // Clear the file details
+    details.style.display = "none";
+}
 
 
 function toggleMusicSection() {
