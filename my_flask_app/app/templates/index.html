@@ -8,7 +8,13 @@
 </head>
 <body>
     <form id="generateVideoForm">
-        <button type="button" onclick="toggleLanguage()" data-lang-key="toggleLanguage">Change Language</button>
+        <div id="languageContainer">
+            <label for="languageSelect">Select Language:</label>
+            <select id="languageSelect" onchange="toggleLanguage()">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+            </select>
+        </div>
         <h1 data-lang-key="generateVideo">Generate Video</h1>
         
         <label for="videoType" data-lang-key="videoType">Video Type:</label>
@@ -86,7 +92,7 @@
     </form>
 
     <!-- Loading screen element -->
-    <div id="loadingScreen" class="hidden"  style="display: none;">
+    <div id="loadingScreen"  style="display: none;">
         <div class="loader"></div>
     </div>
     

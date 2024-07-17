@@ -118,7 +118,11 @@ function updateLinkValidation(type, isValid, title, thumbnail) {
             musicLinkValid = true;
         }
     } else {
-        input.style.borderColor = 'red';
+        if (input.value.trim() === '') {
+            input.style.borderColor = '';
+        } else {
+            input.style.borderColor = 'red';
+        }
         thumbnailElement.style.display = 'none';
         thumbnailElement.src = '';
         titleElement.style.display = 'none';
@@ -130,6 +134,7 @@ function updateLinkValidation(type, isValid, title, thumbnail) {
         }
     }
 }
+
 
 
 
