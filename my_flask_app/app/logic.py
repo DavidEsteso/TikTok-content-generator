@@ -1,5 +1,5 @@
 import random
-from pytube import YouTube
+from pytubefix import YouTube
 from gtts import gTTS
 import random_vid_gen
 import add_text
@@ -21,19 +21,20 @@ def generate_video(id,
     if (musicFile_name==""):
         download_audio_from_youtube(music_link,id)
    
-    dur_sect=1
+    dur_sect=1.4
+    palabras_per_sct=3
     palabras = narration.split()
     npalabra = len(palabras)
-    dur_video=(round(npalabra/3)+2)*(2)
+    dur_video=(round(npalabra/palabras_per_sct)+4)*(dur_sect)
 
-    texto=intro + " " + narration
+    texto=intro + " SCT " + narration
 
     if (videoFile_name==""):
         random_vid_gen.create_short_video(id,f"video_content/fondo_{id}.mp4",f"video_corto_tmp_{id}.mp4",5,dur_video)
     else:
         random_vid_gen.create_short_video(id,f"uploads/{videoFile_name}",f"video_corto_tmp_{id}.mp4",5,dur_video)
        
-    add_text.add_centered_text_transitions_to_video(f"video_corto_tmp_{id}.mp4", f"temp_{id}.mp4", dur_sect,texto,words_per_transition=3,fontsize_ini=-4)
+    add_text.add_centered_text_transitions_to_video(f"video_corto_tmp_{id}.mp4", f"temp_{id}.mp4", dur_sect,texto,words_per_transition=palabras_per_sct,fontsize_ini=-4)
 
     text_to_speech("narration",narration.replace("SCT",""),id,lang)
     text_to_speech("intro",intro,id,lang)
@@ -67,16 +68,16 @@ def generate_video(id,
                 "[3:a]aformat=sample_rates=44100:channel_layouts=stereo,volume=2[narration]; "
                 "[intro][narration]concat=n=2:v=0:a=1[intro_narr]; "
                 "[bgm][intro_narr]amix=inputs=2:duration=longest:dropout_transition=3[a]\" "
-                f"-map 0:v -map \"[a]\" -c:v copy temp2_{id}.mp4"
+                f"-map 0:v -map \"[a]\" -c:v copy app/output/output_video_{id}.mp4"
         )
         comms_ffmpeg.run_ffmpeg_command(command)
-        command=(f"ffmpeg -y -i temp2_{id}.mp4 -vf \"drawtext=text='Curiosidades':fontfile=fuentes/uni-sans.heavy-italic-caps.otf:x=(w-text_w)/2:"
-                f"y=200:fontsize={30}:fontcolor=red:borderw=4:bordercolor=black\" -c:a copy app/output/output_video_{id}.mp4"
-        )
-        comms_ffmpeg.run_ffmpeg_command(command)
+        # command=(f"ffmpeg -y -i temp2_{id}.mp4 -vf \"drawtext=text='Curiosidades':fontfile=fuentes/uni-sans.heavy-italic-caps.otf:x=(w-text_w)/2:"
+        #         f"y=200:fontsize={30}:fontcolor=red:borderw=4:bordercolor=black\" -c:a copy app/output/output_video_{id}.mp4"
+        # )
+        # comms_ffmpeg.run_ffmpeg_command(command)
 
         os.remove(f"temp_{id}.mp4")
-        os.remove(f"temp2_{id}.mp4")
+        #os.remove(f"temp2_{id}.mp4")
         os.remove(f"video_corto_tmp_{id}.mp4")
 
         if (musicFile_name==""):
