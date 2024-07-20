@@ -288,6 +288,8 @@ function addFile(type) {
 
         fileInput.addEventListener("change", function() {
             if (fileInput.files.length > 0) {
+                linkInput.value = '';
+                updateLinkValidation(type, false, '', '');
                 const file = fileInput.files[0];
                 linkInput.style.display = "none";
                 fileButton.style.display = "none";
@@ -297,7 +299,7 @@ function addFile(type) {
                         <button type="button" id="${type}RemoveFileButton" style="width: 45px; height: 45px;">🗑️</button>
                     </div>
                 `;
-                details.style.display = "block";
+                details.style.display = "none";
                 container.appendChild(div);
 
                 document.getElementById(type + "RemoveFileButton").addEventListener("click", function() {
@@ -332,6 +334,7 @@ function toggleMusicSection() {
 }
 
 function removeFile(type) {
+
     const container = document.getElementById(type + "Container");
     const fileInputDiv = document.getElementById(type + 'FileInputDiv');
     if (fileInputDiv) {
@@ -346,9 +349,7 @@ function resetFileInput(type) {
     const details = document.getElementById(type + "Details");
     linkInput.style.display = "block";
     fileButton.style.display = "block";
-    linkInput.value = ""; 
-    details.innerHTML = ""; 
-    details.style.display = "none";
+    details.style.display = "block";
 }
 
 function resetMusicInputs() {

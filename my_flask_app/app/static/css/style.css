@@ -298,3 +298,14 @@ body {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+textarea::-webkit-scrollbar {
+    display: none; /* Elimina la barra de desplazamiento en Chrome, Safari y Opera */
+}
+
+textarea {
+    -ms-overflow-style: none; /* Elimina la barra de desplazamiento en Internet Explorer y Edge */
+    scrollbar-width: none; /* Elimina la barra de desplazamiento en Firefox */
+    resize: none; /* Elimina la capacidad de redimensionar el área de texto */
+}
+

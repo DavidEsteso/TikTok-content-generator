@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <form id="generateVideoForm">
+    <form id="generateVideoForm" method ="post">
         <div id="languageContainer">
             <label for="languageSelect">Select Language:</label>
             <select id="languageSelect" onchange="toggleLanguage()">
@@ -29,6 +29,7 @@
                 <div class="intro">
                     <textarea id="introText" name="introText" rows="2" cols="80" maxlength="300" oninput="validateIntro()"></textarea>
                     <button type="button" id="introPlayButton" onclick="playIntro()" style="width: 45px; height: 45px;">🔊</button>
+     
                 </div>
             </div>
         </div>
