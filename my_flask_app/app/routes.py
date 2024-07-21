@@ -61,6 +61,7 @@ def generate_video():
     print(f"LANGUAGE={lang}")
     print(f"Narration:{narration}")
     print(musicFile_name)
+    print(f"Option:{radio}")
 
 
     fin=logic.generate_video(id,
