@@ -244,11 +244,11 @@ body {
 
 #videoTitle,
 #musicTitle {
-    font-weight: bold;
+    font-weight: solid;
     text-align: center;
     font-size: var(--font-size);
 }
-
+#videoThumbnail,
 #musicThumbnail {
     margin-left: auto;
     margin-right: auto;
