@@ -21,6 +21,7 @@ def generate_video():
     videoLink = request.form.get('videoLink')
     musicLink = request.form.get('musicLink')
     lang = request.form.get('lang')
+    radio=request.form.get('radio')
 
     videoFile = request.files.get("videoFile")
     musicFile = request.files.get("musicFile")
@@ -52,15 +53,21 @@ def generate_video():
         for i in range(n_facts):
             narration=narration+f"Curiosidad {i+1}. SCT "+content[i]+" SCT "
 
+    if (radio=='option1'):
+        random_vid=True
+    else:
+        random_vid=False
+
     print(f"LANGUAGE={lang}")
     print(f"Narration:{narration}")
     print(musicFile_name)
+
 
     fin=logic.generate_video(id,
                          introText,narration,
                          videoLink,musicLink,
                          videoFile_name,musicFile_name,
-                         lang,True)
+                         lang,random_vid)
     
     filename=os.path.join(os.getcwd(), 'app\\output', f'output_video_{id}.mp4')
     return send_file(filename, as_attachment=True)

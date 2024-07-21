@@ -428,6 +428,17 @@ function generateVideo() {
     // Determinar el tipo de video
     const videoType = document.getElementById('videoType').value;
 
+    //RadioButton
+    const radios = document.querySelectorAll('input[name="option"]');
+            let selectedValue;
+            // Itera sobre cada radio para encontrar el que está seleccionado
+            for (const radio of radios) {
+                if (radio.checked) {
+                    selectedValue = radio.value;
+                    break;
+                }
+            }
+
     // Recopilar información de hechos (facts) o narración
     let content = [];
 
@@ -468,6 +479,7 @@ function generateVideo() {
     formData.append('lang', currentLanguage);
     formData.append('musicFile', musicFile);  
     formData.append('videoFile', videoFile);
+    formData.append('radio', selectedValue)
 
     fetch('/generate-video/', {
         method: 'POST',     
