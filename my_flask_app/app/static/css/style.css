@@ -4,6 +4,8 @@
     --button-height: 55px;
     --button-padding: 10px;
     --button-border-radius: 5px;
+    --text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    --text-shadow-hover: 3px 3px 5px rgba(0, 0, 0, 0.7);
 }
 
 body {
@@ -53,8 +55,7 @@ body {
     font-size: var(--font-size); /* Igualar el tamaño de fuente */
 }
 
-#generateVideoForm input,
-#generateVideoForm textarea,
+
 #generateVideoForm select {
     padding: 15px;
     border: 1px solid #cccccc;
@@ -62,6 +63,23 @@ body {
     box-sizing: border-box;
     font-size: var(--font-size);
     transition: border-color 0.3s;
+    border: 0.1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+    border-radius: 0.5rlh;
+    
+}
+#generateVideoForm input,
+#generateVideoForm textarea {
+    padding: 15px;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: var(--font-size);
+    transition: border-color 0.3s;
+    border: 0.1px solid #cccccc;
+    background-color: white;
+    border-bottom: 1px solid #cccccc;
+    border-radius: 0.5rlh;
 }
 
 #generateVideoForm input:focus,
@@ -150,7 +168,8 @@ body {
 .intro button.play-button,
 .video button,
 .music button {
-    background-color: #fe2e55;
+    text-shadow: var(--text-shadow); /* Añadir sombra al texto */
+    background-color: transparent;
     color: white;
     padding: var(--button-padding);
     border-radius: var(--button-border-radius);
@@ -182,8 +201,9 @@ body {
 .intro button.play-button:hover,
 .video button:hover,
 .music button:hover {
-    background-color: #e60046;
-    box-shadow: 0 4px 10px rgba(230, 0, 70, 0.4);
+    background-color: transparent;
+    text-shadow: var(--text-shadow-hover);
+    transition-duration: 3ms; /* Añadir sombra al texto */
 }
 
 .fact button.play-button,
@@ -309,3 +329,125 @@ textarea {
     resize: none; /* Elimina la capacidad de redimensionar el área de texto */
 }
 
+
+.icon-button {
+    border: none;
+    padding: var(--button-padding);
+    border-radius: var(--button-border-radius);
+    cursor: pointer;
+    font-size: var(--font-size);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    background-color: #fe2e55;
+    color: white;
+}
+
+.icon-button img {
+    width: 20px;
+    height: 20px;
+}
+
+.icon-button:hover {
+    background-color: #e60046;
+    box-shadow: 0 4px 10px rgba(230, 0, 70, 0.4);
+}
+
+/* Envuelve el SVG en un contenedor adicional */
+
+/* Contenedor adicional para el SVG */
+button .folder-plus, 
+button .volume-up,
+button .trash{
+    display: flex; /* Usar flexbox para centrar el SVG */
+    align-items: center; /* Alinear verticalmente el SVG */
+    justify-content: center; /* Alinear horizontalmente el SVG */
+    width: 100%; /* Tomar todo el ancho del botón */
+    height: 100%; /* Tomar todo el alto del botón */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Transiciones suaves para fondo y sombra */
+}
+
+/* Estilos generales para los SVGs dentro del botón */
+button svg {
+    width: 16px; /* Tamaño del SVG dentro del botón */
+    height: 16px; /* Tamaño del SVG dentro del botón */
+    fill: black; /* Color del SVG */
+}
+
+/* Hover effect aplicado solo al contenedor del SVG */
+button .folder-plus:hover, 
+button .volume-up:hover,
+button .trash:hover{
+    stroke: black; /* Color del borde en hover */
+    stroke-width: 1.1px; /* Grosor del borde en hover */
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.5)); 
+    transition-duration: 3ms; /* Añadir sombra al texto */
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* Desactivar botones */
+button:disabled {
+    cursor: not-allowed; /* Cursor de no permitido */
+    opacity: 0.6; /* Menos opacidad para los botones desactivados */
+    pointer-events: none; /* Desactiva los eventos del puntero */
+}
+
+
+/* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    text-align: center;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#previewVideo {
+    width: 100%; /* Full width */
+    height: auto; /* Adjust height automatically */
+    margin-bottom: 20px;
+}
+
+#downloadButton {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+#downloadButton:hover {
+    background-color: #45a049;
+}

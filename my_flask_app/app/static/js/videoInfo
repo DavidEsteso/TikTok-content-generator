@@ -1,0 +1,26 @@
+
+
+function extractVideoId(youtubeLink) {
+    const regex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/(watch\?v=)?([^#\&\?]*).*/;
+    const match = youtubeLink.match(regex);
+    return match && match[5] ? match[5] : null;
+}
+
+function getVideoInfo(youtubeLink) {
+    const videoId = extractVideoId(youtubeLink);
+
+    if (!videoId) {
+        return Promise.resolve(null);
+    }
+
+    return fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=AIzaSyDDA5bfvWAdBPXn-K_kD9BeU1M-ju3VSeY`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.items.length === 0) {
+                return null;
+            }
+            const videoTitle = data.items[0].snippet.title;
+            const videoThumbnail = data.items[0].snippet.thumbnails.default.url;
+            return { title: videoTitle, thumbnail: videoThumbnail };
+        });
+}
