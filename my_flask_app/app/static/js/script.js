@@ -482,7 +482,7 @@ function generateVideo() {
         previewVideo(href)
         aElement.href = href;
         aElement.setAttribute("target", "_blank");
-        aElement.click();
+        //aElement.click();
         URL.revokeObjectURL(href);
     })
     .catch((error) => {
