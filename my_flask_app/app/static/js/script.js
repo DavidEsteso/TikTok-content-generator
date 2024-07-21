@@ -421,7 +421,7 @@ function toggleLanguage() {
 
 
 function generateVideo() {
-    previewVideo('path/to/your/video.mp4'); // Change this to the URL of your video
+    showLoadingScreen();
     // Recopilar información de introducción
     const introText = document.getElementById('introText').value.trim();
 
@@ -475,15 +475,14 @@ function generateVideo() {
     })
     .then(response => response.blob())
     .then(data => {
-        previewVideo(data);
-        // hideLoadingScreen();
-        // const aElement = document.createElement("a");
-        // aElement.setAttribute("download", "output.mp4");
-        // const href = window.URL.createObjectURL(data);
-        // aElement.href = href;
-        // aElement.setAttribute("target", "_blank");
-        // aElement.click();
-        // URL.revokeObjectURL(href);
+        hideLoadingScreen();
+        const aElement = document.createElement("a");
+        aElement.setAttribute("download", "output.mp4");
+        const href = window.URL.createObjectURL(data);
+        aElement.href = href;
+        aElement.setAttribute("target", "_blank");
+        aElement.click();
+        URL.revokeObjectURL(href);
     })
     .catch((error) => {
         console.error('Error:', error);
@@ -577,7 +576,3 @@ function previewVideo(videoUrl) {
     fetchAndDisplayVideo();
 }
 
-// Get the button that opens the modal
-document.getElementById("previewButton").onclick = function() {
-    previewVideo('path/to/your/video.mp4'); // Change this to the URL of your video
-}
