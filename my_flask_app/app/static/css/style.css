@@ -1,3 +1,5 @@
+
+
 :root {
     --font-size: 18px;
     --button-width: 80px;
@@ -7,6 +9,36 @@
     --text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     --text-shadow-hover: 3px 3px 5px rgba(0, 0, 0, 0.7);
 }
+
+@font-face {
+    font-family: "Anime Ace Bold";
+    src: url("https://db.onlinewebfonts.com/t/d3f64aba84be8e186a02089358ec0f84.eot");
+    src: url("https://db.onlinewebfonts.com/t/d3f64aba84be8e186a02089358ec0f84.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/d3f64aba84be8e186a02089358ec0f84.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/d3f64aba84be8e186a02089358ec0f84.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/d3f64aba84be8e186a02089358ec0f84.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/d3f64aba84be8e186a02089358ec0f84.svg#Anime Ace Bold")format("svg");
+}
+
+@font-face {
+    font-family: "Crimson Semibold Italic";
+    src: url("https://db.onlinewebfonts.com/t/e7f47f78bdd8a953ca753160446c1f16.eot");
+    src: url("https://db.onlinewebfonts.com/t/e7f47f78bdd8a953ca753160446c1f16.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/e7f47f78bdd8a953ca753160446c1f16.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/e7f47f78bdd8a953ca753160446c1f16.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/e7f47f78bdd8a953ca753160446c1f16.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/e7f47f78bdd8a953ca753160446c1f16.svg#Crimson Semibold Italic")format("svg");
+}
+@font-face {
+    font-family: "SF Cartoonist Hand Bold Italic";
+    src: url("https://db.onlinewebfonts.com/t/3b73f4fea90deb7402a1cc318520a939.eot");
+    src: url("https://db.onlinewebfonts.com/t/3b73f4fea90deb7402a1cc318520a939.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/3b73f4fea90deb7402a1cc318520a939.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/3b73f4fea90deb7402a1cc318520a939.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/3b73f4fea90deb7402a1cc318520a939.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/3b73f4fea90deb7402a1cc318520a939.svg#SF Cartoonist Hand Bold Italic")format("svg");
+}
+
 
 body {
     display: grid;
@@ -531,3 +563,45 @@ button:disabled {
     transform: translateX(calc(var(--container_width) * 1/2));
   }
   
+.Anime {
+    font-family: "Anime Ace Bold";
+}
+
+.Crimson {
+    font-family: "Crimson Semibold Italic";
+}
+
+.Cartoonist {
+    font-family: "SF Cartoonist Hand Bold Italic";
+}
+
+#fontSelector {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+
+}
+
+#color-picker-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+select[data-chosen='anime-ace.italic.ttf'] {
+    font-family: "Anime Ace Bold";
+    -webkit-text-stroke: 0.7px;
+    -webkit-text-stroke-color: black;
+}
+
+select[data-chosen='crimson.semibolditalic.ttf'] {
+    font-family: "Crimson Semibold Italic";
+    -webkit-text-stroke: 0.7px;
+    -webkit-text-stroke-color: black;
+}
+
+select[data-chosen='sf-cartoonist-hand.bold-italic.ttf'] {
+    font-family: "SF Cartoonist Hand Bold Italic";
+    -webkit-text-stroke: 0.7px;
+    -webkit-text-stroke-color: black;
+}

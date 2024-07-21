@@ -188,6 +188,11 @@ function validateForm() {
 }
 
 
+function applyColor(inputElement) {
+    const selectedColor = inputElement.value;
+    const textElement = document.getElementById('fontSelector');
+    textElement.style.color = selectedColor;
+}
 
 
 function addFact() {
