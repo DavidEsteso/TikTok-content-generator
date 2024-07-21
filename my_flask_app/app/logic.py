@@ -11,7 +11,7 @@ def generate_video(id,
                    intro,narration, 
                    youtube_link, music_link, 
                    videoFile_name,musicFile_name,
-                   lang, random):
+                   lang, random_vid):
     limpiar()
     if (musicFile_name=="" and music_link==""):
         musicFile_name="silencio.mp4"
@@ -30,9 +30,9 @@ def generate_video(id,
     texto=intro + " SCT " + narration
 
     if (videoFile_name==""):
-        vid_gen.create_short_video(random,id,f"video_content/fondo_{id}.mp4",f"video_corto_tmp_{id}.mp4",5,dur_video)
+        vid_gen.create_short_video(random_vid,id,f"video_content/fondo_{id}.mp4",f"video_corto_tmp_{id}.mp4",5,dur_video)
     else:
-        vid_gen.create_short_video(random,id,f"uploads/{videoFile_name}",f"video_corto_tmp_{id}.mp4",5,dur_video)
+        vid_gen.create_short_video(random_vid,id,f"uploads/{videoFile_name}",f"video_corto_tmp_{id}.mp4",5,dur_video)
        
     add_text.add_centered_text_transitions_to_video(f"video_corto_tmp_{id}.mp4", f"temp_{id}.mp4", dur_sect,texto,words_per_transition=palabras_per_sct,fontsize_ini=-4)
 

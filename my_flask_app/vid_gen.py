@@ -12,8 +12,8 @@ def get_video_duration(input_video_path):
         print(f"Error: {e}")
         return None
 
-def create_short_video(random,id,input_video_path, output_video_path, fragment_duration=5, total_duration=40):
-    if (random):
+def create_short_video(random_vid,id,input_video_path, output_video_path, fragment_duration=5, total_duration=40):
+    if (random_vid):
         # Obtener la duración del video original
         video_duration = get_video_duration(input_video_path)
         
