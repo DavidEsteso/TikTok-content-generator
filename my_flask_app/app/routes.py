@@ -60,7 +60,7 @@ def generate_video():
                          introText,narration,
                          videoLink,musicLink,
                          videoFile_name,musicFile_name,
-                         lang)
+                         lang,True)
     
     filename=os.path.join(os.getcwd(), 'app\\output', f'output_video_{id}.mp4')
     return send_file(filename, as_attachment=True)
