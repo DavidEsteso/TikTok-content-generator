@@ -53,7 +53,7 @@ def generate_video():
         for i in range(n_facts):
             narration=narration+f"Curiosidad {i+1}. SCT "+content[i]+" SCT "
 
-    if (radio=='option1'):
+    if (radio=='value-2'):
         random_vid=True
     else:
         random_vid=False
@@ -61,6 +61,7 @@ def generate_video():
     print(f"LANGUAGE={lang}")
     print(f"Narration:{narration}")
     print(musicFile_name)
+    print(f"Option:{radio}")
 
 
     fin=logic.generate_video(id,

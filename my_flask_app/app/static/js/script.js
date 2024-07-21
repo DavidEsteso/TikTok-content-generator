@@ -434,7 +434,7 @@ function generateVideo() {
     const videoType = document.getElementById('videoType').value;
 
     //RadioButton
-    const radios = document.querySelectorAll('input[name="option"]');
+    const radios = document.querySelectorAll('input[name="value-radio"]');
             let selectedValue;
             // Itera sobre cada radio para encontrar el que está seleccionado
             for (const radio of radios) {
