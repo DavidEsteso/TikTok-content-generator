@@ -478,14 +478,14 @@ function generateVideo() {
 
     //RadioButton
     const radios = document.querySelectorAll('.mydict input[type="radio"]');
-            let selectedValue;
-            // Itera sobre cada radio para encontrar el que está seleccionado
-            for (const radio of radios) {
-                if (radio.checked) {
-                    selectedValue = radio.value;
-                    break;
-                }
-            }
+    let selectedValue;
+    // Itera sobre cada radio para encontrar el que está seleccionado
+    for (const radio of radios) {
+        if (radio.checked) {
+            selectedValue = radio.value;
+            break;
+        }
+    }
 
     // Recopilar información de hechos (facts) o narración
     let content = [];
