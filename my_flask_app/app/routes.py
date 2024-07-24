@@ -58,7 +58,7 @@ def generate_video():
         for i in range(n_facts):
             narration=narration+f"Curiosidad {i+1}. SCT "+content[i]+" SCT "
 
-    if (radio=='on'):
+    if (radio=='orig'):
         random_vid=False
     else:
         random_vid=True
