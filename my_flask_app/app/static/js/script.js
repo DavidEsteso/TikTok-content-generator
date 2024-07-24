@@ -8,6 +8,7 @@ let factsCount = 1;
 let totalFacts = 10;
 let currentLanguage = 'en';
 let fileSourceLink = true;
+let selectedColor=0;
 
 const translations = {
     en: {
@@ -191,7 +192,7 @@ function validateForm() {
 
 
 function applyColor(inputElement) {
-    const selectedColor = inputElement.value;
+    selectedColor = inputElement.value;
     const textElement = document.getElementById('fontSelector');
     textElement.style.color = selectedColor;
 }
@@ -497,6 +498,8 @@ function generateVideo() {
         }
     }
 
+    var font = document.getElementById('fontSelector').value;
+
     // Recopilar información de los enlaces de video y música
     const videoLink = document.getElementById('videoLink').value.trim();
     const musicLink = document.getElementById('musicLink').value.trim();
@@ -525,6 +528,8 @@ function generateVideo() {
     formData.append('musicFile', musicFile);  
     formData.append('videoFile', videoFile);
     formData.append('radio', selectedValue)
+    formData.append('font',font)
+    formData.append('color',selectedColor)
 
     fetch('/generate-video/', {
         method: 'POST',     
