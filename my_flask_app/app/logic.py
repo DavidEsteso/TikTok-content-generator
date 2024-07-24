@@ -7,7 +7,7 @@ import os
 import comms_ffmpeg
 
 
-def generate_video(id,
+def generate_video(color,font,id,
                    intro,narration, 
                    youtube_link, music_link, 
                    videoFile_name,musicFile_name,
@@ -34,7 +34,7 @@ def generate_video(id,
     else:
         vid_gen.create_short_video(random_vid,id,f"uploads/{videoFile_name}",f"video_corto_tmp_{id}.mp4",5,dur_video)
        
-    add_text.add_centered_text_transitions_to_video(f"video_corto_tmp_{id}.mp4", f"temp_{id}.mp4", dur_sect,texto,words_per_transition=palabras_per_sct,fontsize_ini=-4)
+    add_text.add_centered_text_transitions_to_video(color,font,f"video_corto_tmp_{id}.mp4", f"temp_{id}.mp4", dur_sect,texto,words_per_transition=palabras_per_sct,fontsize_ini=-4)
 
     text_to_speech("narration",narration.replace("SCT",""),id,lang)
     text_to_speech("intro",intro,id,lang)

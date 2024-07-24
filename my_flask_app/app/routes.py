@@ -26,6 +26,9 @@ def generate_video():
     videoFile = request.files.get("videoFile")
     musicFile = request.files.get("musicFile")
 
+    font=request.form.get('form')
+    color=request.form.get('color')
+
     content=json.loads(content)
 
     if videoFile:
@@ -62,9 +65,10 @@ def generate_video():
     print(f"Narration:{narration}")
     print(musicFile_name)
     print(f"Option:{radio}")
+    print(f"Color:{color}")
 
 
-    fin=logic.generate_video(id,
+    fin=logic.generate_video(color,font,id,
                          introText,narration,
                          videoLink,musicLink,
                          videoFile_name,musicFile_name,

@@ -1,6 +1,6 @@
 import subprocess
 
-def add_centered_text_transitions_to_video(input_video, output_video, dur_sct,text, fontsize_ini=4, words_per_transition=3):
+def add_centered_text_transitions_to_video(color,font,input_video, output_video, dur_sct,text, fontsize_ini=4, words_per_transition=3):
     # Utilizar ffprobe para obtener las dimensiones del video
     probe = subprocess.run(
         ['ffprobe', '-v', 'error', '-show_entries', 'stream=width,height', '-of', 'default=noprint_wrappers=1:nokey=1', input_video],
@@ -42,7 +42,7 @@ def add_centered_text_transitions_to_video(input_video, output_video, dur_sct,te
             
             # Construir el filtro drawtext para cada transición
             drawtext_filters.append(
-                f"drawtext=text='{words_segment}':fontfile=C\\:/Windows/Fonts/Impact.ttf:fontcolor=yellow:fontsize={fontsize}:"
+                f"drawtext=text='{words_segment}'::fontfile=fuentes/{font}:fontcolor=0x{color.replace("#",'').upper()}:fontsize={fontsize}:"
                 f"shadowcolor=black@0.75:shadowx=2:shadowy=2:borderw=2:bordercolor=black:"
                 f"x=(w-text_w)/2:y={y_position}:enable='between(t,{start_time+0.01},{end_time-0.01})'"
             )
