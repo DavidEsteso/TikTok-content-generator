@@ -44,7 +44,7 @@ button svg {
     height: 25px !important; /* Tamaño del SVG dentro del botón */
     filter: drop-shadow(0 0.21px 0.21px rgba(0, 0, 0, 0.5)); /* Sombra del borde */
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5); /* Sombra del texto */
-    fill: black; /* Color del SVG */
+    fill: rgb(104, 104, 104); /* Color del SVG */
     flex: none;
     background-color: transparent ;
 }

@@ -31,7 +31,7 @@
         
         <label for="videoType" class="fontCointaner" data-lang-key="videoType"></label>
         <select id="videoType" name="videoType" onchange="toggleVideoType()">
-            <option value="" selected disabled  style="display: none;">Select a Video Type</option>
+            <option value="" selected disabled  style="display: none;">Video Type</option>
             <option value="narration" data-lang-key="narration">Narration</option>
             <option value="facts" data-lang-key="facts">Facts</option>
         </select>
@@ -153,18 +153,18 @@
         <div class="mydict">
             <div>
                 <label class="mydict-label">
-                    <input type="radio" name="radio" checked="" value="random">
+                    <input type="radio" name="radio" checked="">
                     <span class="mydict-span">Fragmentos aleatorios</span>
                 </label>
                 <label class="mydict-label">
-                    <input type="radio" name="radio" value="orig">
+                    <input type="radio" name="radio">
                     <span class="mydict-span">Video original</span>
                 </label>
             </div>
         </div>
 
 
-        <div id="musicContainer" style="display: flex;" class="form">
+        <div id="musicContainer" style="display: none;" class="form">
             <label class="container">
                 <textarea required="" placeholder="" class="input"  cols="80 " type="text" id="musicLink" name="musicLink" rows="1"  maxlength="1000" oninput="musicLinkListener()"></textarea>
                 <span class="link">Music link</span>
@@ -188,7 +188,7 @@
         </div>
             
 
-        <div class="addmusic">
+        <div class="addmusic" style="margin: 20px;">
 
             <button type="button" id="toggleMusicButton" onclick="toggleMusicSection()" data-lang-key="toggleMusicYes">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="trash" viewBox="0 0 16 16">
@@ -216,7 +216,7 @@
     </div>
 
     <!-- Loading screen element -->
-    <div class="wrapper">
+    <div class="wrapper" style="display: none;">
         <div class="circle"></div>
         <div class="circle"></div>
         <div class="circle"></div>
