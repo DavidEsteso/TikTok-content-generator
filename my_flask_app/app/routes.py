@@ -26,7 +26,7 @@ def generate_video():
     videoFile = request.files.get("videoFile")
     musicFile = request.files.get("musicFile")
 
-    font=request.form.get('form')
+    font=request.form.get('font')
     color=request.form.get('color')
 
     content=json.loads(content)
@@ -63,16 +63,18 @@ def generate_video():
 
     print(f"LANGUAGE={lang}")
     print(f"Narration:{narration}")
+    print(f"Intro:{introText}")
     print(musicFile_name)
     print(f"Option:{radio}")
     print(f"Color:{color}")
+    print(f"Fuente:{font}")
 
 
     fin=logic.generate_video(color,font,id,
                          introText,narration,
                          videoLink,musicLink,
                          videoFile_name,musicFile_name,
-                         lang,random_vid)
+                         lang,True)#Cambiar true por random vid
     
     filename=os.path.join(os.getcwd(), 'app\\output', f'output_video_{id}.mp4')
     return send_file(filename, as_attachment=True)

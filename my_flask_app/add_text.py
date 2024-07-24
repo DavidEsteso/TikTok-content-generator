@@ -42,7 +42,7 @@ def add_centered_text_transitions_to_video(color,font,input_video, output_video,
             
             # Construir el filtro drawtext para cada transición
             drawtext_filters.append(
-                f"drawtext=text='{words_segment}'::fontfile=fuentes/{font}:fontcolor=0x{color.replace("#",'').upper()}:fontsize={fontsize}:"
+                f"drawtext=text='{words_segment}':fontfile=fuentes/{font}:fontcolor={color.replace('#','').upper()}:fontsize={fontsize}:"
                 f"shadowcolor=black@0.75:shadowx=2:shadowy=2:borderw=2:bordercolor=black:"
                 f"x=(w-text_w)/2:y={y_position}:enable='between(t,{start_time+0.01},{end_time-0.01})'"
             )
