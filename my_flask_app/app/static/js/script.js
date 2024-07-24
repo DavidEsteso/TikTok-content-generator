@@ -150,14 +150,14 @@ function setButtonState(button, state) {
 }
 
 function checkFactsValidity() {
-    const facts = document.querySelectorAll('textarea[name="fact[]"]');
+    const facts = document.querySelectorAll('textarea[name="factText"]');
     validFacts = Array.from(facts).some(fact => fact.value.trim() !== '');
 }
 
 function validateFacts() {
     checkFactsValidity();
 
-    const facts = document.querySelectorAll('textarea[name="fact[]"]');
+    const facts = document.querySelectorAll('textarea[name="factText"]');
     facts.forEach(fact => {
         const playButton = document.getElementById(fact.id.replace('fact', 'play'));
         setButtonState(playButton, fact.value.trim() !== '');
@@ -198,18 +198,21 @@ function applyColor(inputElement) {
 }
 
 
+
 function addFact() {
-    if (factsCount >= 5) return;
+    if (factsCount >= 5) return; // Limitar a 5 hechos
 
     const container = document.getElementById('factsAdder');
     factsCount++;
     const idFact = 'fact' + totalFacts;
     const idPlay = 'play' + totalFacts;
 
-    const label = document.createElement('label + ');
+    const label = document.createElement('label');
     label.className = 'container';
     label.innerHTML = `
         <textarea required="" placeholder="" cols="80" id="${idFact}" name="factText" rows="2" class="input" maxlength="300" oninput="validateFacts()"></textarea>
+        <span class="link">Fact:</span>
+
         <div class="fact">
             <button type="button" id="${idPlay}" class="play-fact" onclick="playFact(event)" style="width: 45px; height: 45px;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="volume-up" viewBox="0 0 16 16">
@@ -228,25 +231,37 @@ function addFact() {
 
     container.appendChild(label);
 
-    setButtonState(document.getElementById('addFactButton'), factsCount < 5);
+    // Deshabilitar el botón "Add Fact" si ya hay 5 hechos
+    document.getElementById('addFactButton').disabled = factsCount >= 5;
 
     const removeFactButtons = document.querySelectorAll('button[id="removeFactButton"]');
-    removeFactButtons.forEach(btn => setButtonState(btn, factsCount > 1));
+    removeFactButtons.forEach(btn => {
+        btn.disabled = factsCount <= 1;
+        btn.style.cursor = factsCount <= 1 ? 'not-allowed' : 'pointer';
+        btn.style.opacity = factsCount <= 1 ? 0.3 : 1;
+        btn.style.pointerEvents = factsCount <= 1 ? 'none' : 'auto';
+    });
+
     totalFacts++;
     validateFacts();
 }
 
-
-
 function removeFact(button) {
-    const fact = button.parentNode;
-    fact.parentNode.removeChild(fact);
+    const label = button.closest('label');
+    label.remove();
     factsCount--;
-    if (factsCount == 1) {
-        const removeFactButtons = document.querySelectorAll('button[id="removeFactButton"]');
-        removeFactButtons.forEach(btn => setButtonState(btn, factsCount > 1));
-    }
-    setButtonState(document.getElementById('addFactButton'), factsCount < 5);
+
+    // Habilitar el botón "Add Fact" si hay menos de 5 hechos
+    document.getElementById('addFactButton').disabled = factsCount >= 5;
+
+    const removeFactButtons = document.querySelectorAll('button[id="removeFactButton"]');
+    removeFactButtons.forEach(btn => {
+        btn.disabled = factsCount <= 1;
+        btn.style.cursor = factsCount <= 1 ? 'not-allowed' : 'pointer';
+        btn.style.opacity = factsCount <= 1 ? 0.3 : 1;
+        btn.style.pointerEvents = factsCount <= 1 ? 'none' : 'auto';
+    });
+
     validateFacts();
 }
 
@@ -262,10 +277,12 @@ function playIntro() {
 }
 
 function playFact(event) {
-    const id = event.target.id;
+    const button = event.currentTarget;
+    const id = button.id;
     const factId = id.replace('play', 'fact');
     playAudio(factId);
 }
+
 
 function playAudio(textId) {
     const text = document.getElementById(textId).value.trim();
@@ -320,7 +337,7 @@ function addFile(type) {
                     <div class="${type}">
                         <p id="${type}FileName" style="margin-right: 10px;">${file.name}</p>
                         <button type="button" id="${type}RemoveFileButton" style="width: 45px; height: 45px;">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="trash" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="trash" width="16" height="16" fill="currentColor"     viewBox="0 0 16 16">
                              <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
                             </svg>
                         </button>
@@ -351,10 +368,10 @@ function toggleMusicSection() {
                     <path d="M5 2.905a1 1 0 0 1 .9-.995l8-.8a1 1 0 0 1 1.1.995V3L5 4z"/>
                 </svg>
             `;
-    const xCircleSvg = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="volume-up" viewBox="0 0 16 16">
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+    const xSquareSvg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
         </svg>
     `;
 
@@ -370,7 +387,7 @@ function toggleMusicSection() {
     }
 
     musicContainer.style.display = isAddingMusic ? 'flex' : 'none';
-    toggleMusicButton.innerHTML = toggleMusicButton.innerHTML.includes('trash') ? xCircleSvg : trashSvg;
+    toggleMusicButton.innerHTML = toggleMusicButton.innerHTML.includes('trash') ? xSquareSvg : trashSvg;
     toggleMusicButton.setAttribute('data-lang-key', isAddingMusic ? 'toggleMusicNo' : 'toggleMusicYes');
 
     validateForm();
@@ -423,7 +440,7 @@ function toggleVideoType() {
         case 'narration':
             factsContainer.style.display = 'none';
             narrationContainer.style.display = 'flex';
-            const facts = document.querySelectorAll('textarea[name="fact[]"]');
+            const facts = document.querySelectorAll('textarea[name="factText"]');
             facts.forEach(fact => fact.value = ''); 
             validateNarration();
             break;
@@ -458,15 +475,15 @@ function generateVideo() {
     const videoType = document.getElementById('videoType').value;
 
     //RadioButton
-    const radios = document.querySelectorAll('input[name="value-radio"]');
-            let selectedValue;
-            // Itera sobre cada radio para encontrar el que está seleccionado
-            for (const radio of radios) {
-                if (radio.checked) {
-                    selectedValue = radio.value;
-                    break;
-                }
-            }
+    const radios = document.querySelectorAll('.mydict input[type="radio"]');
+    let selectedValue;
+    // Itera sobre cada radio para encontrar el que está seleccionado
+    for (const radio of radios) {
+        if (radio.checked) {
+            selectedValue = radio.value;
+            break;
+        }
+    }
 
     var font = document.getElementById('fontSelector').value;
 
@@ -474,7 +491,7 @@ function generateVideo() {
     let content = [];
 
     if (videoType === 'facts') {
-        const facts = document.querySelectorAll('textarea[name="fact[]"]');
+        const facts = document.querySelectorAll('textarea[name="factText"]');
         content = Array.from(facts).map(fact => fact.value.trim()).filter(fact => fact !== '');
     } else if (videoType === 'narration') {
         const narrationText = document.getElementById('narrationText').value.trim();
