@@ -105,6 +105,7 @@ function updateLinkValidation(type, isValid, title, thumbnail) {
     const input = document.getElementById(type + 'Link');
     const thumbnailElement = document.getElementById(type + 'Thumbnail');
     const titleElement = document.getElementById(type + 'Title');
+    const fileButton = document.getElementById(type + 'FileButton');
 
     if (isValid) {
         input.style.borderColor = '';
@@ -112,6 +113,7 @@ function updateLinkValidation(type, isValid, title, thumbnail) {
         thumbnailElement.style.display = 'block';
         titleElement.textContent = title;
         titleElement.style.display = 'block';
+        fileButton.style.display = 'none';
         if (type === 'video') {
             videoLinkValid = true;
         } else if (type === 'music') {
@@ -125,8 +127,8 @@ function updateLinkValidation(type, isValid, title, thumbnail) {
         }
         thumbnailElement.style.display = 'none';
         thumbnailElement.src = '';
-        titleElement.style.display = 'none';
         titleElement.textContent = '';
+        fileButton.style.display = 'initial  ';
         if (type === 'video') {
             videoLinkValid = false;
         } else if (type === 'music') {
@@ -198,28 +200,32 @@ function applyColor(inputElement) {
 function addFact() {
     if (factsCount >= 5) return;
 
-    const container = document.getElementById('factList');
+    const container = document.getElementById('factsAdder');
     factsCount++;
     const idFact = 'fact' + totalFacts;
     const idPlay = 'play' + totalFacts;
-    const fact = document.createElement('div');
-    fact.className = 'fact';
-    fact.innerHTML = `
-        <textarea name="fact[]" id="${idFact}" class="fact" rows="2" cols="80" maxlength="300" oninput="validateFacts()"></textarea>
-        <button type="button" id="${idPlay}" class="play-fact" onclick="playFact(event)" style="width: 45px; height: 45px;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="volume-up" viewBox="0 0 16 16">
-                <path d="M11.536 14.01A8.47 8.47 0 0 0 14.026 8a8.47 8.47 0 0 0-2.49-6.01l-.708.707A7.48 7.48 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303z"/>
-                <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.48 5.48 0 0 1 11.025 8a5.48 5.48 0 0 1-1.61 3.89z"/>
-                <path d="M10.025 8a4.5 4.5 0 0 1-1.318 3.182L8 10.475A3.5 3.5 0 0 0 9.025 8c0-.966-.392-1.841-1.025-2.475l.707-.707A4.5 4.5 0 0 1 10.025 8M7 4a.5.5 0 0 0-.812-.39L3.825 5.5H1.5A.5.5 0 0 0 1 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 7 12zM4.312 6.39 6 5.04v5.92L4.312 9.61A.5.5 0 0 0 4 9.5H2v-3h2a.5.5 0 0 0 .312-.11"/>
-                </svg>            
-        </button>
-        <button type="button" id="removeFactButton" onclick="removeFact(this)" style="width: 45px; height: 45px;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="trash" viewBox="0 0 16 16">
-                             <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
-                            </svg>        
-        </button>
+
+    const label = document.createElement('label + ');
+    label.className = 'container';
+    label.innerHTML = `
+        <textarea required="" placeholder="" cols="80" id="${idFact}" name="factText" rows="2" class="input" maxlength="300" oninput="validateFacts()"></textarea>
+        <div class="fact">
+            <button type="button" id="${idPlay}" class="play-fact" onclick="playFact(event)" style="width: 45px; height: 45px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="volume-up" viewBox="0 0 16 16">
+                    <path d="M11.536 14.01A8.47 8.47 0 0 0 14.026 8a8.47 8.47 0 0 0-2.49-6.01l-.708.707A7.48 7.48 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303z"/>
+                    <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.48 5.48 0 0 1 11.025 8a5.48 5.48 0 0 1-1.61 3.89z"/>
+                    <path d="M10.025 8a4.5 4.5 0 0 1-1.318 3.182L8 10.475A3.5 3.5 0 0 0 9.025 8c0-.966-.392-1.841-1.025-2.475l.707-.707A4.5 4.5 0 0 1 10.025 8M7 4a.5.5 0 0 0-.812-.39L3.825 5.5H1.5A.5.5 0 0 0 1 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 7 12zM4.312 6.39 6 5.04v5.92L4.312 9.61A.5.5 0 0 0 4 9.5H2v-3h2a.5.5 0 0 0 .312-.11"/>
+                </svg>
+            </button>
+            <button type="button" id="removeFactButton" onclick="removeFact(this)" style="width: 45px; height: 45px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="trash" viewBox="0 0 16 16">
+                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                </svg>
+            </button>
+        </div>
     `;
-    container.appendChild(fact);
+
+    container.appendChild(label);
 
     setButtonState(document.getElementById('addFactButton'), factsCount < 5);
 
@@ -228,6 +234,7 @@ function addFact() {
     totalFacts++;
     validateFacts();
 }
+
 
 
 function removeFact(button) {
@@ -312,7 +319,7 @@ function addFile(type) {
                     <div class="${type}">
                         <p id="${type}FileName" style="margin-right: 10px;">${file.name}</p>
                         <button type="button" id="${type}RemoveFileButton" style="width: 45px; height: 45px;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="trash" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
                              <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
                             </svg>
                         </button>
@@ -335,6 +342,22 @@ function addFile(type) {
 }
 
 function toggleMusicSection() {
+
+    const trashSvg = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="trash" viewBox="0 0 16 16">
+                    <path d="M6 13c0 1.105-1.12 2-2.5 2S1 14.105 1 13s1.12-2 2.5-2 2.5.896 2.5 2m9-2c0 1.105-1.12 2-2.5 2s-2.5-.895-2.5-2 1.12-2 2.5-2 2.5.895 2.5 2"/>
+                    <path fill-rule="evenodd" d="M14 11V2h1v9zM6 3v10H5V3z"/>
+                    <path d="M5 2.905a1 1 0 0 1 .9-.995l8-.8a1 1 0 0 1 1.1.995V3L5 4z"/>
+                </svg>
+            `;
+    const xCircleSvg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="volume-up" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+        </svg>
+    `;
+
+
     const musicContainer = document.getElementById('musicContainer');
     const toggleMusicButton = document.getElementById('toggleMusicButton');
 
@@ -345,8 +368,8 @@ function toggleMusicSection() {
         removeFile('music');
     }
 
-    musicContainer.style.display = isAddingMusic ? 'block' : 'none';
-    toggleMusicButton.textContent = isAddingMusic ? translations[currentLanguage].toggleMusicNo : translations[currentLanguage].toggleMusicYes;
+    musicContainer.style.display = isAddingMusic ? 'flex' : 'none';
+    toggleMusicButton.innerHTML = toggleMusicButton.innerHTML.includes('trash') ? xCircleSvg : trashSvg;
     toggleMusicButton.setAttribute('data-lang-key', isAddingMusic ? 'toggleMusicNo' : 'toggleMusicYes');
 
     validateForm();
@@ -366,9 +389,9 @@ function resetFileInput(type) {
     const linkInput = document.getElementById(type + "Link");
     const fileButton = document.getElementById(type + "FileButton");
     const details = document.getElementById(type + "Details");
-    linkInput.style.display = "block";
-    fileButton.style.display = "block";
-    details.style.display = "block";
+    linkInput.style.display = "flex";
+    fileButton.style.display = "flex";
+    details.style.display = "flex";
 }
 
 function resetMusicInputs() {
@@ -390,7 +413,7 @@ function toggleVideoType() {
 
     switch (videoType) {
         case 'facts':
-            factsContainer.style.display = 'block';
+            factsContainer.style.display = 'flex';
             narrationContainer.style.display = 'none';
             const narration = document.getElementById('narrationText');
             narration.value = '';
@@ -398,7 +421,7 @@ function toggleVideoType() {
             break;
         case 'narration':
             factsContainer.style.display = 'none';
-            narrationContainer.style.display = 'block';
+            narrationContainer.style.display = 'flex';
             const facts = document.querySelectorAll('textarea[name="fact[]"]');
             facts.forEach(fact => fact.value = ''); 
             validateNarration();
