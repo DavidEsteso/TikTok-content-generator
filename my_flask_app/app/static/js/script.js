@@ -344,6 +344,8 @@ function addFile(type) {
                     </div>
                 `;
                 details.style.display = "none";
+                fileInput.style.display="none";
+                div.appendChild(fileInput)
                 container.appendChild(div);
 
                 document.getElementById(type + "RemoveFileButton").addEventListener("click", function() {

@@ -28,6 +28,8 @@ def generate_video():
 
     font=request.form.get('font')
     color=request.form.get('color')
+    if (color=='0'):
+        color='000000'
 
     content=json.loads(content)
 
@@ -56,10 +58,10 @@ def generate_video():
         for i in range(n_facts):
             narration=narration+f"Curiosidad {i+1}. SCT "+content[i]+" SCT "
 
-    if (radio=='value-2'):
-        random_vid=True
-    else:
+    if (radio=='on'):
         random_vid=False
+    else:
+        random_vid=True
 
     print(f"LANGUAGE={lang}")
     print(f"Narration:{narration}")
@@ -74,7 +76,7 @@ def generate_video():
                          introText,narration,
                          videoLink,musicLink,
                          videoFile_name,musicFile_name,
-                         lang,True)#Cambiar true por random vid
+                         lang,random_vid)#Cambiar true por random vid
     
     filename=os.path.join(os.getcwd(), 'app\\output', f'output_video_{id}.mp4')
     return send_file(filename, as_attachment=True)
