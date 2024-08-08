@@ -608,7 +608,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function showLoadingScreen() {
-    document.getElementById('loadingScreen').style.display = 'block';
+    document.getElementById('loadingScreen').style.display = 'flex';
 }
 
 // Function to hide the loading screen

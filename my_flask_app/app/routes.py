@@ -1,5 +1,5 @@
 from flask import Blueprint, request, render_template, send_file, current_app, app, redirect, url_for
-import app.logic as logic
+import my_flask_app.app.tasks as tasks
 import os
 from gtts import gTTS
 from werkzeug.utils import secure_filename
@@ -72,7 +72,7 @@ def generate_video():
     print(f"Fuente:{font}")
 
 
-    fin=logic.generate_video(color,font,id,
+    task=tasks.generate_video.delay(color,font,id,
                          introText,narration,
                          videoLink,musicLink,
                          videoFile_name,musicFile_name,
@@ -89,7 +89,7 @@ def play_audio():
     lang=data.get('lang','')
     tts = gTTS(content, lang=lang)
     save_path = os.path.join(current_app.root_path, 'temporal_audio', f'narration_{id}.mp3')
-    tts.save(save_path)
+    tts.save(save_path) 
 
     try:
         return send_file(save_path, mimetype='audio/mpeg')
