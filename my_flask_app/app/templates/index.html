@@ -129,7 +129,7 @@
         <div id="videoContainer" class="form">
             <label class="container">
                 <textarea required="" placeholder="" class="input" cols="160 "type="text" id="videoLink" name="videoLink" rows="1"  maxlength="1000" oninput="videoLinkListener()"></textarea>
-                <span class="link">Youtube link</span>
+                <span id="videoSpan" class="link">Youtube link</span>
 
                 <div id="videoList">
                     <div id="videoAndButton">
@@ -167,7 +167,7 @@
         <div id="musicContainer" style="display: none;" class="form">
             <label class="container">
                 <textarea required="" placeholder="" class="input"  cols="80 " type="text" id="musicLink" name="musicLink" rows="1"  maxlength="1000" oninput="musicLinkListener()"></textarea>
-                <span class="link">Music link</span>
+                <span id="musicSpan" class="link">Music link</span>
                 <div id="musicList">
                 <d  iv id="musicAndButton">
                     <div class="music">
@@ -216,13 +216,15 @@
     </div>
 
     <!-- Loading screen element -->
-    <div class="wrapper" style="display: none;">
-        <div class="circle"></div>
-        <div class="circle"></div>
-        <div class="circle"></div>
-        <div class="shadow"></div>
-        <div class="shadow"></div>
-        <div class="shadow"></div>
+    <div id="loadingScreen">
+        <div class="wrapper">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="shadow"></div>
+            <div class="shadow"></div>
+            <div class="shadow"></div>
+        </div>
     </div>
     
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>

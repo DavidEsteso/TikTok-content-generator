@@ -9,6 +9,7 @@ let totalFacts = 10;
 let currentLanguage = 'en';
 let fileSourceLink = true;
 let selectedColor=0;
+let videoFile = null;
 
 const translations = {
     en: {
@@ -121,7 +122,7 @@ function updateLinkValidation(type, isValid, title, thumbnail) {
             musicLinkValid = true;
         }
     } else {
-        if (input.value.trim() === '') {
+        if (input.value.trim() === '' || type === 'exit') {
             input.style.borderColor = '';
         } else {
             input.style.borderColor = 'red';
@@ -317,6 +318,7 @@ function addFile(type) {
     const linkInput = document.getElementById(type + "Link");
     const details = document.getElementById(type + "Details");
     const container = document.getElementById(type + "Container");
+    const span = document.getElementById(type + "Span");
 
     if (!fileInput) {
         const div = document.createElement("div");
@@ -328,25 +330,18 @@ function addFile(type) {
 
         fileInput.addEventListener("change", function() {
             if (fileInput.files.length > 0) {
-                linkInput.value = '';
-                updateLinkValidation(type, false, '', '');
-                const file = fileInput.files[0];
-                linkInput.style.display = "none";
-                fileButton.style.display = "none";
-                div.innerHTML = `
-                    <div class="${type}">
-                        <p id="${type}FileName" style="margin-right: 10px;">${file.name}</p>
-                        <button type="button" id="${type}RemoveFileButton" style="width: 45px; height: 45px;">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="trash" width="16" height="16" fill="currentColor"     viewBox="0 0 16 16">
-                             <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
-                            </svg>
-                        </button>
-                    </div>
-                `;
-                details.style.display = "none";
-                fileInput.style.display="none";
-                div.appendChild(fileInput)
-                container.appendChild(div);
+                videoFile = fileInput.files[0];
+                toggleButton(type, "addFile");
+                
+                linkInput.value = videoFile.name;
+                
+                linkInput.addEventListener('keydown', function(event) {
+                        if(videoFile){
+                            event.preventDefault();
+                        }
+                });
+
+                linkInput.style.borderColor = '';
 
                 document.getElementById(type + "RemoveFileButton").addEventListener("click", function() {
                     removeFile(type);
@@ -355,11 +350,79 @@ function addFile(type) {
         });
 
 
-        container.appendChild(div); 
     }
 
     fileInput.click(); 
 }
+
+
+function removeFile(type) {
+    const linkInput = document.getElementById(type + "Link");
+    const fileButton = document.getElementById(type + "FileButton");
+    const details = document.getElementById(type + "Details");
+    const span = document.getElementById(type + "Span");
+    linkInput.value = ''; 
+    videoFile = null
+    toggleButton(type, 'remove');
+    linkInput.removeEventListener('keydown')
+    let fileInput = document.getElementById(type + "HiddenFileInput");
+    fileInput.remove();
+  
+    span.style.display = "initial";
+    linkInput.style.display = "initial";
+    fileButton.style.display = "initial";
+    details.style.display = "initial";
+    
+}
+
+
+function resetMusicInputs() {
+
+    resetFileInput('music');
+}
+function toggleButton(type, currentAction) {
+    const button = document.getElementById(type + "FileButton");
+    const linkInput = document.getElementById(type + "Link");
+
+    if (currentAction === 'remove') {
+        // Cambiar a botón de agregar archivo
+        button.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="folder-plus" viewBox="0 0 16 16">
+                <path d="m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z"/>
+                <path d="M13.5 9a.5.5 0 0 1 .5.5V11h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V12h-1.5a.5.5 0 0 1 0-1H13V9.5a.5.5 0 0 1 .5-.5"/>
+            </svg>
+        `;
+        button.onclick = function() { addFile(type); };
+
+        // Eliminar el event listener para 'keydown' si existe
+        linkInput.removeEventListener('keydown', handleKeyboardEvents);
+
+    } else {
+        // Cambiar a botón de eliminar archivo
+        button.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" class="trash" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+            </svg>
+        `;
+        button.onclick = function() { removeFile(type); };
+
+        // Agregar el event listener para 'keydown'
+        linkInput.addEventListener('keydown', handleKeyboardEvents);
+    }
+}
+
+function handleKeyboardEvents(event) {
+    // Obtén el elemento fileInput
+    let fileInput = document.getElementById(type + "HiddenFileInput");
+
+    // Si el elemento fileInput existe, ignorar el evento
+    if (fileInput) {
+        return;
+    }
+}
+
+
+
 
 function toggleMusicSection() {
 
@@ -394,36 +457,6 @@ function toggleMusicSection() {
 
     validateForm();
 }
-
-function removeFile(type) {
-
-    const container = document.getElementById(type + "Container");
-    const fileInputDiv = document.getElementById(type + 'FileInputDiv');
-    if (fileInputDiv) {
-        fileInputDiv.remove(); 
-    resetFileInput(type);
-}
-}
-
-function resetFileInput(type) {
-    const linkInput = document.getElementById(type + "Link");
-    const fileButton = document.getElementById(type + "FileButton");
-    const details = document.getElementById(type + "Details");
-    linkInput.style.display = "flex";
-    fileButton.style.display = "flex";
-    details.style.display = "flex";
-}
-
-function resetMusicInputs() {
-
-    resetFileInput('music');
-}
-
-
-
-
-
-
 
 
 function toggleVideoType() {
