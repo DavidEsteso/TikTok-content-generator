@@ -107,14 +107,21 @@ function updateLinkValidation(type, isValid, title, thumbnail) {
     const thumbnailElement = document.getElementById(type + 'Thumbnail');
     const titleElement = document.getElementById(type + 'Title');
     const fileButton = document.getElementById(type + 'FileButton');
+    const details = document.getElementById(type + 'Details');
+    linkContainer = document.getElementById(type + 'LinkContainer');
 
     if (isValid) {
         input.style.borderColor = '';
         thumbnailElement.src = thumbnail;
-        thumbnailElement.style.display = 'block';
+        thumbnailElement.style.display = 'flex';
         titleElement.textContent = title;
-        titleElement.style.display = 'block';
+        titleElement.style.display = 'flex';
         fileButton.style.display = 'none';
+        input.style.width = '50%';
+        input.style.marginLeft = '60px';
+        details.classList.add('displayed');
+        
+        
         if (type === 'video') {
             videoLinkValid = true;
         } else if (type === 'music') {
@@ -126,10 +133,15 @@ function updateLinkValidation(type, isValid, title, thumbnail) {
         } else {
             input.style.borderColor = 'red';
         }
+        input.style.width = '100%';
+        input.style.marginLeft = '0';
+        details.classList.remove('displayed');
+
+
         thumbnailElement.style.display = 'none';
         thumbnailElement.src = '';
         titleElement.textContent = '';
-        fileButton.style.display = 'initial  ';
+        fileButton.style.display = 'initial';
         if (type === 'video') {
             videoLinkValid = false;
         } else if (type === 'music') {
@@ -582,12 +594,16 @@ function getVideoInfo(youtubeLink) {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+    const link = document.getElementById('videoLink');
+    link.value = 'https://www.youtube.com/watch?v=6JnGBs88sL0';
+    updateLinkValidation('video', true, 'The Science of the SpaceX Starship', 'https://i.ytimg.com/vi/6JnGBs88sL0/default.jpg');
     toggleVideoType();
     setupListeners();
     validateFacts();
     validateIntro();
     validateNarration();
     validateForm();
+
 });
 
 

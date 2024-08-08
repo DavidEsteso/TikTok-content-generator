@@ -44,7 +44,29 @@ body {
 
 }
 
+.displayed{
+  flex: 1;
 
+}
+
+
+#VideoLinkContainer{
+  background-color: blue;
+  
+}
+
+#videoDetails{
+  background-color: red;
+}
+
+#videoContainer{
+  display: flex ;
+  flex-direction: row;
+  align-items: center;
+
+  position: relative;
+  
+}
 #musicAndButton ,
 #videoAndButton  {
 
