@@ -5,13 +5,9 @@ import vid_gen
 import add_text
 import os
 import comms_ffmpeg
-from app.celery import make_celery
-from app import create_app
+from .celery import app
 
-app = create_app()
-celery = make_celery(app)
-
-@celery.task
+@app.task
 def generate_video(color,font,id,
                    intro,narration, 
                    youtube_link, music_link, 

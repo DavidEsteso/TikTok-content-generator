@@ -1,17 +1,14 @@
 from celery import Celery
 
-def make_celery(app):
-    celery = Celery(
-        app.import_name,
-        backend=app.config['CELERY_RESULT_BACKEND'],
-        broker=app.config['CELERY_BROKER_URL']
-    )
-    celery.conf.update(app.config)
+app = Celery('app',
+             broker='redis://localhost',
+             backend='rpc://',
+             include=['app.logic'])
 
-    class ContextTask(celery.Task):
-        def __call__(self, *args, **kwargs):
-            with app.app_context():
-                return self.run(*args, **kwargs)
+# Optional configuration, see the application user guide.
+app.conf.update(
+    result_expires=3600,
+)
 
-    celery.Task = ContextTask
-    return celery
+if __name__ == '__main__':
+    app.start()

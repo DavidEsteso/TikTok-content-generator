@@ -1,5 +1,5 @@
 from flask import Blueprint, request, render_template, send_file, current_app, app, redirect, url_for
-import my_flask_app.app.tasks as tasks
+import app.logic as logic
 import os
 from gtts import gTTS
 from werkzeug.utils import secure_filename
@@ -7,6 +7,7 @@ import uuid
 import json
 
 main = Blueprint('main', __name__)
+
 
 @main.route('/')
 def index():
@@ -72,7 +73,7 @@ def generate_video():
     print(f"Fuente:{font}")
 
 
-    task=tasks.generate_video.delay(color,font,id,
+    task=logic.generate_video.delay(color,font,id,
                          introText,narration,
                          videoLink,musicLink,
                          videoFile_name,musicFile_name,
