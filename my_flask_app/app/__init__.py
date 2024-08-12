@@ -1,4 +1,5 @@
 from flask import Flask
+from huey import RedisHuey
 
 def create_app():
     app = Flask(__name__)
@@ -6,4 +7,8 @@ def create_app():
 
     from .routes import main
     app.register_blueprint(main)
+
     return app
+
+huey=RedisHuey()
+huey.immediate = True

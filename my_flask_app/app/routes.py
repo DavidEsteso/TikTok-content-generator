@@ -73,7 +73,7 @@ def generate_video():
     print(f"Fuente:{font}")
 
 
-    task=logic.generate_video.delay(color,font,id,
+    task=logic.generate_video(color,font,id,
                          introText,narration,
                          videoLink,musicLink,
                          videoFile_name,musicFile_name,

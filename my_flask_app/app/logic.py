@@ -5,9 +5,10 @@ import vid_gen
 import add_text
 import os
 import comms_ffmpeg
-from .celery import app
 
-@app.task
+from app import huey
+
+@huey.task()
 def generate_video(color,font,id,
                    intro,narration, 
                    youtube_link, music_link, 
