@@ -71,14 +71,18 @@ def create_short_video(random_vid,id,input_video_path, output_video_path, fragme
         videos_bucle=math.ceil(total_duration/video_duration)
 
         bucle_files = []
-        for i in range(videos_bucle):
-            bucle_file = f"fragment_{i}_{id}.mp4"
-            cmd = (
-                f'ffmpeg -y -i "{input_video_path}" '
-                f'-c:v libx264 -c:a aac -strict experimental "{bucle_file}"'
-            )
-            subprocess.run(cmd, shell=True)
+        if videos_bucle==1:
+            bucle_file = input_video_path
             bucle_files.append(bucle_file)
+        else:
+            for i in range(videos_bucle):
+                bucle_file = f"fragment_{i}_{id}.mp4"
+                cmd = (
+                    f'ffmpeg -y -i "{input_video_path}" '
+                    f'-c:v libx264 -c:a aac -strict experimental "{bucle_file}"'
+                )
+                subprocess.run(cmd, shell=True)
+                bucle_files.append(bucle_file)
         
         # Crear el archivo de lista para concatenación
         with open(f"concat_list_{id}.txt", "w") as f:
