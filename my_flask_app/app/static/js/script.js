@@ -108,14 +108,23 @@ function updateLinkValidation(type, isValid, title, thumbnail) {
     const thumbnailElement = document.getElementById(type + 'Thumbnail');
     const titleElement = document.getElementById(type + 'Title');
     const fileButton = document.getElementById(type + 'FileButton');
+    const span = document.getElementById(type + 'Span');
 
     if (isValid) {
         input.style.borderColor = '';
         thumbnailElement.src = thumbnail;
         thumbnailElement.style.display = 'block';
-        titleElement.textContent = title;
         titleElement.style.display = 'block';
         fileButton.style.display = 'none';
+
+        const maxLength = 20; // Máximo número de caracteres permitidos
+        const truncatedText = title.length > maxLength 
+            ? title.substring(0, 17) + '...' 
+            : title;
+
+        titleElement.textContent = truncatedText;
+
+        
         if (type === 'video') {
             videoLinkValid = true;
         } else if (type === 'music') {
@@ -127,6 +136,7 @@ function updateLinkValidation(type, isValid, title, thumbnail) {
         } else {
             input.style.borderColor = 'red';
         }
+       
         thumbnailElement.style.display = 'none';
         thumbnailElement.src = '';
         titleElement.textContent = '';
@@ -368,7 +378,6 @@ function removeFile(type) {
     let fileInput = document.getElementById(type + "HiddenFileInput");
     fileInput.remove();
   
-    span.style.display = "initial";
     linkInput.style.display = "initial";
     fileButton.style.display = "initial";
     details.style.display = "initial";
@@ -380,6 +389,7 @@ function resetMusicInputs() {
 
     resetFileInput('music');
 }
+
 function toggleButton(type, currentAction) {
     const button = document.getElementById(type + "FileButton");
     const linkInput = document.getElementById(type + "Link");
@@ -426,7 +436,7 @@ function handleKeyboardEvents(event) {
 
 function toggleMusicSection() {
 
-    const trashSvg = `
+    const musicSvg = `
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="trash" viewBox="0 0 16 16">
                     <path d="M6 13c0 1.105-1.12 2-2.5 2S1 14.105 1 13s1.12-2 2.5-2 2.5.896 2.5 2m9-2c0 1.105-1.12 2-2.5 2s-2.5-.895-2.5-2 1.12-2 2.5-2 2.5.895 2.5 2"/>
                     <path fill-rule="evenodd" d="M14 11V2h1v9zM6 3v10H5V3z"/>
@@ -434,7 +444,7 @@ function toggleMusicSection() {
                 </svg>
             `;
     const xSquareSvg = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="trash" viewBox="0 0 16 16">
         <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
         <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
         </svg>
@@ -446,15 +456,9 @@ function toggleMusicSection() {
 
     const isAddingMusic = musicContainer.style.display === 'none';
 
-    if (!isAddingMusic) {
-
-        removeFile('music');
-    }
-
     musicContainer.style.display = isAddingMusic ? 'flex' : 'none';
-    toggleMusicButton.innerHTML = toggleMusicButton.innerHTML.includes('trash') ? xSquareSvg : trashSvg;
-    toggleMusicButton.setAttribute('data-lang-key', isAddingMusic ? 'toggleMusicNo' : 'toggleMusicYes');
-
+    toggleMusicButton.innerHTML = isAddingMusic ? xSquareSvg : musicSvg;
+    removeFile('music');
     validateForm();
 }
 
