@@ -89,6 +89,7 @@ select[data-chosen='sf-cartoonist-hand.bold-italic.ttf'] {
 .font-selector-container, .color-picker-container {
   flex: 0 1 auto;
   width: 48%;
+  margin-bottom: -10px;
 }
 
 select, input[type="color"] {
@@ -119,7 +120,7 @@ select:hover , input[type="color"]:hover {
     float: left;
 }
 
-.color-picker-container {
+.color-picker-container {  
     float: right;
     align-items: center;
     margin-top: 3.5px;

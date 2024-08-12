@@ -2,3 +2,5 @@ Flask
 gunicorn
 pytube
 gtts
+huey
+redis

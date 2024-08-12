@@ -29,9 +29,9 @@
 
         <h1 data-lang-key="generateVideo">TikTok Content Generator</h1>
         
-        <label for="videoType" class="fontCointaner" data-lang-key="videoType"></label>
+        <label for="videoType" class="fontCointaner" ></label>
         <select id="videoType" name="videoType" onchange="toggleVideoType()">
-            <option value="" selected disabled  style="display: none;">Video Type</option>
+            <option value="" selected disabled  style="display: none;" data-lang-key="videoType">Video Type</option>
             <option value="narration" data-lang-key="narration">Narration</option>
             <option value="facts" data-lang-key="facts">Facts</option>
         </select>
@@ -39,7 +39,7 @@
         <div class="form">
             <label class="container">
                 <textarea required="" placeholder=""  cols="80" id="introText" name="introText" rows="2" class="input" maxlength="300" oninput="validateIntro()"></textarea>
-                <span>Introduction Text</span>
+                <span data-lang-key="introduction">Introduction Text</span>
 
                 <div id="intro" >
                     <div class="intro">
@@ -60,7 +60,7 @@
             <div id="factsAdder">
             <label class="container">
                 <textarea required="" placeholder=""   cols="80" id="fact1" name="factText" rows="2" class="input" maxlength="300" oninput="validateFacts()"></textarea>
-                <span class="link">Fact:</span>
+                <span class="link" data-lang-key="fact">Fact:</span>
 
                 <div id="factList">
                     <div class="fact">
@@ -81,7 +81,7 @@
             </label>    
         </div>
 
-        <button type="button" id="addFactButton" onclick="addFact()" data-lang-key="addFact">
+        <button type="button" id="addFactButton" onclick="addFact()" >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="add" viewBox="0 0 16 16">
                 <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
@@ -93,7 +93,7 @@
         <div id="narrationContainer" class="form">
             <label class="container">
                 <textarea required="" placeholder="" class="input"  cols="80 " id="narrationText" name="narrationText"  rows="2" maxlength="300" oninput="validateNarration()"></textarea>
-                <span>Narration</span>
+                <span data-lang-key="narration">Narration</span>
 
                 <div id="narration">
                     <div class="narration">
@@ -113,7 +113,7 @@
         <div class="fontCointaner">
             <div class="font-selector-container">
                 <select id="fontSelector" onchange=" this.dataset.chosen = this.value; ">
-                    <option value="" selected disabled  style="display: none;">Select a font</option>
+                    <option value="" selected disabled  style="display: none;" data-lang-key="selectFont">Select a font</option>
                     <option value="anime-ace.italic.ttf" class="Anime">ANIME</option>
                     <option value="crimson.semibolditalic.ttf" class="Crimson">CRIMSOM</option>
                     <option value="sf-cartoonist-hand.bold-italic.ttf" class="Cartoonist">CARTOONIST</option>
@@ -129,7 +129,7 @@
         <div id="videoContainer" class="form">
             <label class="container">
                 <textarea required="" placeholder="" class="input" cols="160 "type="text" id="videoLink" name="videoLink" rows="1"  ="1000" oninput="videoLinkListener()"></textarea>
-                <span id="videoSpan" class="link">Youtube link</span>
+                <span id="videoSpan" class="link" data-lang-key="videoLink">Video link</span>
 
                 <div id="videoList">
                     <div id="videoAndButton">
@@ -154,11 +154,11 @@
             <div>
                 <label class="mydict-label">
                     <input type="radio" name="radio" checked="" value="random">
-                    <span class="mydict-span">Fragmentos aleatorios</span>
+                    <span class="mydict-span" data-lang-key="randomFragments">Fragmentos aleatorios</span>
                 </label>
                 <label class="mydict-label">
                     <input type="radio" name="radio" value="orig">
-                    <span class="mydict-span">Video original</span>
+                    <span class="mydict-span" data-lang-key="originalVideo">Video original</span>
                 </label>
             </div>
         </div>
@@ -167,7 +167,7 @@
         <div id="musicContainer" style="display: none;" class="form">
             <label class="container">
                 <textarea required="" placeholder="" class="input"  cols="80 " type="text" id="musicLink" name="musicLink" rows="1"  maxlength="1000" oninput="musicLinkListener()"></textarea>
-                <span id="musicSpan" class="link">Music link</span>
+                <span id="musicSpan" class="link" data-lang-key="musicLink">Music link</span>
                 <div id="musicList">
                 <d  iv id="musicAndButton">
                     <div class="music">
@@ -190,7 +190,7 @@
 
         <div class="addmusic" style="margin: 20px;">
 
-            <button type="button" id="toggleMusicButton" onclick="toggleMusicSection()" data-lang-key="toggleMusicYes">
+            <button type="button" id="toggleMusicButton" onclick="toggleMusicSection()" >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="trash" viewBox="0 0 16 16">
                     <path d="M6 13c0 1.105-1.12 2-2.5 2S1 14.105 1 13s1.12-2 2.5-2 2.5.896 2.5 2m9-2c0 1.105-1.12 2-2.5 2s-2.5-.895-2.5-2 1.12-2 2.5-2 2.5.895 2.5 2"/>
                     <path fill-rule="evenodd" d="M14 11V2h1v9zM6 3v10H5V3z"/>

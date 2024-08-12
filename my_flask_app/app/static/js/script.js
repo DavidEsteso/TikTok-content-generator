@@ -13,36 +13,36 @@ let videoFile = null;
 
 const translations = {
     en: {
-        generateVideo: 'Generate Video',
-        videoType: 'Video Type:',
-        facts: 'Facts',
-        narration: 'Narration',
-        introText: 'Introduction Text:',
-        factsText: 'Facts:',
-        addFact: 'Add Fact',
-        narrationText: 'Narration Text:',
-        videoLink: 'YouTube Video Link:',
-        musicLink: 'YouTube Music Link:',
-        toggleMusicYes: 'Add Music to Video',
-        toggleMusicNo: 'Delete Music from Video',
-        generateVideoButton: 'Generate Video',
-        toggleLanguage: 'Change Language',
+        generateVideo: "TikTok Content Generator",
+        videoType: "Video Type",
+        narration: "Narration",
+        facts: "Facts",
+        introduction: "Introduction Text",
+        fact: "Fact:",
+        addFact: "Add Fact",
+        narration: "Narration",
+        selectFont: "Select a font",
+        randomFragments: "Random Fragments",
+        originalVideo: "Original Video",
+        musicLink: "Music link",
+        videoLink: "Video link",
+        generateVideoButton: "Generate Video"
     },
     es: {
-        generateVideo: 'Generar Video',
-        videoType: 'Tipo de Video:',
-        facts: 'Curiosidades',
-        narration: 'Narración',
-        introText: 'Texto de Introducción:',
-        factsText: 'Curiosidades:',
-        addFact: 'Añadir curiosidad',
-        narrationText: 'Texto de Narración:',
-        videoLink: 'Enlace de Video de YouTube:',
-        musicLink: 'Enlace de Música de YouTube:',
-        toggleMusicYes: 'Agregar Música al Video',
-        toggleMusicNo: 'Eliminar Música del Video',
-        generateVideoButton: 'Generar Video',
-        toggleLanguage: 'Cambiar Idioma',
+        generateVideo: "Generador de Contenido de TikTok",
+        videoType: "Tipo de Video",
+        narration: "Narración",
+        facts: "Datos",
+        introduction: "Texto de Introducción",
+        fact: "Dato:",
+        addFact: "Agregar Dato",
+        narration: "Narración",
+        selectFont: "Seleccionar fuente",
+        randomFragments: "Fragmentos Aleatorios",
+        originalVideo: "Video original",
+        musicLink: "Enlace al Música",
+        videoLink: "Enlace al Video",
+        generateVideoButton: "Generar Video"
     }
 };
 
@@ -491,19 +491,33 @@ function toggleVideoType() {
 }
 
 function toggleLanguage() {
+    // Alterna el idioma actual
     currentLanguage = currentLanguage === 'en' ? 'es' : 'en';
     
+    // Traduce los textos
     document.querySelectorAll('[data-lang-key]').forEach(element => {
         const key = element.getAttribute('data-lang-key');
-        element.textContent = translations[currentLanguage][key];
+        if (translations[currentLanguage][key]) {
+            element.textContent = translations[currentLanguage][key];
+        }
     });
 
+    // Traduce los placeholders
     document.querySelectorAll('[data-placeholder-key]').forEach(element => {
         const key = element.getAttribute('data-placeholder-key');
-        element.placeholder = translations[currentLanguage][key];
+        if (translations[currentLanguage][key]) {
+            element.placeholder = translations[currentLanguage][key];
+        }
+    });
+
+    // Traduce los valores de los botones
+    document.querySelectorAll('button[data-lang-key]').forEach(button => {
+        const key = button.getAttribute('data-lang-key');
+        if (translations[currentLanguage][key]) {
+            button.textContent = translations[currentLanguage][key];
+        }
     });
 }
-
 
 function generateVideo() {
     showLoadingScreen();
