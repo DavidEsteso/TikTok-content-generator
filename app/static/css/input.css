@@ -36,7 +36,7 @@
 
 .form label .input + span {
   position: absolute;
-  left: 10px; /* Ajusta este valor para desplazar el span a la derecha */
+  left: 10px; 
   top: -9px;
   padding: 10px 0;
   font-size: 16px;
@@ -92,8 +92,6 @@ textarea {
   resize: none; /* Elimina la capacidad de redimensionar el área de texto */
 }
 
-/* Agregar estos selectores a tu CSS existente */
-
 
 .form label .input-readonly[data-has-file] + span {
   top: -35px;
@@ -132,7 +130,7 @@ textarea {
 /* Estilos para el span en inputs de solo lectura */
 .form label .input-readonly + span {
   position: absolute;
-  left: 10px; /* Ajusta este valor para desplazar el span a la derecha */
+  left: 10px; 
   top: -9px;
   padding: 10px 0;
   font-size: 16px;
