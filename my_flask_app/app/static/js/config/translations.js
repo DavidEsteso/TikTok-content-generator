@@ -11,8 +11,8 @@ export const translations = {
         selectFont: "Select a font",
         randomFragments: "Random Fragments",
         originalVideo: "Original Video",
-        musicLink: "Music link",
-        videoLink: "Video link",
+        musicLink: "Music Background",
+        videoLink: "Video Background",
         generateVideoButton: "Generate Video"
     },
     es: {
@@ -27,8 +27,8 @@ export const translations = {
         selectFont: "Seleccionar fuente",
         randomFragments: "Fragmentos Aleatorios",
         originalVideo: "Video original",
-        musicLink: "Enlace al Música",
-        videoLink: "Enlace al Video",
+        musicLink: "Musica de fondo",
+        videoLink: "Video de fondo",
         generateVideoButton: "Generar Video"
     }
 };

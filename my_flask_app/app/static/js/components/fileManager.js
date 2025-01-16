@@ -49,7 +49,6 @@ export const fileManager = {
                     
                     if (linkInput) {
                         linkInput.value = file.name;
-                        linkInput.setAttribute('readonly', '');
                         linkInput.setAttribute('data-has-file', 'true');
                     }
                     toggleButton(type, 'add');
@@ -70,7 +69,6 @@ export const fileManager = {
         
         if (linkInput) {
             linkInput.value = '';
-            linkInput.removeAttribute('readonly');
             linkInput.removeAttribute('data-has-file', 'true');
 
         }
