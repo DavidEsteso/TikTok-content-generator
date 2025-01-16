@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Video</title>    
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/input.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/body.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/containerDisplay.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/fontPicker.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/loader.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/preview.css') }}">
+
+    
+    
+
+</head>
+<body>
+    <form id="generateVideoForm" method ="post" >
+        <div id="languageContainer" class="fontCointaner">
+            <select id="languageSelect">
+                <option value="" selected disabled  style="display: none;">Switch lenguaje</option>
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+            </select>
+        </div>
+
+        <h1 data-lang-key="generateVideo">TikTok Content Generator</h1>
+        
+        <label for="videoType" class="fontCointaner" ></label>
+        <select id="videoType" name="videoType">
+            <option value="" selected disabled  style="display: none;" data-lang-key="videoType">Video Type</option>
+            <option value="narration" data-lang-key="narration">Narration</option>
+            <option value="facts" data-lang-key="facts">Facts</option>
+        </select>
+
+        <div class="form">
+            <label class="container">
+                <textarea required="" placeholder=""  cols="80" id="introText" name="introText" rows="2" class="input" maxlength="300"></textarea>
+                <span data-lang-key="introduction">Introduction Text</span>
+
+                <div id="intro" >
+                    <div class="intro">
+                        <button type="button" id="introPlayButton" style="width: 45px; height: 45px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="volume-up" viewBox="0 0 16 16" >
+                                <path d="M11.536 14.01A8.47 8.47 0 0 0 14.026 8a8.47 8.47 0 0 0-2.49-6.01l-.708.707A7.48 7.48 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303z"/>
+                                <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.48 5.48 0 0 1 11.025 8a5.48 5.48 0 0 1-1.61 3.89z"/>
+                                <path d="M10.025 8a4.5 4.5 0 0 1-1.318 3.182L8 10.475A3.5 3.5 0 0 0 9.025 8c0-.966-.392-1.841-1.025-2.475l.707-.707A4.5 4.5 0 0 1 10.025 8M7 4a.5.5 0 0 0-.812-.39L3.825 5.5H1.5A.5.5 0 0 0 1 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 7 12zM4.312 6.39 6 5.04v5.92L4.312 9.61A.5.5 0 0 0 4 9.5H2v-3h2a.5.5 0 0 0 .312-.11"/>
+                              </svg>
+                        </button>
+                     </div>  
+                </div>
+            </label>
+            
+        </div>
+
+        <div id="factsContainer" class="form" style="display: none;">
+            <div id="factsAdder">
+            <label class="container">
+                <textarea required="" placeholder=""   cols="80" id="fact1" name="factText" rows="2" class="input" maxlength="300"></textarea>
+                <span class="link" data-lang-key="fact">Fact:</span>
+
+                <div id="factList">
+                    <div class="fact">
+                        <button type="button" id="play1" class="play-fact" style="width: 45px; height: 45px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="volume-up" viewBox="0 0 16 16">
+                                <path d="M11.536 14.01A8.47 8.47 0 0 0 14.026 8a8.47 8.47 0 0 0-2.49-6.01l-.708.707A7.48 7.48 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303z"/>
+                                <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.48 5.48 0 0 1 11.025 8a5.48 5.48 0 0 1-1.61 3.89z"/>
+                                <path d="M10.025 8a4.5 4.5 0 0 1-1.318 3.182L8 10.475A3.5 3.5 0 0 0 9.025 8c0-.966-.392-1.841-1.025-2.475l.707-.707A4.5 4.5 0 0 1 10.025 8M7 4a.5.5 0 0 0-.812-.39L3.825 5.5H1.5A.5.5 0 0 0 1 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 7 12zM4.312 6.39 6 5.04v5.92L4.312 9.61A.5.5 0 0 0 4 9.5H2v-3h2a.5.5 0 0 0 .312-.11"/>
+                              </svg>
+                        </button>
+                        <button type="button" id="removeFactButton" disabled="true" style="width: 45px; height: 45px; cursor: not-allowed; opacity: 0.3; pointer-events: none;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="trash" viewBox="0 0 16 16">
+                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                              </svg>
+                        </button>
+                    </div>
+                </div>
+            </label>    
+        </div>
+
+        <button type="button" id="addFactButton" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="add" viewBox="0 0 16 16">
+                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                </svg>
+        </button>
+
+        </div>
+
+        <div id="narrationContainer" class="form">
+            <label class="container">
+                <textarea required="" placeholder="" class="input"  cols="80 " id="narrationText" name="narrationText"  rows="2" maxlength="300" ></textarea>
+                <span data-lang-key="narration">Narration</span>
+
+                <div id="narration">
+                    <div class="narration">
+                        <button type="button" id="narrationPlayButton" style="width: 45px; height: 45px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="volume-up" viewBox="0 0 16 16">
+                                <path d="M11.536 14.01A8.47 8.47 0 0 0 14.026 8a8.47 8.47 0 0 0-2.49-6.01l-.708.707A7.48 7.48 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303z"/>
+                                <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.48 5.48 0 0 1 11.025 8a5.48 5.48 0 0 1-1.61 3.89z"/>
+                                <path d="M10.025 8a4.5 4.5 0 0 1-1.318 3.182L8 10.475A3.5 3.5 0 0 0 9.025 8c0-.966-.392-1.841-1.025-2.475l.707-.707A4.5 4.5 0 0 1 10.025 8M7 4a.5.5 0 0 0-.812-.39L3.825 5.5H1.5A.5.5 0 0 0 1 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 7 12zM4.312 6.39 6 5.04v5.92L4.312 9.61A.5.5 0 0 0 4 9.5H2v-3h2a.5.5 0 0 0 .312-.11"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </label>
+
+        </div>
+        
+        <div class="fontCointaner">
+            <div class="font-selector-container">
+                <select id="fontPicker" onchange=" this.dataset.chosen = this.value; ">
+                    <option value="" selected disabled  style="display: none;" data-lang-key="selectFont">Select a font</option>
+                    <option value="anime-ace.italic.ttf" class="Anime">ANIME</option>
+                    <option value="crimson.semibolditalic.ttf" class="Crimson">CRIMSOM</option>
+                    <option value="sf-cartoonist-hand.bold-italic.ttf" class="Cartoonist">CARTOONIST</option>
+                </select>
+            </div>
+    
+            <div class="color-picker-container">
+                <label for="colorPicker"></label>
+                <input type="color" id="colorPicker">
+            </div>
+        </div>
+
+        <div id="videoContainer" class="form">
+            <label class="container">
+                <input type="text" id="videoLink" name="videoLink" class="input-readonly" readonly>
+                <span id="videoSpan" class="link" data-lang-key="videoLink">Background Video</span>
+
+                <div id="videoList">
+                    <div id="videoAndButton">
+                        <div class="video">
+                            <button type="button" id="videoFileButton" style="width: 45px; height: 45px; margin-top: 13px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="folder-plus" viewBox="0 0 16 16">
+                                    <path d="m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z"/>
+                                    <path d="M13.5 9a.5.5 0 0 1 .5.5V11h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V12h-1.5a.5.5 0 0 1 0-1H13V9.5a.5.5 0 0 1 .5-.5"/>
+                                  </svg>
+                            </button>
+                            <div id="videoDetails">
+                                <img id="videoThumbnail" src="" alt="Thumbnail" style="display: none;">
+                                <p id="videoTitle" class="bold"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </label>
+            
+        </div>
+        <div class="mydict" id = "fragment">
+            <div>
+                <label class="mydict-label">
+                    <input type="radio" name="radio" value="random">
+                    <span class="mydict-span" data-lang-key="randomFragments">Random Fragments</span>
+                </label>
+                <label class="mydict-label">
+                    <input type="radio" name="radio" checked value="original">
+                    <span class="mydict-span" data-lang-key="originalVideo">Original Video</span>
+                </label>
+            </div>
+        </div>
+
+
+        <div id="musicContainer" style="display: none;" class="form">
+            <label class="container">
+                <input type="text" id="musicLink" name="musicLink" class="input-readonly" readonly>
+                <span id="musicSpan" class="link" data-lang-key="musicLink">Background Music</span>
+                <div id="musicList">
+                <d  iv id="musicAndButton">
+                    <div class="music">
+                        <button type="button" id="musicFileButton" style="width: 45px; height: 45px; margin-top: 13px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="folder-plus" viewBox="0 0 16 16">
+                                <path d="m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z"/>
+                                <path d="M13.5 9a.5.5 0 0 1 .5.5V11h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V12h-1.5a.5.5 0 0 1 0-1H13V9.5a.5.5 0 0 1 .5-.5"/>
+                              </svg>
+                        </button>
+                        <div id="musicDetails">
+                            <img id="musicThumbnail" src="" alt="Thumbnail" style="display: none;">
+                            <p id="musicTitle" class="bold"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </label>
+        </div>
+            
+
+        <div class="addmusic" style="margin: 20px;">
+
+            <button type="button" id="toggleMusicButton">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="trash" viewBox="0 0 16 16">
+                    <path d="M6 13c0 1.105-1.12 2-2.5 2S1 14.105 1 13s1.12-2 2.5-2 2.5.896 2.5 2m9-2c0 1.105-1.12 2-2.5 2s-2.5-.895-2.5-2 1.12-2 2.5-2 2.5.895 2.5 2"/>
+                    <path fill-rule="evenodd" d="M14 11V2h1v9zM6 3v10H5V3z"/>
+                    <path d="M5 2.905a1 1 0 0 1 .9-.995l8-.8a1 1 0 0 1 1.1.995V3L5 4z"/>
+                </svg>
+            </button>
+        </div>
+        <div class="main_div">
+
+            <button type="button" class="button" id="generateVideoButton" data-lang-key="generateVideoButton">Generate Video</button>
+        </div>
+    </form>
+
+    <div id="videoModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <video id="previewVideo" controls>
+                <source id="videoSource" src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <a id="downloadButton" href="" download="video.mp4">Download Video</a>
+        </div>
+    </div>
+
+    <!-- Loading screen element -->
+    <div id="loadingScreen">
+        <div class="wrapper">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="shadow"></div>
+            <div class="shadow"></div>
+            <div class="shadow"></div>
+        </div>
+    </div>
+    
+    <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
