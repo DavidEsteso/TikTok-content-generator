@@ -91,3 +91,27 @@ textarea {
   scrollbar-width: none; /* Elimina la barra de desplazamiento en Firefox */
   resize: none; /* Elimina la capacidad de redimensionar el área de texto */
 }
+
+/* Agregar estos selectores a tu CSS existente */
+
+
+.form label .input[data-has-file] + span {
+  top: -35px;
+  left: 8px;
+  color: #4d4d4d;
+  font-size: 16px;
+}
+
+.form label .input[data-has-file] {
+  border-color: #888888;
+  outline: none;
+  background-color: white;
+  box-shadow: 0px 0px 0px 2px #ffffff, 0px 0px 0px 4px #bbbbbb3a;
+}
+
+.form label .input[data-has-file]:hover:not(:focus):not(:valid) {
+  border-color: #888888;
+  outline: none;
+  background-color: white;
+  box-shadow: 0px 0px 0px 2px #ffffff, 0px 0px 0px 4px #bbbbbb3a;
+}

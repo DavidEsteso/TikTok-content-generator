@@ -5,6 +5,9 @@ from gtts import gTTS
 from werkzeug.utils import secure_filename
 import uuid
 import json
+from flask import jsonify, send_file
+import os
+from werkzeug.utils import secure_filename
 
 main = Blueprint('main', __name__)
 
@@ -14,6 +17,110 @@ def index():
     return render_template('index.html')
 
 @main.route('/generate-video/', methods=['POST'])
+def generate_video():
+    try:
+        # Validar request
+        if not request.files and not request.form:
+            return jsonify({'error': 'No data provided'}), 400
+            
+        id = uuid.uuid4()
+        
+        # Extraer y validar datos
+        video_data = extract_video_data(request, id)
+
+            
+        # Guardar archivos
+        #save_uploaded_files(video_data)
+        
+        # Iniciar generación de video en background
+        #task = logic.generate_video(**video_data)
+        
+        # Verificar si el archivo existe
+        output_path = os.path.join(
+            os.path.dirname(__file__), 'output', 'vid.mp4'
+        )
+
+            
+        print(f"Video generated: {output_path}")
+        return send_file(
+            output_path,
+            mimetype='video/mp4',
+            as_attachment=True,
+            download_name=f'TikTok-content-generator/my_flask_app/app/output/vid.mp4'
+        )
+            
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+def extract_video_data(request, id):
+    """Extrae y valida los datos del request"""
+    data = {
+        'id': id,
+        'intro_text': request.form.get('introText', ''),  
+        'video_type': request.form.get('videoType', ''), 
+        'content': json.loads(request.form.get('content', '[]')),
+        'video_link': request.form.get('videoLink', ''),
+        'music_link': request.form.get('musicLink', ''),  
+        'language': request.form.get('lang', 'en'),   
+        'fragment_type': request.form.get('radio', 'orig'), 
+        'font': request.form.get('font', 'default'),
+        'color': request.form.get('color', '000000'),
+        'video_file': request.files.get('videoFile'),    
+        'music_file': request.files.get('musicFile')    
+    }
+
+    print(data)
+    return data
+
+def allowed_file(filename):
+    """Valida las extensiones de archivo permitidas"""
+    ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov', 'mp3', 'wav'}
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def save_uploaded_files(video_data):
+    """Guarda los archivos en el sistema de archivos"""
+    if video_data['videoFile']:
+        video_data['videoFile'].save(os.path.join(current_app.config['UPLOAD_FOLDER'], secure_filename(video_data['videoFile'].filename)))
+    if video_data['musicFile']:
+        video_data['musicFile'].save(os.path.join(current_app.config['UPLOAD_FOLDER'], secure_filename(video_data['musicFile'].filename)))
+
+@main.route('/play-audio', methods=['POST'])
+def play_audio():
+    try:
+        data = request.json
+        print("Received data:", data)  
+        
+        content = data.get('content')
+        lang = data.get('lang')
+        
+        if not content:
+            return 'No content provided', 400
+            
+        print(f"Processing audio for text: {content[:50]}... in language: {lang}")
+        
+        from gtts import gTTS
+        tts = gTTS(text=content, lang=lang)
+        
+        from io import BytesIO
+        fp = BytesIO()
+        tts.write_to_fp(fp)
+        fp.seek(0)
+        
+        return send_file(
+            fp,
+            mimetype='audio/mpeg',
+            as_attachment=True,
+            download_name='speech.mp3'
+        )
+        
+    except Exception as e:
+        print("Server error:", str(e))  
+        return str(e), 500
+    
+''' 
+    @main.route('/generate-video/', methods=['POST'])
 def generate_video():
     id=uuid.uuid4()
     introText = request.form.get('introText')
@@ -81,18 +188,4 @@ def generate_video():
     
     filename=os.path.join(os.getcwd(), 'app\\output', f'output_video_{id}.mp4')
     return send_file(filename, as_attachment=True)
-
-@main.route('/play-audio', methods=['POST'])
-def play_audio():
-    id=uuid.uuid4()
-    data= request.get_json()
-    content=data.get('content','')
-    lang=data.get('lang','')
-    tts = gTTS(content, lang=lang)
-    save_path = os.path.join(current_app.root_path, 'temporal_audio', f'narration_{id}.mp3')
-    tts.save(save_path) 
-
-    try:
-        return send_file(save_path, mimetype='audio/mpeg')
-    except Exception as e:
-        return str(e), 500
+'''
