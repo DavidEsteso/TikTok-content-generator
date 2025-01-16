@@ -1,0 +1,156 @@
+
+:root {
+    --font-size: 18px;
+    --button-width: 80px;
+    --button-height: 55px;
+    --button-padding: 10px;
+    --button-border-radius: 5px;
+    --text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    --text-shadow-hover: 3px 3px 5px rgba(0, 0, 0, 0.7);
+}
+
+#generateVideoForm h1 {
+    font-size: 2rem; /* Tamaño de fuente aumentado para mayor impacto */
+    font-weight: 340; /* Peso de la fuente aumentado para mayor legibilidad */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; /* Fuentes de aspecto más profesional */
+    color: #333; /* Un color más neutro y profesional */
+    margin-bottom: 1.5rem; /* Espaciado aumentado para una mejor separación visual */
+    text-align: center; /* Centrando el texto para un mejor equilibrio visual */
+    text-transform: uppercase; /* Transformación del texto a mayúsculas para mayor formalidad */
+    letter-spacing: 1px; /* Espaciado entre letras para una lectura más clara */
+    padding-bottom: 0.5rem; /* Añadiendo un relleno inferior para el borde */
+    
+    /* Efecto 3D */
+    text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.3), /* Sombra para la profundidad */
+                 -0.5px -0.5px 1px rgba(255, 255, 255, 0.5); /* Luz superior para destacar el efecto */
+  }
+  
+
+/* Contenedor adicional para el SVG */
+button .folder-plus, 
+button .volume-up,
+button .trash,
+button .add {
+    display: flex; /* Usar flexbox para centrar el SVG */
+    align-items: center; /* Alinear verticalmente el SVG */
+    justify-content: center; /* Alinear horizontalmente el SVG */
+    width: 100%; /* Tomar todo el ancho del botón */
+    height: 100%; /* Tomar todo el alto del botón */
+    background-color: transparent; /* Fondo transparente */
+    border-width: 0.7px;
+    stroke-width: 0.7px;
+    transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s; /* Transiciones suaves para fondo, sombra y transformación */
+}
+
+/* Estilos generales para los SVGs dentro del botón */
+button svg {
+    width: 25px !important; /* Tamaño del SVG dentro del botón */
+    height: 25px !important; /* Tamaño del SVG dentro del botón */
+    filter: drop-shadow(0 0.21px 0.21px rgba(0, 0, 0, 0.5)); /* Sombra del borde */
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5); /* Sombra del texto */
+    fill: rgb(104, 104, 104); /* Color del SVG */
+    flex: none;
+    background-color: transparent ;
+}
+button .add {
+display: flex;
+justify-content: center;
+align-items: center;
+display: inline-block;
+}
+/* Hover effect aplicado solo al contenedor del SVG */
+button .folder-plus:hover, 
+button .volume-up:hover,
+button .trash:hover,
+button .add:hover {
+
+
+    filter: drop-shadow(0 1px 0px rgba(0, 0, 0, 0.5)); /* Sombra del borde */
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Sombra del texto */
+    transform: translateY(-0.7px); /* Efecto de elevación */
+
+    transition-duration: 300ms; /* Duración de la transición */
+}
+
+/* Desactivar botones */
+button:disabled {
+    cursor: not-allowed; /* Cursor de no permitido */
+    opacity: 0.6; /* Menos opacidad para los botones desactivados */
+    pointer-events: none; /* Desactiva los eventos del puntero */
+}
+
+
+.fact button,
+.narration button,
+.fact button.play-button,
+.narration button.play-button,
+.intro button,
+.intro button.play-button,
+.video button,
+.music button,
+.addmusic button,
+.form button {
+
+    background-color: transparent;
+    color: transparent;
+
+    border:none;
+}
+
+.main_div {
+  --color: black;
+  position: relative;
+  z-index: 1;
+
+}
+ 
+ .main_div::before {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  top: -7px;
+  left: -7px;
+  z-index: -5;
+  border-top: 3px solid var(--color);
+  border-left: 3px solid var(--color);
+  transition: 0.5s;
+ }
+ 
+ .main_div::after {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  bottom: -7px;
+  right: -7px;
+  z-index: -5;
+  border-right: 3px solid var(--color);
+  border-bottom: 3px solid var(--color);
+  transition: 0.5s;
+ }
+ 
+ .main_div:hover::before {
+  width: 100%;
+  height: 100%;
+ }
+ 
+ .main_div:hover::after {
+  width: 100%;
+  height: 100%;
+ }
+ 
+ .main_div button {
+  padding: 0.7em 2em;
+  font-size: 16px;
+  background: #222222;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 200px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: #ff2c56 ;
+ }

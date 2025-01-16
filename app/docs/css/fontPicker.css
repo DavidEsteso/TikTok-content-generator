@@ -1,0 +1,127 @@
+@import url(https://db.onlinewebfonts.com/c/e7f47f78bdd8a953ca753160446c1f16?family=Crimson+Semibold+Italic);
+@import url(https://db.onlinewebfonts.com/c/d3f64aba84be8e186a02089358ec0f84?family=Anime+Ace+Bold);
+@import url(https://db.onlinewebfonts.com/c/3b73f4fea90deb7402a1cc318520a939?family=SF+Cartoonist+Hand+Bold+Italic);
+
+
+
+@font-face {
+    font-family: "Anime Ace Bold";
+    src: url("https://db.onlinewebfonts.com/t/d3f64aba84be8e186a02089358ec0f84.eot");
+    src: url("https://db.onlinewebfonts.com/t/d3f64aba84be8e186a02089358ec0f84.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/d3f64aba84be8e186a02089358ec0f84.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/d3f64aba84be8e186a02089358ec0f84.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/d3f64aba84be8e186a02089358ec0f84.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/d3f64aba84be8e186a02089358ec0f84.svg#Anime Ace Bold")format("svg");
+}
+
+@font-face {
+    font-family: "Crimson Semibold Italic";
+    src: url("https://db.onlinewebfonts.com/t/e7f47f78bdd8a953ca753160446c1f16.eot");
+    src: url("https://db.onlinewebfonts.com/t/e7f47f78bdd8a953ca753160446c1f16.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/e7f47f78bdd8a953ca753160446c1f16.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/e7f47f78bdd8a953ca753160446c1f16.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/e7f47f78bdd8a953ca753160446c1f16.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/e7f47f78bdd8a953ca753160446c1f16.svg#Crimson Semibold Italic")format("svg");
+}
+@font-face {
+    font-family: "SF Cartoonist Hand Bold Italic";
+    src: url("https://db.onlinewebfonts.com/t/3b73f4fea90deb7402a1cc318520a939.eot");
+    src: url("https://db.onlinewebfonts.com/t/3b73f4fea90deb7402a1cc318520a939.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/3b73f4fea90deb7402a1cc318520a939.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/3b73f4fea90deb7402a1cc318520a939.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/3b73f4fea90deb7402a1cc318520a939.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/3b73f4fea90deb7402a1cc318520a939.svg#SF Cartoonist Hand Bold Italic")format("svg");
+}
+
+
+
+.Anime {
+    font-family: "Anime Ace Bold";
+}
+
+.Crimson {
+    font-family: "Crimson Semibold Italic";
+}
+
+.Cartoonist {
+    font-family: "SF Cartoonist Hand Bold Italic";
+}
+
+#font-selector-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+
+}
+
+#color-picker-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+select[data-chosen='anime-ace.italic.ttf'] {
+    font-family: "Anime Ace Bold";
+    -webkit-text-stroke: 0.7px;
+    -webkit-text-stroke-color: black;
+}
+
+select[data-chosen='crimson.semibolditalic.ttf'] {
+    font-family: "Crimson Semibold Italic";
+    -webkit-text-stroke: 0.7px;
+    -webkit-text-stroke-color: black;
+}
+
+select[data-chosen='sf-cartoonist-hand.bold-italic.ttf'] {
+    font-family: "SF Cartoonist Hand Bold Italic";
+    -webkit-text-stroke: 0.7px;
+    -webkit-text-stroke-color: black;
+
+}
+
+.fontContainer {
+  display: flex;
+  justify-content: space-between; /* Distribuye el espacio entre los elementos */
+
+
+}
+
+.font-selector-container, .color-picker-container {
+  flex: 0 1 auto;
+  width: 48%;
+  margin-bottom: -10px;
+}
+
+select, input[type="color"] {
+    font-size: 15px;
+    width: 100%;
+    width: 150px;
+    align-items: center;
+    padding: 15px;
+    border-radius: 6px;
+    outline: none;
+    background-color: #F2F2F2;
+    border: 1px solid #e5e5e500;
+    transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
+    padding: 5px;
+    align-content: center;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #8B8E98;
+    font-weight: 60;
+    margin: auto;
+}
+
+select:hover , input[type="color"]:hover {
+    border-color: #dfdfdf;
+    background-color: #f3f3f3;
+    box-shadow: 0px 0px 0px 0.5px #ffffff, 0px 0px 0px 1px #bbbbbb3a;
+}
+.font-selector-container {
+    float: left;
+}
+
+.color-picker-container {  
+    float: right;
+    align-items: center;
+    margin-top: 3.5px;
+}
