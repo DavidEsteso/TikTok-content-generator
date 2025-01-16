@@ -1,0 +1,143 @@
+/* General form styling */
+.form {
+  display: flex ;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 7px;
+  max-width: 350px;
+  padding: 20px;
+  border-radius: 20px;
+  position: relative;
+}
+
+.flex {
+  display: flex;
+  width: 100%;
+  gap: 6px;
+}
+
+.form label {
+  position: relative;
+}
+
+/* Input styling */
+.form label .input {
+  width: 500px;
+  align-items: center;
+  padding: 15px;
+  border-radius: 6px;
+  outline: none;
+  background-color: #F2F2F2;
+  border: 1px solid #e5e5e500;
+  transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.form label .input + span {
+  position: absolute;
+  left: 10px; /* Ajusta este valor para desplazar el span a la derecha */
+  top: -9px;
+  padding: 10px 0;
+  font-size: 16px;
+  pointer-events: none;
+  transition: 0.5s;
+  color: #8B8E98;
+  font-weight: 60;
+}
+
+  .link {
+margin-top: 13.5px;
+}
+
+.facto{
+  margin-top: 13.5px;
+}
+
+
+.form label .input:focus + span,
+.form label .input:valid + span {
+  top: -35px;
+  left: 8px;
+  color: #4d4d4d;
+  font-size: 16px;
+
+}
+
+.form label .input:focus ,
+.form label .input:valid {
+  border-color: #888888;
+  outline: none;
+  background-color: white;
+  box-shadow: 0px 0px 0px 2px #ffffff, 0px 0px 0px 4px #bbbbbb3a;
+}
+
+.form label .input:hover:not(:focus):not(:valid) 
+
+{
+  border-color: #dfdfdf;
+  background-color: #f3f3f3;
+  box-shadow: 0px 0px 0px 0.5px #ffffff, 0px 0px 0px 1px #bbbbbb3a;
+}
+
+
+
+textarea::-webkit-scrollbar {
+  display: none; /* Elimina la barra de desplazamiento en Chrome, Safari y Opera */
+}
+
+textarea {
+  -ms-overflow-style: none; /* Elimina la barra de desplazamiento en Internet Explorer y Edge */
+  scrollbar-width: none; /* Elimina la barra de desplazamiento en Firefox */
+  resize: none; /* Elimina la capacidad de redimensionar el área de texto */
+}
+
+/* Agregar estos selectores a tu CSS existente */
+
+
+.form label .input-readonly[data-has-file] + span {
+  top: -35px;
+  left: 8px;
+  color: #4d4d4d;
+  font-size: 16px;
+}
+
+.form label .input-readonly[data-has-file] {
+  border-color: #888888;
+  outline: none;
+  background-color: white;
+  box-shadow: 0px 0px 0px 2px #ffffff, 0px 0px 0px 4px #bbbbbb3a;
+}
+
+.form label .input-readonly[data-has-file]:hover:not(:focus):not(:valid) {
+  border-color: #888888;
+  outline: none;
+  background-color: white;
+  box-shadow: 0px 0px 0px 2px #ffffff, 0px 0px 0px 4px #bbbbbb3a;
+}
+
+.form label .input-readonly {
+  width: 500px;
+  align-items: center;
+  padding: 15px;
+  border-radius: 6px;
+  outline: none;
+  background-color: #F2F2F2;
+  border: 1px solid #e5e5e500;
+  transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  cursor: default;
+}
+
+/* Estilos para el span en inputs de solo lectura */
+.form label .input-readonly + span {
+  position: absolute;
+  left: 10px; /* Ajusta este valor para desplazar el span a la derecha */
+  top: -9px;
+  padding: 10px 0;
+  font-size: 16px;
+  pointer-events: none;
+  transition: 0.5s;
+  color: #8B8E98;
+  font-weight: 60;
+}
